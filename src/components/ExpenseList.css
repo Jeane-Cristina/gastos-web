@@ -87,3 +87,27 @@
 .expense-item__delete:hover {
     background: var(--rust-soft);
 }
+
+@media (max-width: 480px) {
+  .expense-item {
+    flex-wrap: wrap;
+    row-gap: 0.4em;
+  }
+
+  .expense-item__leader {
+    display: none;
+  }
+
+  .expense-item__desc {
+    flex-basis: 100%;
+  }
+
+  .expense-item__category,
+  .expense-item__amount {
+    flex: 0 0 auto;
+  }
+
+  .expense-item__actions {
+    margin-left: auto;
+  }
+}

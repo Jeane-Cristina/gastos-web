@@ -47,14 +47,10 @@ function App() {
       );
     }
     return (
-      <div className="app">
-        <LoginForm onLoginSuccess={() => setIsAuthenticated(true)} />
-        <p style={{ textAlign: "center" }}>
-          <button onClick={() => setShowRegister(true)} className="login-card__link">
-            Criar conta
-          </button>
-        </p>
-      </div>
+      <LoginForm
+        onLoginSuccess={() => setIsAuthenticated(true)}
+        onSwitchToRegister={() => setShowRegister(true)}
+      />
     );
   }
 
