@@ -55,3 +55,11 @@
     padding: var(--space-xs) var(--space-md);
     font-size: 0.9rem;
 }
+
+.expense-form input {
+  min-width: 0;
+}
+
+.expense-form__row {
+  flex-wrap: wrap;
+}
