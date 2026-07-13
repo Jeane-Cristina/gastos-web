@@ -1,0 +1,24 @@
+.filters {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filters select {
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid rgba(43, 38, 32, 0.15);
+    border-radius: 3px;
+    background: var(--paper-card);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+}
+
+.filters button {
+    background: transparent;
+    border: none;
+    color: var(--stamp);
+    font-size: 0.85rem;
+    text-decoration: underline;
+}

@@ -1,0 +1,89 @@
+.expense-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--paper-card);
+    border: 1px solid rgba(43, 38, 32, 0.1);
+    border-radius: 4px;
+    /* borda picotada no topo, efeito de recibo */
+    background-image: repeating-linear-gradient(90deg,
+            var(--paper) 0,
+            var(--paper) 6px,
+            transparent 6px,
+            transparent 12px);
+    background-size: 12px 4px;
+    background-position: top left;
+    background-repeat: repeat-x;
+    padding-top: 4px;
+}
+
+.expense-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px dashed rgba(43, 38, 32, 0.15);
+}
+
+.expense-item:last-child {
+    border-bottom: none;
+}
+
+.expense-item__desc {
+    font-size: 0.95rem;
+}
+
+.expense-item__leader {
+    flex: 1;
+    border-bottom: 1px dotted rgba(43, 38, 32, 0.3);
+    margin-bottom: 0.3em;
+}
+
+.expense-item__amount {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.expense-item__category {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    background: var(--stamp-soft);
+    color: var(--stamp);
+    padding: 0.15em 0.5em;
+    border-radius: 2px;
+    transform: rotate(-2deg);
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.expense-item__actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.expense-item__edit,
+.expense-item__delete {
+    border: none;
+    background: transparent;
+    font-size: 0.75rem;
+    padding: 0.2em 0.5em;
+    border-radius: 2px;
+}
+
+.expense-item__edit {
+    color: var(--stamp);
+}
+
+.expense-item__delete {
+    color: var(--rust);
+}
+
+.expense-item__edit:hover {
+    background: var(--stamp-soft);
+}
+
+.expense-item__delete:hover {
+    background: var(--rust-soft);
+}

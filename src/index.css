@@ -1,0 +1,46 @@
+:root {
+  /* Cores */
+  --paper: #F5F2E8;
+  --paper-card: #FBF9F2;
+  --ink: #2B2620;
+  --ink-soft: #6B655C;
+  --stamp: #3B4B6B;
+  --stamp-soft: #E4E8F0;
+  --sage: #5B7F5E;
+  --sage-soft: #E5EDE5;
+  --rust: #A6402F;
+  --rust-soft: #F3E3E0;
+
+  /* Tipografia */
+  --font-display: 'Space Mono', monospace;
+  --font-body: 'IBM Plex Sans', sans-serif;
+
+  /* Espaçamento */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input {
+  font-family: var(--font-body);
+}

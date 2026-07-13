@@ -1,0 +1,57 @@
+.expense-form {
+    background: var(--paper-card);
+    border: 1px solid rgba(43, 38, 32, 0.1);
+    border-radius: 4px;
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.expense-form__row {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.expense-form input {
+    flex: 1;
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid rgba(43, 38, 32, 0.15);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 0.95rem;
+}
+
+.expense-form input:focus {
+    outline: 2px solid var(--stamp);
+    outline-offset: 1px;
+}
+
+.expense-form__actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.expense-form__submit {
+    background: var(--stamp);
+    color: var(--paper-card);
+    border: none;
+    border-radius: 3px;
+    padding: var(--space-xs) var(--space-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.expense-form__submit:hover {
+    opacity: 0.9;
+}
+
+.expense-form__cancel {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid rgba(43, 38, 32, 0.2);
+    border-radius: 3px;
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.9rem;
+}

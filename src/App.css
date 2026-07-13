@@ -1,0 +1,41 @@
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.app__title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.app__subtitle {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  margin: 0 0 var(--space-lg) 0;
+}
+
+.app__state {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  padding: var(--space-md) 0;
+}
+
+.app__state--error {
+  color: var(--rust);
+}
+
+.app__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.app__content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md);
+}
