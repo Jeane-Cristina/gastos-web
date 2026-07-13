@@ -111,3 +111,17 @@
     margin-left: auto;
   }
 }
+
+.expense-item {
+  min-width: 0;
+}
+
+.expense-item__desc {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.expense-list {
+  overflow-x: hidden;
+}
