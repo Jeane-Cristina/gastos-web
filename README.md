@@ -11,11 +11,6 @@ Para o contexto completo do projeto — arquitetura, jornada de aprendizado, des
 
 ---
 
-## 🖼️ Preview
-
-*(adicione aqui 2-3 prints de tela: login, lista de despesas, resumo por categoria, tela instalada como app)*
-
----
 
 ## 🛠️ Stack
 
