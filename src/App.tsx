@@ -9,13 +9,16 @@ import { LoginForm } from "./components/LoginForm";
 import { RegisterForm } from "./components/RegisterForm";
 import { TopBar } from "./components/TopBar";
 import type { Expense, ExpenseFilters } from "./services/expenseApi";
+import { FinancialProfileForm } from "./components/FinancialProfileForm";
+import { WeeklyInsight } from "./components/WeeklyInsight";
 import "./App.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
   const [showRegister, setShowRegister] = useState(false);
   const [filters, setFilters] = useState<ExpenseFilters>({});
-  const { expenses, loading, error, add, edit, remove } = useExpenses(filters, isAuthenticated); const { summary } = useSummary(expenses.length);
+  const { expenses, loading, error, add, edit, remove } = useExpenses(filters, isAuthenticated);
+  const { summary } = useSummary(expenses.length);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
 
   const availableCategories = useMemo(
@@ -75,6 +78,8 @@ function App() {
               <CategorySummary data={summary} />
             </>
           )}
+          <FinancialProfileForm />
+          <WeeklyInsight />
         </div>
       </div>
     </div>
