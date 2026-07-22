@@ -1,0 +1,34 @@
+.profile-form {
+  background: var(--paper-card);
+  border: 1px solid rgba(43, 38, 32, 0.1);
+  border-radius: 4px;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.profile-form h2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.profile-form input {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.profile-form button {
+  align-self: flex-start;
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: var(--space-xs) var(--space-md);
+  font-weight: 600;
+}

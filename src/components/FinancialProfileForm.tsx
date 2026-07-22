@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getProfile, saveProfile, type FinancialProfile } from "../services/profileApi";
+import "./FinancialProfileForm.css";
 
 export function FinancialProfileForm() {
   const [profile, setProfile] = useState<FinancialProfile>({
@@ -25,7 +26,7 @@ export function FinancialProfileForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="profile-form">
       <h2>Meu perfil financeiro</h2>
       <input
         type="number"

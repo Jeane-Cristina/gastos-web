@@ -12,22 +12,24 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
+    const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
     useEffect(() => {
         if (editingExpense) {
             setDescription(editingExpense.description);
             setAmount(String(editingExpense.amount));
             setCategory(editingExpense.category);
+            setDate(editingExpense.date.split("T")[0]);
         }
     }, [editingExpense]);
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         onAdd({
-            description,
-            amount: parseFloat(amount),
-            category,
-            date: editingExpense?.date ?? new Date().toISOString(),
+        description,
+        amount: parseFloat(amount),
+        category,
+        date: new Date(date).toISOString(),
         });
         setDescription("");
         setAmount("");
@@ -38,6 +40,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
         <form className="expense-form" onSubmit={handleSubmit}>
             <div className="expense-form__row">
                 <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição" required />
+                <input value={date} onChange={(e) => setDate(e.target.value)} type="date" required />
             </div>
             <div className="expense-form__row">
                 <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor" type="number" step="0.01" required />

@@ -14,6 +14,13 @@ export interface ExpenseFilters {
     category?: string;
 }
 
+export interface ExpenseFilters {
+  month?: number;
+  year?: number;
+  category?: string;
+  week?: number;
+}
+
 function authHeaders(): HeadersInit {
     const token = localStorage.getItem("token");
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -39,6 +46,7 @@ export async function getExpenses(filters: ExpenseFilters = {}): Promise<Expense
     if (filters.month) params.append("month", String(filters.month));
     if (filters.year) params.append("year", String(filters.year));
     if (filters.category) params.append("category", filters.category);
+    if (filters.week) params.append("week", String(filters.week));
 
     const url = params.toString() ? `${BASE_URL}?${params.toString()}` : BASE_URL;
     const res = await fetch(url, { headers: authHeaders() });
