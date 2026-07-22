@@ -11,41 +11,39 @@ interface ParsedRow {
 export function BankImport() {
   const [rows, setRows] = useState<ParsedRow[]>([]);
 
-  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
     Papa.parse(file, {
-      header: true,
-      complete: async (results) => {
-        // ⚠️ Ajuste os nomes de coluna abaixo conforme o formato real
-        // do extrato do seu banco — eles variam bastante entre instituições.
+        header: true,
+        complete: async (results) => {
         const parsed: ParsedRow[] = (results.data as any[])
-          .filter((r) => r.Descricao && r.Valor)
-          .map((r) => ({
-            description: r.Descricao,
-            amount: Math.abs(parseFloat(r.Valor.replace(",", "."))),
-            date: r.Data,
+            .filter((r) => r.title && r.amount)
+            .map((r) => ({
+            description: r.title,
+            amount: Math.abs(parseFloat(String(r.amount).replace(",", "."))),
+            date: r.date,
             category: "",
-          }));
+            }));
 
         const token = localStorage.getItem("token");
         const suggestRes = await fetch(`${import.meta.env.VITE_API_URL}/expenses/suggest-categories`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ descriptions: parsed.map((p) => p.description) }),
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ descriptions: parsed.map((p) => p.description) }),
         });
         const suggestions: { description: string; suggestedCategory: string | null }[] = await suggestRes.json();
 
         const withSuggestions = parsed.map((p) => ({
-          ...p,
-          category: suggestions.find((s) => s.description === p.description)?.suggestedCategory ?? "",
+            ...p,
+            category: suggestions.find((s) => s.description === p.description)?.suggestedCategory ?? "",
         }));
 
         setRows(withSuggestions);
-      },
+        },
     });
-  }
+    }
 
   function updateCategory(index: number, category: string) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, category } : r)));
