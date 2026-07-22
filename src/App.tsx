@@ -21,12 +21,12 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
   const [showRegister, setShowRegister] = useState(false);
   const [filters, setFilters] = useState<ExpenseFilters>({});
-  const { expenses, loading, error, add, edit, remove } = useExpenses(filters, isAuthenticated);
-  const { summary } = useSummary(expenses.length);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [activeView, setActiveView] = useState<View>("lancamentos");
   const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
+  const { expenses, loading, error, add, edit, remove, reload } = useExpenses(filters, isAuthenticated);
+  const { summary } = useSummary(expenses.length);
 
   async function handleSubmit(expense: Expense) {
     if (editingExpense?.id) {
@@ -94,7 +94,7 @@ function App() {
             )}
             {activeView === "importar" && (
               <div className="app__sections">
-                <BankImport />
+                <BankImport onImportSuccess={reload} />
               </div>
             )}
             {activeView === "metas" && (

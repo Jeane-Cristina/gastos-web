@@ -40,5 +40,5 @@ export function useExpenses(filters: ExpenseFilters, isAuthenticated: boolean) {
         }
     }, [filters.month, filters.year, filters.category, isAuthenticated]);
 
-    return { expenses, loading, error, add, edit, remove };
+    return { expenses, loading, error, add, edit, remove, reload: load };
 }
