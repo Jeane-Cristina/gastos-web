@@ -16,39 +16,54 @@ interface Props {
 export function BankImport({ onImportSuccess }: Props) {
   const [rows, setRows] = useState<ParsedRow[]>([]);
 
-  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+function parseAmount(raw: string): number {
+  const cleaned = raw.trim().replace(/\s+/g, "");
+  const isNegative = cleaned.startsWith("-");
+  const numeric = cleaned.replace("-", "").replace(/\./g, "").replace(",", ".");
+  const value = parseFloat(numeric);
+  return isNegative ? -value : value;
+}
 
-    Papa.parse(file, {
-      header: true,
-      complete: async (results) => {
-        const parsed: ParsedRow[] = (results.data as any[])
-          .filter((r) => r.title && r.amount)
-          .map((r) => ({
-            description: r.title,
-            amount: Math.abs(parseFloat(String(r.amount).replace(",", "."))),
-            date: r.date,
-            category: "",
-          }));
+function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+  const file = e.target.files?.[0];
+  if (!file) return;
 
-        const token = localStorage.getItem("token");
-        const suggestRes = await fetch(`${import.meta.env.VITE_API_URL}/expenses/suggest-categories`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ descriptions: parsed.map((p) => p.description) }),
-        });
-        const suggestions: { description: string; suggestedCategory: string | null }[] = await suggestRes.json();
+  Papa.parse(file, {
+    header: true,
+    complete: async (results) => {
+      const allRows = (results.data as any[]).filter((r) => r.title && r.amount);
 
-        const withSuggestions = parsed.map((p) => ({
-          ...p,
-          category: suggestions.find((s) => s.description === p.description)?.suggestedCategory ?? "",
-        }));
+      const parsed: ParsedRow[] = allRows
+        .map((r) => ({
+          description: r.title,
+          amount: parseAmount(String(r.amount)),
+          date: r.date,
+          category: "",
+        }))
+        .filter((r) => r.amount > 0 && !isNaN(r.amount)); // remove créditos e valores inválidos
 
-        setRows(withSuggestions);
-      },
-    });
-  }
+      const skipped = allRows.length - parsed.length;
+      if (skipped > 0) {
+        console.warn(`${skipped} linha(s) ignorada(s): créditos, estornos ou valores inválidos.`);
+      }
+
+      const token = localStorage.getItem("token");
+      const suggestRes = await fetch(`${import.meta.env.VITE_API_URL}/expenses/suggest-categories`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ descriptions: parsed.map((p) => p.description) }),
+      });
+      const suggestions: { description: string; suggestedCategory: string | null }[] = await suggestRes.json();
+
+      const withSuggestions = parsed.map((p) => ({
+        ...p,
+        category: suggestions.find((s) => s.description === p.description)?.suggestedCategory ?? "",
+      }));
+
+      setRows(withSuggestions);
+    },
+  });
+}
 
   function updateCategory(index: number, category: string) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, category } : r)));
