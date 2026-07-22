@@ -15,6 +15,7 @@ import "./App.css";
 import { useAllCategories } from "./hooks/useAllCategories";
 import { Sidebar, type View } from "./components/Sidebar";
 import { GoalReport } from "./components/GoalReport";
+import { BankImport } from "./components/BankImport";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -73,6 +74,7 @@ return (
                   editingExpense={editingExpense}
                   onCancelEdit={() => setEditingExpense(null)}
                 />
+                <BankImport />
                 <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
                 {loading && <p className="app__state">Carregando...</p>}
                 {error && <p className="app__state app__state--error">{error}</p>}
