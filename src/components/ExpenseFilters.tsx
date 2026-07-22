@@ -35,6 +35,17 @@ export function ExpenseFiltersBar({ filters, onChange, availableCategories }: Pr
                 ))}
             </select>
 
+            <select
+                value={filters.week ?? ""}
+                onChange={(e) => onChange({ ...filters, week: e.target.value ? Number(e.target.value) : undefined })}
+                >
+                <option value="">Todas as semanas</option>
+                <option value="1">Semana 1 (dias 1-7)</option>
+                <option value="2">Semana 2 (dias 8-14)</option>
+                <option value="3">Semana 3 (dias 15-21)</option>
+                <option value="4">Semana 4 (dias 22+)</option>
+            </select>
+
             {(filters.month || filters.category) && (
                 <button type="button" onClick={() => onChange({})}>Limpar filtros</button>
             )}

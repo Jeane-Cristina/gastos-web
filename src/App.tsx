@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useExpenses } from "./hooks/useExpenses";
 import { useSummary } from "./hooks/useSummary";
 import { ExpenseForm } from "./components/ExpenseForm";
@@ -12,6 +12,9 @@ import type { Expense, ExpenseFilters } from "./services/expenseApi";
 import { FinancialProfileForm } from "./components/FinancialProfileForm";
 import { WeeklyInsight } from "./components/WeeklyInsight";
 import "./App.css";
+import { useAllCategories } from "./hooks/useAllCategories";
+import { Sidebar, type View } from "./components/Sidebar";
+import { GoalReport } from "./components/GoalReport";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -20,11 +23,8 @@ function App() {
   const { expenses, loading, error, add, edit, remove } = useExpenses(filters, isAuthenticated);
   const { summary } = useSummary(expenses.length);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
-
-  const availableCategories = useMemo(
-    () => Array.from(new Set(expenses.map((e) => e.category))),
-    [expenses]
-  );
+  const [activeView, setActiveView] = useState<View>("lancamentos");
+  const availableCategories = useAllCategories();
 
   async function handleSubmit(expense: Expense) {
     if (editingExpense?.id) {
@@ -57,29 +57,41 @@ function App() {
     );
   }
 
-  return (
+return (
     <div className="app">
       <TopBar onLogout={handleLogout} />
       <div className="app__content">
         <h1 className="app__title">Controle de Gastos</h1>
         <p className="app__subtitle">registre, edite e acompanhe seus gastos por categoria</p>
-        <div className="app__sections">
-          <ExpenseForm
-            onAdd={handleSubmit}
-            editingExpense={editingExpense}
-            onCancelEdit={() => setEditingExpense(null)}
-          />
-          <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
-          {loading && <p className="app__state">Carregando...</p>}
-          {error && <p className="app__state app__state--error">{error}</p>}
-          {!loading && !error && (
-            <>
-              <ExpenseList expenses={expenses} onDelete={remove} onEdit={setEditingExpense} />
-              <CategorySummary data={summary} />
-            </>
-          )}
-          <FinancialProfileForm />
-          <WeeklyInsight />
+        <div style={{ display: "flex", gap: "1.5rem" }}>
+          <Sidebar active={activeView} onChange={setActiveView} />
+          <div style={{ flex: 1 }}>
+            {activeView === "lancamentos" && (
+              <div className="app__sections">
+                <ExpenseForm
+                  onAdd={handleSubmit}
+                  editingExpense={editingExpense}
+                  onCancelEdit={() => setEditingExpense(null)}
+                />
+                <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
+                {loading && <p className="app__state">Carregando...</p>}
+                {error && <p className="app__state app__state--error">{error}</p>}
+                {!loading && !error && (
+                  <>
+                    <ExpenseList expenses={expenses} onDelete={remove} onEdit={setEditingExpense} />
+                    <CategorySummary data={summary} />
+                  </>
+                )}
+              </div>
+            )}
+            {activeView === "metas" && (
+              <div className="app__sections">
+                <FinancialProfileForm />
+                <GoalReport />
+                <WeeklyInsight />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

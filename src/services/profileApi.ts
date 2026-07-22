@@ -35,10 +35,11 @@ export interface InsightResponse {
   nextAvailableAt: string;
 }
 
-export async function generateInsight(): Promise<InsightResponse> {
+export async function generateInsight(note?: string): Promise<InsightResponse> {
   const res = await fetch(`${INSIGHT_URL}/generate`, {
     method: "POST",
     headers: authHeaders(),
+    body: JSON.stringify({ note: note ?? "" }),
   });
   if (!res.ok) throw new Error("Erro ao gerar insight");
   return res.json();
