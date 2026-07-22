@@ -33,3 +33,18 @@
     color: var(--rust);
     border-color: var(--rust);
 }
+
+.topbar__menu {
+  background: transparent;
+  border: 1px solid rgba(43, 38, 32, 0.2);
+  border-radius: 3px;
+  color: var(--ink);
+  font-size: 1.1rem;
+  padding: 0.3em 0.7em;
+}
+
+.topbar__menu:hover {
+  background: var(--stamp-soft);
+  color: var(--stamp);
+  border-color: var(--stamp);
+}

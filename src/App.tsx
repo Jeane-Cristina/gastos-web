@@ -25,6 +25,7 @@ function App() {
   const { summary } = useSummary(expenses.length);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [activeView, setActiveView] = useState<View>("lancamentos");
+  const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
 
   async function handleSubmit(expense: Expense) {
@@ -58,14 +59,20 @@ function App() {
     );
   }
 
-return (
+  return (
     <div className="app">
-      <TopBar onLogout={handleLogout} />
+      <TopBar onMenuClick={() => setMenuOpen(true)} />
       <div className="app__content">
         <h1 className="app__title">Controle de Gastos</h1>
         <p className="app__subtitle">registre, edite e acompanhe seus gastos por categoria</p>
         <div style={{ display: "flex", gap: "1.5rem" }}>
-          <Sidebar active={activeView} onChange={setActiveView} />
+          <Sidebar
+            active={activeView}
+            onChange={setActiveView}
+            open={menuOpen}
+            onClose={() => setMenuOpen(false)}
+            onLogout={handleLogout}
+          />
           <div style={{ flex: 1 }}>
             {activeView === "lancamentos" && (
               <div className="app__sections">
@@ -74,7 +81,6 @@ return (
                   editingExpense={editingExpense}
                   onCancelEdit={() => setEditingExpense(null)}
                 />
-                <BankImport />
                 <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
                 {loading && <p className="app__state">Carregando...</p>}
                 {error && <p className="app__state app__state--error">{error}</p>}
@@ -84,6 +90,11 @@ return (
                     <CategorySummary data={summary} />
                   </>
                 )}
+              </div>
+            )}
+            {activeView === "importar" && (
+              <div className="app__sections">
+                <BankImport />
               </div>
             )}
             {activeView === "metas" && (
