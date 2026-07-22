@@ -1,16 +1,16 @@
 import "./TopBar.css";
 
 interface Props {
-    onLogout: () => void;
+  onMenuClick: () => void;
 }
 
-export function TopBar({ onLogout }: Props) {
-    return (
-        <header className="topbar">
-            <span className="topbar__brand">Gastos</span>
-            <button className="topbar__logout" onClick={onLogout}>
-                Sair
-            </button>
-        </header>
-    );
+export function TopBar({ onMenuClick }: Props) {
+  return (
+    <header className="topbar">
+      <span className="topbar__brand">Gastos</span>
+      <button className="topbar__menu" onClick={onMenuClick} aria-label="Abrir menu">
+        ☰
+      </button>
+    </header>
+  );
 }
