@@ -35,10 +35,10 @@ export function useExpenses(filters: ExpenseFilters, isAuthenticated: boolean) {
     }
 
     useEffect(() => {
-        if (isAuthenticated) {
-            load();
-        }
-    }, [filters.month, filters.year, filters.category, isAuthenticated]);
+    if (isAuthenticated) {
+        load();
+    }
+    }, [filters.month, filters.year, filters.category, filters.week, isAuthenticated]);
 
     return { expenses, loading, error, add, edit, remove, reload: load };
 }

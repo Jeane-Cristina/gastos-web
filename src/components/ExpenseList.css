@@ -125,3 +125,45 @@
 .expense-list {
   overflow-x: hidden;
 }
+
+.expense-item__edit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  width: 100%;
+  align-items: center;
+}
+
+.expense-item__edit-row input {
+  flex: 1;
+  min-width: 100px;
+  padding: 0.35em 0.5em;
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.expense-item__edit-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.expense-item__save {
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: 0.3em 0.7em;
+  font-size: 0.8rem;
+}
+
+.expense-item__cancel {
+  background: transparent;
+  border: 1px solid rgba(43, 38, 32, 0.2);
+  border-radius: 3px;
+  padding: 0.3em 0.7em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
