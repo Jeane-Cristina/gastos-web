@@ -78,15 +78,13 @@ function App() {
               <div className="app__sections">
                 <ExpenseForm
                   onAdd={handleSubmit}
-                  editingExpense={editingExpense}
-                  onCancelEdit={() => setEditingExpense(null)}
                 />
                 <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
                 {loading && <p className="app__state">Carregando...</p>}
                 {error && <p className="app__state app__state--error">{error}</p>}
                 {!loading && !error && (
                   <>
-                    <ExpenseList expenses={expenses} onDelete={remove} onEdit={setEditingExpense} />
+                    <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
                     <CategorySummary data={summary} />
                   </>
                 )}
