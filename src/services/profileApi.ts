@@ -12,6 +12,7 @@ export interface FinancialProfile {
   shortTermGoal: string;
   mediumTermGoal: string;
   longTermGoal: string;
+  currentSavings: number;
 }
 
 export async function getProfile(): Promise<FinancialProfile | null> {

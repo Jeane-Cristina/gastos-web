@@ -9,6 +9,7 @@ export function FinancialProfileForm() {
     shortTermGoal: "",
     mediumTermGoal: "",
     longTermGoal: "",
+    currentSavings: 0,
   });
   const [saved, setSaved] = useState(false);
 
@@ -54,6 +55,12 @@ export function FinancialProfileForm() {
         placeholder="Objetivo de longo prazo (ex: entrada de um imóvel)"
         value={profile.longTermGoal}
         onChange={(e) => setProfile({ ...profile, longTermGoal: e.target.value })}
+      />
+      <input
+        type="number"
+        placeholder="Quanto já tenho guardado"
+        value={profile.currentSavings || ""}
+        onChange={(e) => setProfile({ ...profile, currentSavings: parseFloat(e.target.value) || 0 })}
       />
       <button type="submit">Salvar</button>
       {saved && <p>Perfil salvo!</p>}
