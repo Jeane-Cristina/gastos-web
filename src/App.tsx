@@ -16,6 +16,7 @@ import { useAllCategories } from "./hooks/useAllCategories";
 import { Sidebar, type View } from "./components/Sidebar";
 import { GoalReport } from "./components/GoalReport";
 import { BankImport } from "./components/BankImport";
+import { PurchaseGoals } from "./components/PurchaseGoals";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -98,6 +99,7 @@ function App() {
             {activeView === "metas" && (
               <div className="app__sections">
                 <FinancialProfileForm />
+                <PurchaseGoals />
                 <GoalReport />
                 <WeeklyInsight />
               </div>
