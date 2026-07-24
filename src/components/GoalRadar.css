@@ -23,3 +23,13 @@
   font-size: 0.75rem;
   color: var(--ink-soft);
 }
+
+.button-layout{
+    background: var(--stamp);
+    color: var(--paper-card);
+    padding: var(--space-xs) var(--space-md);
+    border: none;
+    border-radius: 3px;
+    font-size: .9rem;
+    font-weight: 600;    
+}
