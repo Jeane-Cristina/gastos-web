@@ -20,6 +20,8 @@ import { PurchaseGoals } from "./components/PurchaseGoals";
 import { GoalHistory } from "./components/GoalHistory";
 import { Investments } from "./components/Investments";
 import { CategoryPieChart } from "./components/CategoryPieChart";
+import { RecurringExpenses } from "./components/RecurringExpenses";
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -83,6 +85,7 @@ function App() {
                 <ExpenseForm
                   onAdd={handleSubmit}
                 />
+                <RecurringExpenses />
                 <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
                 {loading && <p className="app__state">Carregando...</p>}
                 {error && <p className="app__state app__state--error">{error}</p>}
