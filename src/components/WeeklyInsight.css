@@ -75,3 +75,22 @@
   font-size: 0.8rem;
   margin: 0;
 }
+
+.insight-section ul {
+  margin: 0.3em 0;
+  padding-left: 1.2em;
+}
+
+.insight-section li {
+  margin-bottom: 0.4em;
+  line-height: 1.5;
+}
+
+.insight-section p {
+  margin: 0 0 0.5em 0;
+  line-height: 1.5;
+}
+
+.insight-section strong {
+  color: var(--stamp);
+}
