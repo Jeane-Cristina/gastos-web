@@ -1,5 +1,6 @@
 import "./Sidebar.css";
 import { useState, useEffect } from "react";
+import { Receipt, Upload, TrendingUp, Target, LogOut } from "lucide-react";
 
 export type View = "lancamentos" | "importar" | "metas" | "investimentos";
 
@@ -12,23 +13,22 @@ interface Props {
 }
 
 export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
+  const [statusPercent, setStatusPercent] = useState<number | null>(null);
 
-    const [statusPercent, setStatusPercent] = useState<number | null>(null);
-
-    useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
     fetch(`${import.meta.env.VITE_API_URL}/goal/status-summary`, {
-        headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
-        .then((r) => r.json())
-        .then((data) => setStatusPercent(data.monthlyGoalPercent));
-    }, []);
+      .then((r) => r.json())
+      .then((data) => setStatusPercent(data.monthlyGoalPercent));
+  }, []);
 
-    function statusDot(percent: number | null) {
+  function statusDot(percent: number | null) {
     if (percent === null) return null;
     const color = percent >= 80 ? "#5B7F5E" : percent >= 40 ? "#C99A3E" : "#A6402F";
     return <span className="sidebar__dot" style={{ backgroundColor: color }} />;
-    }
+  }
 
   function handleSelect(view: View) {
     onChange(view);
@@ -48,31 +48,40 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
           className={`sidebar__item ${active === "lancamentos" ? "sidebar__item--active" : ""}`}
           onClick={() => handleSelect("lancamentos")}
         >
-          Lançamentos
+          <Receipt size={18} />
+          <span>Lançamentos</span>
         </button>
+
         <button
           className={`sidebar__item ${active === "importar" ? "sidebar__item--active" : ""}`}
           onClick={() => handleSelect("importar")}
         >
-          Importar Extrato
+          <Upload size={18} />
+          <span>Importar Extrato</span>
         </button>
+
         <button
-        className={`sidebar__item ${active === "metas" ? "sidebar__item--active" : ""}`}
-        onClick={() => handleSelect("metas")}
+          className={`sidebar__item ${active === "metas" ? "sidebar__item--active" : ""}`}
+          onClick={() => handleSelect("metas")}
         >
-        Metas & Insights {statusDot(statusPercent)}
+          <Target size={18} />
+          <span>Metas & Insights</span>
+          {statusDot(statusPercent)}
         </button>
+
         <button
-            className={`sidebar__item ${active === "investimentos" ? "sidebar__item--active" : ""}`}
-            onClick={() => handleSelect("investimentos")}
-            >
-            Investimentos
+          className={`sidebar__item ${active === "investimentos" ? "sidebar__item--active" : ""}`}
+          onClick={() => handleSelect("investimentos")}
+        >
+          <TrendingUp size={18} />
+          <span>Investimentos</span>
         </button>
 
         <div className="sidebar__spacer" />
 
         <button className="sidebar__logout" onClick={onLogout}>
-          Sair
+          <LogOut size={18} />
+          <span>Sair</span>
         </button>
       </nav>
     </>

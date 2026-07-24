@@ -56,7 +56,23 @@
   flex: 1;
 }
 
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: var(--space-sm);
+  border-radius: 3px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
 .sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   text-align: left;
   background: transparent;
   border: 1px solid rgba(43, 38, 32, 0.15);
