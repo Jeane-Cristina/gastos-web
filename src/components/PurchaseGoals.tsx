@@ -52,7 +52,7 @@ export function PurchaseGoals() {
     <div className="purchase-goals">
       <h2>O que quero/preciso comprar</h2>
       <form className="purchase-goals__form" onSubmit={handleAdd}>
-        <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="O que é" required />
+        <input className="purchase-input" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="O que é" required />
         <input type="number" step="0.01" value={cost} onChange={(e) => setCost(e.target.value)} placeholder="Valor estimado" required />
         <select value={priority} onChange={(e) => setPriority(e.target.value)}>
           <option>Alta</option>
