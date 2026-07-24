@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { generateInsight } from "../services/profileApi";
 import "./WeeklyInsight.css";
+import ReactMarkdown from "react-markdown";
 
 export function WeeklyInsight() {
   const [insight, setInsight] = useState<string | null>(null);
@@ -22,17 +23,22 @@ export function WeeklyInsight() {
   }
 
   function renderInsight(text: string) {
-  const sections = text.split(/(?=PADRÃO IDENTIFICADO:|PONTOS DE ATENÇÃO:|SUGESTÃO PRÁTICA:)/);
-  return sections.map((section, i) => {
-    const [title, ...rest] = section.split(":");
-    return (
-      <div key={i} className="insight-section">
-        <h4>{title.trim()}</h4>
-        <p>{rest.join(":").trim()}</p>
-      </div>
-    );
-  });
-}
+    const sections = text.split(/(?=DETALHAMENTO SEMANAL|ONDE ECONOMIZAR|ESTRATÉGIA PARA SUAS COMPRAS|SUGESTÃO PRÁTICA)/);
+
+    return sections.map((section, i) => {
+      const match = section.match(/^([A-ZÀ-Ú ]+):?\s*([\s\S]*)/);
+      if (!match) return null;
+
+      const [, title, body] = match;
+
+      return (
+        <div key={i} className="insight-section">
+          <h4>{title.trim()}</h4>
+          <ReactMarkdown>{body.trim()}</ReactMarkdown>
+        </div>
+      );
+    });
+  }
 
   return (
     <div className="insight">
