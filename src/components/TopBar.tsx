@@ -1,4 +1,5 @@
 import { useTheme } from "../hooks/useTheme";
+import "./TopBar.css";
 
 interface Props {
   onMenuClick: () => void;
