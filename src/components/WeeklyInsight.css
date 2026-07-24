@@ -94,3 +94,13 @@
 .insight-section strong {
   color: var(--stamp);
 }
+
+.insight__banner {
+  background: var(--sage-soft);
+  color: var(--sage);
+  border-radius: 4px;
+  padding: var(--space-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}

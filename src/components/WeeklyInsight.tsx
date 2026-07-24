@@ -8,6 +8,7 @@ export function WeeklyInsight() {
   const [nextAvailable, setNextAvailable] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [note, setNote] = useState("");
+  const canGenerateNew = nextAvailable ? new Date(nextAvailable) <= new Date() : true;
 
   useEffect(() => {
   getLatestInsight().then((result) => {
@@ -50,22 +51,29 @@ export function WeeklyInsight() {
   }
 
   return (
-    <div className="insight">
-      <h2 className="insight__title">Insight da semana</h2>
-      <textarea
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        placeholder="Alguma observação pro insight desta semana? (ex: 'tive um gasto extra com viagem')"
-      />
-      <button className="insight__generate" onClick={handleGenerate} disabled={loading}>
-        {loading ? "Gerando..." : "Ver meu insight"}
-      </button>
-      {insight && <div>{renderInsight(insight)}</div>}
-      {nextAvailable && (
-        <p className="insight__next-available">
-          Próximo insight novo disponível em: {new Date(nextAvailable).toLocaleDateString("pt-BR")}
-        </p>
-      )}
-    </div>
-  );
+      <div className="insight">
+        <h2 className="insight__title">Insight da semana</h2>
+
+        {canGenerateNew && insight && (
+          <div className="insight__banner">
+            ✨ Um novo insight já está disponível para esta semana!
+          </div>
+        )}
+
+        <textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Alguma observação pro insight desta semana? (ex: 'tive um gasto extra com viagem')"
+        />
+        <button className="insight__generate" onClick={handleGenerate} disabled={loading}>
+          {loading ? "Gerando..." : "Ver meu insight"}
+        </button>
+        {insight && <div>{renderInsight(insight)}</div>}
+        {nextAvailable && (
+          <p className="insight__next-available">
+            Próximo insight novo disponível em: {new Date(nextAvailable).toLocaleDateString("pt-BR")}
+          </p>
+        )}
+      </div>
+    );
 }

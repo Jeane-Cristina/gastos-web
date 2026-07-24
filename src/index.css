@@ -44,3 +44,16 @@ button {
 input {
   font-family: var(--font-body);
 }
+
+[data-theme="dark"] {
+  --paper: #1E1B17;
+  --paper-card: #2A2622;
+  --ink: #EDE8E0;
+  --ink-soft: #A39B8F;
+  --stamp: #7B94C9;
+  --stamp-soft: #2C3654;
+  --sage: #7FA882;
+  --sage-soft: #2A3B2C;
+  --rust: #D97862;
+  --rust-soft: #3D2823;
+}
