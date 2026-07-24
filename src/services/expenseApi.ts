@@ -28,17 +28,31 @@ function authHeaders(): HeadersInit {
 
 const AUTH_URL = `${import.meta.env.VITE_API_URL}/auth`;
 
-export async function login(username: string, password: string): Promise<string> {
-    const res = await fetch(`${AUTH_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-    });
+export async function login(username: string, password: string): Promise<{ token: string; refreshToken: string }> {
+  const res = await fetch(`${AUTH_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  if (!res.ok) throw new Error("Usuário ou senha inválidos");
+  return res.json();
+}
 
-    if (!res.ok) throw new Error("Usuário ou senha inválidos");
+export async function refreshAccessToken(): Promise<string | null> {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) return null;
 
-    const data = await res.json();
-    return data.token;
+  const res = await fetch(`${AUTH_URL}/refresh`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(refreshToken),
+  });
+
+  if (!res.ok) return null;
+  const data = await res.json();
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("refreshToken", data.refreshToken);
+  return data.token;
 }
 
 export async function getExpenses(filters: ExpenseFilters = {}): Promise<Expense[]> {

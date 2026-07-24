@@ -16,8 +16,9 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister }: Props) {
     e.preventDefault();
     setError(null);
     try {
-      const token = await login(username, password);
+      const { token, refreshToken } = await login(username, password);
       localStorage.setItem("token", token);
+      localStorage.setItem("refreshToken", refreshToken);
       onLoginSuccess();
     } catch (err) {
       setError("Usuário ou senha inválidos.");
