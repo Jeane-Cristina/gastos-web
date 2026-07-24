@@ -1,0 +1,38 @@
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.status-badge__emoji {
+  font-size: 1.5rem;
+}
+
+.status-badge__label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.status-badge__text {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.status-badge--good {
+  background: var(--sage-soft);
+  border-color: rgba(91, 127, 94, 0.3);
+}
+
+.status-badge--warn {
+  background: #FBF0DD;
+  border-color: rgba(201, 154, 62, 0.3);
+}
+
+.status-badge--bad {
+  background: var(--rust-soft);
+  border-color: rgba(166, 64, 47, 0.3);
+}

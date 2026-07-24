@@ -45,3 +45,9 @@ export async function generateInsight(note?: string): Promise<InsightResponse> {
   if (!res.ok) throw new Error("Erro ao gerar insight");
   return res.json();
 }
+
+export async function getLatestInsight(): Promise<{ insight: string | null; nextAvailableAt: string | null }> {
+  const res = await fetch(`${INSIGHT_URL}/latest`, { headers: authHeaders() });
+  if (!res.ok) throw new Error("Erro ao buscar insight");
+  return res.json();
+}
