@@ -39,7 +39,7 @@ export function GoalHistory() {
   return (
     <div>
       <h2>Histórico de metas</h2>
-      <button onClick={saveSnapshot}>Salvar snapshot deste mês</button>
+      <button className="button-layout" onClick={saveSnapshot}>Salvar snapshot deste mês</button>
 
       {chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={250}>
