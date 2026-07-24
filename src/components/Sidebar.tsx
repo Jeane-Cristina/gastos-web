@@ -1,6 +1,6 @@
 import "./Sidebar.css";
 
-export type View = "lancamentos" | "importar" | "metas";
+export type View = "lancamentos" | "importar" | "metas" | "investimentos";
 
 interface Props {
   active: View;
@@ -42,6 +42,12 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
           onClick={() => handleSelect("metas")}
         >
           Metas & Insights
+        </button>
+        <button
+            className={`sidebar__item ${active === "investimentos" ? "sidebar__item--active" : ""}`}
+            onClick={() => handleSelect("investimentos")}
+            >
+            Investimentos
         </button>
 
         <div className="sidebar__spacer" />
