@@ -12,7 +12,7 @@ export function TopBar({ onMenuClick }: Props) {
     <header className="topbar">
       <span className="topbar__brand">Gastos</span>
       <div className="topbar__actions">
-        <button className="topbar__theme" onClick={toggle} aria-label="Alternar tema">
+        <button className="topbar__theme" onClick={toggle} aria-label="Alternar tema" style={{border:"none"}}>
           {theme === "light" ? "🌙" : "☀️"}
         </button>
         <button className="topbar__menu" onClick={onMenuClick} aria-label="Abrir menu">
