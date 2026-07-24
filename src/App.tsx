@@ -17,6 +17,7 @@ import { Sidebar, type View } from "./components/Sidebar";
 import { GoalReport } from "./components/GoalReport";
 import { BankImport } from "./components/BankImport";
 import { PurchaseGoals } from "./components/PurchaseGoals";
+import { CategoryPieChart } from "./components/CategoryPieChart";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -102,6 +103,7 @@ function App() {
                 <PurchaseGoals />
                 <GoalReport />
                 <WeeklyInsight />
+                <CategoryPieChart data={summary} />
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { generateInsight } from "../services/profileApi";
+import { useState, useEffect } from "react";
+import { generateInsight, getLatestInsight  } from "../services/profileApi";
 import "./WeeklyInsight.css";
 import ReactMarkdown from "react-markdown";
 
@@ -8,6 +8,15 @@ export function WeeklyInsight() {
   const [nextAvailable, setNextAvailable] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [note, setNote] = useState("");
+
+  useEffect(() => {
+  getLatestInsight().then((result) => {
+    if (result.insight) {
+      setInsight(result.insight);
+      setNextAvailable(result.nextAvailableAt);
+    }
+  });
+}, []);
 
   async function handleGenerate() {
     setLoading(true);
