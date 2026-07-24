@@ -21,29 +21,39 @@ export function CategoryPieChart({ data }: Props) {
   return (
     <div className="category-chart">
       <h3 className="category-chart__title">Distribuição de gastos por categoria</h3>
-      <ResponsiveContainer width="100%" height={280}>
+      <ResponsiveContainer width="100%" height={480}>
         <PieChart>
           <Pie
             data={chartData}
             dataKey="value"
             nameKey="name"
             cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={100}
+            cy="38%"
+            innerRadius={55}
+            outerRadius={90}
             paddingAngle={2}
           >
             {chartData.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-            <Tooltip
+          <Tooltip
             formatter={(value) => {
-                const num = typeof value === "number" ? value : 0;
-                return [`R$ ${num.toFixed(2)} (${((num / total) * 100).toFixed(1)}%)`, ""];
+              const num = typeof value === "number" ? value : 0;
+              return [`R$ ${num.toFixed(2)} (${((num / total) * 100).toFixed(1)}%)`, ""];
+            }}
+          />
+            <Legend
+            layout="horizontal"
+            verticalAlign="bottom"
+            align="center"
+            wrapperStyle={{ fontSize: "0.75rem", paddingTop: "1rem" }}
+            formatter={(value, entry) => {
+                const payload = entry?.payload as unknown as { value: number };
+                const percent = total > 0 ? ((payload.value / total) * 100).toFixed(0) : "0";
+                return `${percent}% ${value}`;
             }}
             />
-          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>
