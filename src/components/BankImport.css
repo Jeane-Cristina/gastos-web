@@ -16,11 +16,15 @@
   border-radius: 4px;
   padding: var(--space-lg);
   text-align: center;
+  overflow-x: hidden;
 }
 
 .bank-import__upload input[type="file"] {
   font-family: var(--font-body);
   font-size: 0.9rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .bank-import__hint {
@@ -121,7 +125,7 @@
 }
 
 @media (max-width: 640px) {
-  .bank-import__table {
+  .bank-import__upload input[type="file"] {
     font-size: 0.8rem;
   }
 
