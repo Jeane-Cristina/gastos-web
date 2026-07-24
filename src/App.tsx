@@ -17,8 +17,9 @@ import { Sidebar, type View } from "./components/Sidebar";
 import { GoalReport } from "./components/GoalReport";
 import { BankImport } from "./components/BankImport";
 import { PurchaseGoals } from "./components/PurchaseGoals";
-import { CategoryPieChart } from "./components/CategoryPieChart";
+import { GoalHistory } from "./components/GoalHistory";
 import { Investments } from "./components/Investments";
+import { CategoryPieChart } from "./components/CategoryPieChart";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -103,8 +104,9 @@ function App() {
                 <FinancialProfileForm />
                 <PurchaseGoals />
                 <GoalReport />
+                <GoalHistory />
                 <WeeklyInsight />
-                <CategoryPieChart data={summary} />
+                <CategoryPieChart data={summary}/>
               </div>
             )}
             {activeView === "investimentos" && (

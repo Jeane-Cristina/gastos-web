@@ -48,3 +48,16 @@
   color: var(--stamp);
   border-color: var(--stamp);
 }
+
+.topbar__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.topbar__theme {
+  background: transparent;
+  border: 1px solid rgba(43, 38, 32, 0.2);
+  border-radius: 3px;
+  font-size: 1rem;
+  padding: 0.3em 0.6em;
+}

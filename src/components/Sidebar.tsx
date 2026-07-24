@@ -1,4 +1,5 @@
 import "./Sidebar.css";
+import { useState, useEffect } from "react";
 
 export type View = "lancamentos" | "importar" | "metas" | "investimentos";
 
@@ -11,6 +12,24 @@ interface Props {
 }
 
 export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
+
+    const [statusPercent, setStatusPercent] = useState<number | null>(null);
+
+    useEffect(() => {
+  const token = localStorage.getItem("token");
+    fetch(`${import.meta.env.VITE_API_URL}/goal/status-summary`, {
+        headers: { Authorization: `Bearer ${token}` },
+    })
+        .then((r) => r.json())
+        .then((data) => setStatusPercent(data.monthlyGoalPercent));
+    }, []);
+
+    function statusDot(percent: number | null) {
+    if (percent === null) return null;
+    const color = percent >= 80 ? "#5B7F5E" : percent >= 40 ? "#C99A3E" : "#A6402F";
+    return <span className="sidebar__dot" style={{ backgroundColor: color }} />;
+    }
+
   function handleSelect(view: View) {
     onChange(view);
     onClose();
@@ -38,10 +57,10 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
           Importar Extrato
         </button>
         <button
-          className={`sidebar__item ${active === "metas" ? "sidebar__item--active" : ""}`}
-          onClick={() => handleSelect("metas")}
+        className={`sidebar__item ${active === "metas" ? "sidebar__item--active" : ""}`}
+        onClick={() => handleSelect("metas")}
         >
-          Metas & Insights
+        Metas & Insights {statusDot(statusPercent)}
         </button>
         <button
             className={`sidebar__item ${active === "investimentos" ? "sidebar__item--active" : ""}`}

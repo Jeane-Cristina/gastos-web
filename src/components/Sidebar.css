@@ -69,3 +69,11 @@
 .sidebar__logout:hover {
   background: var(--rust-soft);
 }
+
+.sidebar__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 0.4em;
+}
