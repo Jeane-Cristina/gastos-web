@@ -18,6 +18,7 @@ import { GoalReport } from "./components/GoalReport";
 import { BankImport } from "./components/BankImport";
 import { PurchaseGoals } from "./components/PurchaseGoals";
 import { CategoryPieChart } from "./components/CategoryPieChart";
+import { Investments } from "./components/Investments";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -106,6 +107,11 @@ function App() {
                 <CategoryPieChart data={summary} />
               </div>
             )}
+            {activeView === "investimentos" && (
+            <div className="app__sections">
+              <Investments />
+            </div>
+          )}
           </div>
         </div>
       </div>
