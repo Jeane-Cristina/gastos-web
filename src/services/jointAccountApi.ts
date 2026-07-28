@@ -32,6 +32,12 @@ export interface Contribution {
   percent: number;
 }
 
+export interface MemberScore {
+  username: string;
+  percent: number;
+  balance: number;
+}
+
 export async function getMyAccounts(): Promise<JointAccount[]> {
   const res = await fetch(BASE, { headers: authHeaders() });
   return res.json();
@@ -77,4 +83,23 @@ export async function getContributions(accountId: number): Promise<Contribution[
 export async function getCategorySummary(accountId: number): Promise<{ category: string; total: number }[]> {
   const res = await fetch(`${BASE}/${accountId}/summary`, { headers: authHeaders() });
   return res.json();
+}
+
+export async function leaveAccount(accountId: number): Promise<void> {
+  await fetch(`${BASE}/${accountId}/leave`, { method: "POST", headers: authHeaders() });
+}
+
+export async function removeMember(accountId: number, targetUserId: number): Promise<void> {
+  await fetch(`${BASE}/${accountId}/members/${targetUserId}`, { method: "DELETE", headers: authHeaders() });
+}
+
+export async function getScores(accountId: number): Promise<MemberScore[]> {
+  const res = await fetch(`${BASE}/${accountId}/scores`, { headers: authHeaders() });
+  return res.json();
+}
+
+export async function getJointInsight(accountId: number): Promise<string> {
+  const res = await fetch(`${BASE}/${accountId}/insight`, { headers: authHeaders() });
+  const data = await res.json();
+  return data.insight;
 }

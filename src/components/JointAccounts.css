@@ -257,3 +257,30 @@
     min-width: 0;
   }
 }
+
+.joint-accounts__contribution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.joint-accounts__remove-member {
+  background: transparent;
+  border: none;
+  color: var(--rust);
+  font-size: 0.75rem;
+}
+
+.joint-accounts__leave {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid rgba(166, 64, 47, 0.3);
+  border-radius: 3px;
+  padding: 0.4em 0.9em;
+  color: var(--rust);
+  font-size: 0.85rem;
+}
+
+.joint-accounts__leave:hover {
+  background: var(--rust-soft);
+}

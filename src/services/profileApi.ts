@@ -51,3 +51,8 @@ export async function getLatestInsight(): Promise<{ insight: string | null; next
   if (!res.ok) throw new Error("Erro ao buscar insight");
   return res.json();
 }
+
+export async function getScore(): Promise<{ score: number }> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/goal/score`, { headers: authHeaders() });
+  return res.json();
+}
