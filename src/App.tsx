@@ -7,6 +7,8 @@ import { ExpenseFiltersBar } from "./components/ExpenseFilters";
 import { CategorySummary } from "./components/CategorySummary";
 import { LoginForm } from "./components/LoginForm";
 import { RegisterForm } from "./components/RegisterForm";
+import { ForgotPasswordForm } from "./components/ForgotPasswordForm";
+import { ResetPasswordForm } from "./components/ResetPasswordForm";
 import { TopBar } from "./components/TopBar";
 import type { Expense, ExpenseFilters } from "./services/expenseApi";
 import { FinancialProfileForm } from "./components/FinancialProfileForm";
@@ -25,10 +27,12 @@ import { Pagination } from "./components/Pagination";
 import { CategoryBudgets } from "./components/CategoryBudgets";
 import { ChatBox } from "./components/ChatBox";
 import { JointAccounts } from "./components/JointAccounts";
+import { GoalScore } from "./components/GoalScore";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
   const [showRegister, setShowRegister] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [filters, setFilters] = useState<ExpenseFilters>({});
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [activeView, setActiveView] = useState<View>("lancamentos");
@@ -36,6 +40,9 @@ function App() {
   const availableCategories = useAllCategories();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
   const { summary } = useSummary(expenses.length);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasResetToken = urlParams.has("token");
 
   async function handleSubmit(expense: Expense) {
     if (editingExpense?.id) {
@@ -51,6 +58,17 @@ function App() {
     setIsAuthenticated(false);
   }
 
+  if (hasResetToken) {
+    return (
+      <ResetPasswordForm
+        onResetSuccess={() => {
+          window.history.replaceState({}, "", window.location.pathname);
+          setShowForgotPassword(false);
+        }}
+      />
+    );
+  }
+
   if (!isAuthenticated) {
     if (showRegister) {
       return (
@@ -60,11 +78,21 @@ function App() {
         />
       );
     }
+    if (showForgotPassword) {
+      return <ForgotPasswordForm onBackToLogin={() => setShowForgotPassword(false)} />;
+    }
     return (
-      <LoginForm
-        onLoginSuccess={() => setIsAuthenticated(true)}
-        onSwitchToRegister={() => setShowRegister(true)}
-      />
+      <>
+        <LoginForm
+          onLoginSuccess={() => setIsAuthenticated(true)}
+          onSwitchToRegister={() => setShowRegister(true)}
+        />
+        <p style={{ textAlign: "center" }}>
+          <button onClick={() => setShowForgotPassword(true)} className="login-card__link">
+            Esqueci minha senha
+          </button>
+        </p>
+      </>
     );
   }
 
@@ -116,6 +144,7 @@ function App() {
                 <CategoryPieChart data={summary}/>
                 <CategoryBudgets />
                 <ChatBox/>
+                <GoalScore />
               </div>
             )}
             {activeView === "investimentos" && (

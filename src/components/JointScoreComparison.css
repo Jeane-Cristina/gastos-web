@@ -1,0 +1,45 @@
+.joint-score {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.joint-score h4 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.joint-score__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+}
+
+.joint-score__name {
+  min-width: 80px;
+}
+
+.joint-score__bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--paper);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.joint-score__bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.joint-score__value {
+  min-width: 30px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 700;
+}

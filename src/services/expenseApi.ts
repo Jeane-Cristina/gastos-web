@@ -112,15 +112,43 @@ export async function deleteExpense(id: number): Promise<void> {
 }
 
 export async function register(username: string, password: string): Promise<string> {
-    const res = await fetch(`${AUTH_URL}/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-    });
+  const res = await fetch(`${AUTH_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
 
-    if (res.status === 409) throw new Error("Esse usuário já existe.");
-    if (!res.ok) throw new Error("Não foi possível criar a conta.");
+  if (res.status === 409) throw new Error("Esse usuário já existe.");
 
+  if (res.status === 400) {
     const data = await res.json();
-    return data.token;
+    const firstError = data.errors ? Object.values(data.errors)[0] : null;
+    const message = Array.isArray(firstError) ? firstError[0] : "Dados inválidos.";
+    throw new Error(message as string);
+  }
+
+  if (!res.ok) throw new Error("Não foi possível criar a conta.");
+
+  const data = await res.json();
+  return data.token;
+}
+
+export async function forgotPassword(username: string): Promise<void> {
+  await fetch(`${AUTH_URL}/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username }),
+  });
+}
+
+export async function resetPassword(token: string, newPassword: string): Promise<void> {
+  const res = await fetch(`${AUTH_URL}/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.message ?? "Erro ao redefinir senha.");
+  }
 }

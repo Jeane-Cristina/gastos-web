@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import {
   getMyAccounts, getPendingInvites, createAccount, inviteMember, respondInvite,
   getExpenses, createExpense, getContributions, getCategorySummary,
-  type JointAccount, type Invite, type JointExpense, type Contribution,
+  leaveAccount, removeMember, getScores,
+  type JointAccount, type Invite, type JointExpense, type Contribution, type MemberScore,
 } from "../services/jointAccountApi";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { JointScoreComparison } from "./JointScoreComparison";
 import "./JointAccounts.css";
+import { JointInsight } from "./JointInsight";
 
 const COLORS = ["#3B4B6B", "#5B7F5E", "#A6402F", "#C99A3E"];
 
@@ -20,6 +23,7 @@ export function JointAccounts() {
   const [expenses, setExpenses] = useState<JointExpense[]>([]);
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [categorySummary, setCategorySummary] = useState<{ category: string; total: number }[]>([]);
+  const [scores, setScores] = useState<MemberScore[]>([]);
 
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -37,6 +41,7 @@ export function JointAccounts() {
     getExpenses(id).then(setExpenses);
     getContributions(id).then(setContributions);
     getCategorySummary(id).then(setCategorySummary);
+    getScores(id).then(setScores);
   }
 
   useEffect(() => {
@@ -79,6 +84,21 @@ export function JointAccounts() {
     setDescription("");
     setAmount("");
     setCategory("");
+    loadAccountDetails(selectedId);
+  }
+
+  async function handleLeave() {
+    if (!selectedId) return;
+    if (!confirm("Tem certeza que deseja sair desta conta conjunta?")) return;
+    await leaveAccount(selectedId);
+    setSelectedId(null);
+    loadAccounts();
+  }
+
+  async function handleRemoveMember(targetUserId: number) {
+    if (!selectedId) return;
+    if (!confirm("Remover esse membro da conta conjunta?")) return;
+    await removeMember(selectedId, targetUserId);
     loadAccountDetails(selectedId);
   }
 
@@ -145,13 +165,21 @@ export function JointAccounts() {
               <h4>Contribuição de cada um</h4>
               {contributions.map((c) => (
                 <div key={c.userId} className="joint-accounts__contribution-bar">
-                  <span>{c.username}: R$ {c.totalPaid.toFixed(2)} ({c.percent.toFixed(0)}%)</span>
+                  <div className="joint-accounts__contribution-header">
+                    <span>{c.username}: R$ {c.totalPaid.toFixed(2)} ({c.percent.toFixed(0)}%)</span>
+                    <button className="joint-accounts__remove-member" onClick={() => handleRemoveMember(c.userId)}>
+                      remover
+                    </button>
+                  </div>
                   <div className="joint-accounts__bar-track">
                     <div className="joint-accounts__bar-fill" style={{ width: `${c.percent}%` }} />
                   </div>
                 </div>
               ))}
             </div>
+
+            <JointScoreComparison scores={scores} />
+            {selectedId && <JointInsight accountId={selectedId} />}
 
             {categoryChartData.length > 0 && (
               <ResponsiveContainer width="100%" height={280}>
@@ -174,6 +202,8 @@ export function JointAccounts() {
                 </li>
               ))}
             </ul>
+
+            <button className="joint-accounts__leave" onClick={handleLeave}>Sair da conta</button>
           </div>
         )}
       </div>
