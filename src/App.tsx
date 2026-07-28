@@ -23,7 +23,7 @@ import { CategoryPieChart } from "./components/CategoryPieChart";
 import { RecurringExpenses } from "./components/RecurringExpenses";
 import { Pagination } from "./components/Pagination";
 import { CategoryBudgets } from "./components/CategoryBudgets";
-
+import { ChatBox } from "./components/ChatBox";
 
 
 
@@ -116,6 +116,7 @@ function App() {
                 <WeeklyInsight />
                 <CategoryPieChart data={summary}/>
                 <CategoryBudgets />
+                <ChatBox/>
               </div>
             )}
             {activeView === "investimentos" && (
