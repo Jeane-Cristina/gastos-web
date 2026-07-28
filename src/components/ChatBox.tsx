@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./ChatBox.css";
 
 interface Message {
   question: string;
