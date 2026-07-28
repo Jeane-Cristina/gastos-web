@@ -1,0 +1,54 @@
+.joint-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.joint-accounts__layout {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.joint-accounts__sidebar {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.joint-accounts__details {
+  flex: 1;
+  min-width: 280px;
+  background: var(--paper-card);
+  border: 1px solid rgba(43, 38, 32, 0.1);
+  border-radius: 4px;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.joint-accounts__item--active {
+  background: var(--stamp-soft);
+  color: var(--stamp);
+  font-weight: 600;
+}
+
+.joint-accounts__bar-track {
+  height: 8px;
+  background: var(--paper);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.2em;
+}
+
+.joint-accounts__bar-fill {
+  height: 100%;
+  background: var(--stamp);
+}
+
+.joint-accounts__error {
+  color: var(--rust);
+  font-size: 0.85rem;
+}

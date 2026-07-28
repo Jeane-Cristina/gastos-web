@@ -24,8 +24,7 @@ import { RecurringExpenses } from "./components/RecurringExpenses";
 import { Pagination } from "./components/Pagination";
 import { CategoryBudgets } from "./components/CategoryBudgets";
 import { ChatBox } from "./components/ChatBox";
-
-
+import { JointAccounts } from "./components/JointAccounts";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -123,6 +122,11 @@ function App() {
             <div className="app__sections">
               <Investments />
             </div>
+          )}
+          {activeView === "conjunta" && (
+          <div className="app__sections">
+            <JointAccounts />
+          </div>
           )}
           </div>
         </div>
