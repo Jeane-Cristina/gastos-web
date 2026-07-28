@@ -4,6 +4,49 @@
   gap: var(--space-md);
 }
 
+.joint-accounts h2 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Convites pendentes */
+.joint-accounts__invites {
+  background: var(--stamp-soft);
+  border: 1px solid rgba(59, 75, 107, 0.2);
+  border-radius: 4px;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.joint-accounts__invites h3 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--stamp);
+  margin: 0;
+}
+
+.joint-accounts__invite-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.joint-accounts__invite-item button {
+  background: var(--paper-card);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  padding: 0.3em 0.8em;
+  font-size: 0.8rem;
+}
+
+/* Layout principal */
 .joint-accounts__layout {
   display: flex;
   gap: var(--space-md);
@@ -17,6 +60,60 @@
   gap: var(--space-sm);
 }
 
+.joint-accounts__new-form {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.joint-accounts__new-form input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper-card);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.joint-accounts__new-form button {
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: 0 var(--space-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.joint-accounts__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.joint-accounts__list button {
+  width: 100%;
+  text-align: left;
+  background: var(--paper-card);
+  border: 1px solid rgba(43, 38, 32, 0.1);
+  border-radius: 3px;
+  padding: var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.joint-accounts__item--active {
+  background: var(--stamp-soft) !important;
+  color: var(--stamp) !important;
+  font-weight: 600;
+  border-color: var(--stamp) !important;
+}
+
+/* Detalhes da conta selecionada */
 .joint-accounts__details {
   flex: 1;
   min-width: 280px;
@@ -29,10 +126,92 @@
   gap: var(--space-md);
 }
 
-.joint-accounts__item--active {
-  background: var(--stamp-soft);
-  color: var(--stamp);
+.joint-accounts__details h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.joint-accounts__details h4 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+/* Formulário de convite */
+.joint-accounts__invite-form {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.joint-accounts__invite-form input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.joint-accounts__invite-form button {
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: 0 var(--space-md);
   font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.joint-accounts__error {
+  color: var(--rust);
+  font-size: 0.85rem;
+  margin: -0.5rem 0 0 0;
+}
+
+/* Formulário de lançamento */
+.joint-accounts__expense-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.joint-accounts__expense-form input {
+  flex: 1;
+  min-width: 100px;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.joint-accounts__expense-form button {
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: var(--space-xs) var(--space-md);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Contribuições */
+.joint-accounts__contributions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.joint-accounts__contribution-bar {
+  font-size: 0.85rem;
 }
 
 .joint-accounts__bar-track {
@@ -40,15 +219,41 @@
   background: var(--paper);
   border-radius: 4px;
   overflow: hidden;
-  margin-top: 0.2em;
+  margin-top: 0.3em;
 }
 
 .joint-accounts__bar-fill {
   height: 100%;
   background: var(--stamp);
+  transition: width 0.3s ease;
 }
 
-.joint-accounts__error {
-  color: var(--rust);
+/* Lista de despesas */
+.joint-accounts__expense-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.joint-accounts__expense-list li {
+  padding: var(--space-xs) 0;
+  border-bottom: 1px dashed rgba(43, 38, 32, 0.1);
   font-size: 0.85rem;
+}
+
+.joint-accounts__expense-list li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 640px) {
+  .joint-accounts__layout {
+    flex-direction: column;
+  }
+
+  .joint-accounts__sidebar {
+    min-width: 0;
+  }
 }
