@@ -21,6 +21,10 @@ import { GoalHistory } from "./components/GoalHistory";
 import { Investments } from "./components/Investments";
 import { CategoryPieChart } from "./components/CategoryPieChart";
 import { RecurringExpenses } from "./components/RecurringExpenses";
+import { Pagination } from "./components/Pagination";
+import { CategoryBudgets } from "./components/CategoryBudgets";
+
+
 
 
 function App() {
@@ -31,7 +35,7 @@ function App() {
   const [activeView, setActiveView] = useState<View>("lancamentos");
   const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
-  const { expenses, loading, error, add, edit, remove, reload } = useExpenses(filters, isAuthenticated);
+  const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
   const { summary } = useSummary(expenses.length);
 
   async function handleSubmit(expense: Expense) {
@@ -92,6 +96,7 @@ function App() {
                 {!loading && !error && (
                   <>
                     <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
+                    <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={setPage} />
                     <CategorySummary data={summary} />
                   </>
                 )}
@@ -110,6 +115,7 @@ function App() {
                 <GoalHistory />
                 <WeeklyInsight />
                 <CategoryPieChart data={summary}/>
+                <CategoryBudgets />
               </div>
             )}
             {activeView === "investimentos" && (

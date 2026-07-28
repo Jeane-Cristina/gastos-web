@@ -55,17 +55,27 @@ export async function refreshAccessToken(): Promise<string | null> {
   return data.token;
 }
 
-export async function getExpenses(filters: ExpenseFilters = {}): Promise<Expense[]> {
-    const params = new URLSearchParams();
-    if (filters.month) params.append("month", String(filters.month));
-    if (filters.year) params.append("year", String(filters.year));
-    if (filters.category) params.append("category", filters.category);
-    if (filters.week) params.append("week", String(filters.week));
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
 
-    const url = params.toString() ? `${BASE_URL}?${params.toString()}` : BASE_URL;
-    const res = await fetch(url, { headers: authHeaders() });
-    if (!res.ok) throw new Error("Erro ao buscar despesas");
-    return res.json();
+export async function getExpenses(filters: ExpenseFilters = {}, page: number = 1, pageSize: number = 20): Promise<PagedResult<Expense>> {
+  const params = new URLSearchParams();
+  if (filters.month) params.append("month", String(filters.month));
+  if (filters.year) params.append("year", String(filters.year));
+  if (filters.category) params.append("category", filters.category);
+  if (filters.week) params.append("week", String(filters.week));
+  params.append("page", String(page));
+  params.append("pageSize", String(pageSize));
+
+  const url = `${BASE_URL}?${params.toString()}`;
+  const res = await fetch(url, { headers: authHeaders() });
+  if (res.status === 401) throw new Error("Sessão expirada. Faça login novamente.");
+  if (!res.ok) throw new Error("Erro ao buscar despesas");
+  return res.json();
 }
 
 export async function createExpense(expense: Expense): Promise<Expense> {
