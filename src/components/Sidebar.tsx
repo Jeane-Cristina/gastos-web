@@ -1,9 +1,9 @@
 import "./Sidebar.css";
 import { useState, useEffect } from "react";
 import { Receipt, Upload, TrendingUp, Target, LogOut } from "lucide-react";
+import { Users } from "lucide-react";
 
-export type View = "lancamentos" | "importar" | "metas" | "investimentos";
-
+export type View = "lancamentos" | "importar" | "metas" | "investimentos" | "conjunta";
 interface Props {
   active: View;
   onChange: (view: View) => void;
@@ -75,6 +75,14 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
         >
           <TrendingUp size={18} />
           <span>Investimentos</span>
+        </button>
+
+        <button
+          className={`sidebar__item ${active === "conjunta" ? "sidebar__item--active" : ""}`}
+          onClick={() => handleSelect("conjunta")}
+        >
+          <Users size={18} />
+          <span>Conta Conjunta</span>
         </button>
 
         <div className="sidebar__spacer" />
