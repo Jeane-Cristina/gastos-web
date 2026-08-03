@@ -32,6 +32,7 @@ import { GoalsSubNav, type GoalsSubView } from "./components/GoalsSubNav";
 import { OnboardingBanner } from "./components/OnboardingBanner";
 import { ColdStartBanner } from "./components/ColdStartBanner";
 import { isBackendWarmed, markBackendWarmed } from "./utils/session";
+import { QuickAddButton } from "./components/QuickAddButton";
 
 
 function App() {
@@ -194,6 +195,7 @@ function App() {
           </div>
         </div>
       </div>
+      <QuickAddButton onAdd={add} />
     </div>
   );
 }

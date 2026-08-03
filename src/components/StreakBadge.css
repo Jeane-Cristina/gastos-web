@@ -1,0 +1,15 @@
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  padding: 0.2em 0.6em;
+  background: var(--paper);
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.streak-badge strong {
+  color: var(--stamp);
+}
