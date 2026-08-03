@@ -11,26 +11,93 @@
 }
 
 .bank-import__upload {
+  position: relative;
+  border: 2px dashed rgba(59, 75, 107, 0.25);
+  border-radius: 6px;
   background: var(--paper-card);
-  border: 1px dashed rgba(43, 38, 32, 0.25);
-  border-radius: 4px;
-  padding: var(--space-lg);
-  text-align: center;
-  overflow-x: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  overflow: hidden;
 }
 
-.bank-import__upload input[type="file"] {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+.bank-import__upload--dragging {
+  border-color: var(--stamp);
+  background: var(--stamp-soft);
 }
 
-.bank-import__hint {
-  color: var(--ink-soft);
+.bank-import__upload--filled {
+  border-style: solid;
+  border-color: rgba(43, 38, 32, 0.1);
+}
+
+.bank-import__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-xl) var(--space-md);
+  cursor: pointer;
+  position: relative;
+}
+
+.bank-import__upload-icon {
+  color: var(--stamp);
+  margin-bottom: var(--space-xs);
+}
+
+.bank-import__upload-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.bank-import__upload-subtitle {
   font-size: 0.8rem;
-  margin: var(--space-xs) 0 0 0;
+  color: var(--ink-soft);
+}
+
+.bank-import__file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.bank-import__file-selected {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.bank-import__file-icon {
+  color: var(--stamp);
+  flex-shrink: 0;
+}
+
+.bank-import__file-name {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bank-import__file-remove {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  padding: 0.3em;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.bank-import__file-remove:hover {
+  background: var(--rust-soft);
+  color: var(--rust);
 }
 
 .bank-import__table-wrapper {
@@ -125,8 +192,8 @@
 }
 
 @media (max-width: 640px) {
-  .bank-import__upload input[type="file"] {
-    font-size: 0.8rem;
+  .bank-import__dropzone {
+    padding: var(--space-lg) var(--space-sm);
   }
 
   .bank-import__table th,
