@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Papa from "papaparse";
+import { Upload, FileText, X } from "lucide-react";
 import "./BankImport.css";
 
 interface ParsedRow {
@@ -17,6 +18,8 @@ interface Props {
 
 export function BankImport({ onImportSuccess }: Props) {
   const [rows, setRows] = useState<ParsedRow[]>([]);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   function parseAmount(raw: string): number {
     const cleaned = raw.trim().replace(/\s+/g, "");
@@ -26,9 +29,8 @@ export function BankImport({ onImportSuccess }: Props) {
     return isNegative ? -value : value;
   }
 
-  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  function processFile(file: File) {
+    setFileName(file.name);
 
     Papa.parse(file, {
       header: true,
@@ -89,6 +91,35 @@ export function BankImport({ onImportSuccess }: Props) {
     });
   }
 
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    processFile(file);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.name.endsWith(".csv")) {
+      processFile(file);
+    }
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave() {
+    setIsDragging(false);
+  }
+
+  function clearFile() {
+    setFileName(null);
+    setRows([]);
+  }
+
   function updateCategory(index: number, category: string) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, category } : r)));
   }
@@ -120,6 +151,7 @@ export function BankImport({ onImportSuccess }: Props) {
     }
 
     setRows([]);
+    setFileName(null);
     onImportSuccess();
     alert("Importação concluída!");
   }
@@ -128,9 +160,28 @@ export function BankImport({ onImportSuccess }: Props) {
     <div className="bank-import">
       <h2>Importar extrato bancário</h2>
 
-      <div className="bank-import__upload">
-        <input type="file" accept=".csv" onChange={handleFile} />
-        <p className="bank-import__hint">Selecione o arquivo CSV exportado do seu banco</p>
+      <div
+        className={`bank-import__upload ${isDragging ? "bank-import__upload--dragging" : ""} ${fileName ? "bank-import__upload--filled" : ""}`}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+      >
+        {!fileName ? (
+          <label className="bank-import__dropzone">
+            <Upload size={28} className="bank-import__upload-icon" />
+            <span className="bank-import__upload-title">Arraste seu extrato aqui</span>
+            <span className="bank-import__upload-subtitle">ou clique para escolher um arquivo CSV</span>
+            <input type="file" accept=".csv" onChange={handleFile} className="bank-import__file-input" />
+          </label>
+        ) : (
+          <div className="bank-import__file-selected">
+            <FileText size={20} className="bank-import__file-icon" />
+            <span className="bank-import__file-name">{fileName}</span>
+            <button type="button" className="bank-import__file-remove" onClick={clearFile} aria-label="Remover arquivo">
+              <X size={16} />
+            </button>
+          </div>
+        )}
       </div>
 
       {rows.length > 0 && (
