@@ -1,0 +1,100 @@
+.quick-add__fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 40;
+}
+
+.quick-add__fab:hover {
+  opacity: 0.9;
+}
+
+.quick-add__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+
+.quick-add__modal {
+  background: var(--paper-card);
+  border-radius: 12px 12px 0 0;
+  padding: var(--space-lg) var(--space-md);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.quick-add__modal h3 {
+  font-family: var(--font-display);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.quick-add__modal input {
+  padding: var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.quick-add__chips {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.quick-add__chip {
+  background: var(--paper);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 16px;
+  padding: 0.3em 0.8em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.quick-add__chip--active {
+  background: var(--stamp-soft);
+  color: var(--stamp);
+  border-color: var(--stamp);
+  font-weight: 600;
+}
+
+.quick-add__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.quick-add__actions button[type="submit"] {
+  background: var(--stamp);
+  color: var(--paper-card);
+  border: none;
+  border-radius: 3px;
+  padding: var(--space-xs) var(--space-md);
+  font-weight: 600;
+}
+
+.quick-add__actions button[type="button"] {
+  background: transparent;
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  padding: var(--space-xs) var(--space-md);
+  color: var(--ink-soft);
+}

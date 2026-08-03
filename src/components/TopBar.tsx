@@ -1,5 +1,6 @@
 import { useTheme } from "../hooks/useTheme";
 import "./TopBar.css";
+import { StreakBadge } from "./StreakBadge";
 
 interface Props {
   onMenuClick: () => void;
@@ -11,6 +12,7 @@ export function TopBar({ onMenuClick }: Props) {
   return (
     <header className="topbar">
       <span className="topbar__brand">Gastos</span>
+      <StreakBadge />
       <div className="topbar__actions">
         <button className="topbar__theme" onClick={toggle} aria-label="Alternar tema" style={{border:"none"}}>
           {theme === "light" ? "🌙" : "☀️"}
