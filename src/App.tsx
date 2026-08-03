@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useExpenses } from "./hooks/useExpenses";
 import { useSummary } from "./hooks/useSummary";
 import { ExpenseForm } from "./components/ExpenseForm";
@@ -30,6 +30,8 @@ import { JointAccounts } from "./components/JointAccounts";
 import { GoalScore } from "./components/GoalScore";
 import { GoalsSubNav, type GoalsSubView } from "./components/GoalsSubNav";
 import { OnboardingBanner } from "./components/OnboardingBanner";
+import { ColdStartBanner } from "./components/ColdStartBanner";
+import { isBackendWarmed, markBackendWarmed } from "./utils/session";
 
 
 function App() {
@@ -46,6 +48,12 @@ function App() {
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
+
+  useEffect(() => {
+    if (!loading && expenses.length >= 0 && !isBackendWarmed()) {
+      markBackendWarmed();
+    }
+  }, [loading]);
 
   async function handleSubmit(expense: Expense) {
     if (editingExpense?.id) {
@@ -102,6 +110,7 @@ function App() {
   return (
     <div className="app">
       <TopBar onMenuClick={() => setMenuOpen(true)} />
+        {!isBackendWarmed() && <ColdStartBanner loading={loading} />}
       <div className="app__content">
         <h1 className="app__title">Controle de Gastos</h1>
         <p className="app__subtitle">registre, edite e acompanhe seus gastos por categoria</p>
