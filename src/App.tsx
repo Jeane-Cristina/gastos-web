@@ -28,6 +28,9 @@ import { CategoryBudgets } from "./components/CategoryBudgets";
 import { ChatBox } from "./components/ChatBox";
 import { JointAccounts } from "./components/JointAccounts";
 import { GoalScore } from "./components/GoalScore";
+import { GoalsSubNav, type GoalsSubView } from "./components/GoalsSubNav";
+import { OnboardingBanner } from "./components/OnboardingBanner";
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -36,6 +39,7 @@ function App() {
   const [filters, setFilters] = useState<ExpenseFilters>({});
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [activeView, setActiveView] = useState<View>("lancamentos");
+  const [goalsSubView, setGoalsSubView] = useState<GoalsSubView>("perfil");
   const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
@@ -110,24 +114,27 @@ function App() {
             onLogout={handleLogout}
           />
           <div style={{ flex: 1 }}>
-            {activeView === "lancamentos" && (
-              <div className="app__sections">
-                <ExpenseForm
-                  onAdd={handleSubmit}
-                />
-                <RecurringExpenses />
-                <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
-                {loading && <p className="app__state">Carregando...</p>}
-                {error && <p className="app__state app__state--error">{error}</p>}
-                {!loading && !error && (
-                  <>
-                    <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
-                    <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={setPage} />
-                    <CategorySummary data={summary} />
-                  </>
-                )}
-              </div>
-            )}
+          {activeView === "lancamentos" && (
+            <div className="app__sections">
+              {!loading && expenses.length === 0 && totalCount === 0 && (
+                <OnboardingBanner onNavigate={(view) => setActiveView(view)} />
+              )}
+              <ExpenseForm
+                onAdd={handleSubmit}
+              />
+              <RecurringExpenses />
+              <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
+              {loading && <p className="app__state">Carregando...</p>}
+              {error && <p className="app__state app__state--error">{error}</p>}
+              {!loading && !error && (
+                <>
+                  <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
+                  <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={setPage} />
+                  <CategorySummary data={summary} />
+                </>
+              )}
+            </div>
+          )}
             {activeView === "importar" && (
               <div className="app__sections">
                 <BankImport onImportSuccess={reload} />
@@ -135,15 +142,34 @@ function App() {
             )}
             {activeView === "metas" && (
               <div className="app__sections">
-                <FinancialProfileForm />
-                <PurchaseGoals />
-                <GoalReport />
-                <GoalHistory />
-                <WeeklyInsight />
-                <CategoryPieChart data={summary}/>
-                <CategoryBudgets />
-                <ChatBox/>
-                <GoalScore />
+                <GoalsSubNav active={goalsSubView} onChange={setGoalsSubView} />
+
+                {goalsSubView === "perfil" && (
+                  <>
+                    <FinancialProfileForm />
+                    <PurchaseGoals />
+                  </>
+                )}
+
+                {goalsSubView === "relatorios" && (
+                  <>
+                    <GoalReport />
+                    <GoalHistory />
+                    <CategoryPieChart data={summary} />
+                  </>
+                )}
+
+                {goalsSubView === "orcamento" && (
+                  <CategoryBudgets />
+                )}
+
+                {goalsSubView === "assistente" && (
+                  <>
+                    <WeeklyInsight />
+                    <ChatBox />
+                    <GoalScore />
+                  </>
+                )}
               </div>
             )}
             {activeView === "investimentos" && (

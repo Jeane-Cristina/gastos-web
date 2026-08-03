@@ -1,0 +1,23 @@
+.goals-subnav {
+  display: flex;
+  gap: var(--space-xs);
+  border-bottom: 1px solid rgba(43, 38, 32, 0.1);
+  padding-bottom: var(--space-sm);
+  overflow-x: auto;
+}
+
+.goals-subnav__tab {
+  background: transparent;
+  border: none;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.goals-subnav__tab--active {
+  color: var(--stamp);
+  font-weight: 600;
+  border-bottom-color: var(--stamp);
+}

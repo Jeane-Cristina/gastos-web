@@ -1,0 +1,43 @@
+.onboarding-banner {
+  position: relative;
+  background: var(--sage-soft);
+  border: 1px solid rgba(91, 127, 94, 0.25);
+  border-radius: 4px;
+  padding: var(--space-md);
+  padding-right: var(--space-lg);
+}
+
+.onboarding-banner h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--sage);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.onboarding-banner__steps {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.onboarding-banner__link {
+  background: transparent;
+  border: none;
+  color: var(--stamp);
+  text-decoration: underline;
+  font-size: inherit;
+  padding: 0;
+}
+
+.onboarding-banner__close {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-sm);
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+}
