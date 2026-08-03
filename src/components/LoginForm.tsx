@@ -24,9 +24,9 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister }: Props) {
       onLoginSuccess();
     } catch (err) {
       setError("Usuário ou senha inválidos.");
-      } finally {
-    setLoading(false);
-  }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -36,10 +36,12 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister }: Props) {
         <p className="login-card__subtitle">entre para acessar seus lançamentos</p>
         <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" required autoFocus />
         <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" type="password" required />
-        <button className="login-card__submit" type="submit">{loading ? "Entrando..." : "Entrar"}</button>
+        <button className="login-card__submit" type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </button>
         {error && <p className="login-card__error">{error}</p>}
-        <button type="button" onClick={onSwitchToRegister} className="login-card__submit">
-            {loading ? "Criando conta..." : "Criar conta"}
+        <button type="button" onClick={onSwitchToRegister} className="login-card__link">
+          Criar conta
         </button>
       </form>
     </div>
