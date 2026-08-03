@@ -5,6 +5,8 @@
   padding: var(--space-sm);
   text-align: center;
   position: relative;
+  flex: 1 1 140px;
+  min-width: 140px;
 }
 
 .goal-radar__label {
