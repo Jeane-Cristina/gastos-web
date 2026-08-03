@@ -39,7 +39,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
   const [showRegister, setShowRegister] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [filters, setFilters] = useState<ExpenseFilters>({});
+  const now = new Date();
+  const [filters, setFilters] = useState<ExpenseFilters>({
+    month: now.getMonth() + 1,
+    year: now.getFullYear(),
+  });
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [activeView, setActiveView] = useState<View>("lancamentos");
   const [goalsSubView, setGoalsSubView] = useState<GoalsSubView>("perfil");
