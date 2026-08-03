@@ -88,10 +88,17 @@ export async function createExpense(expense: Expense): Promise<Expense> {
     return res.json();
 }
 
-export async function getSummary(): Promise<{ category: string; total: number }[]> {
-    const res = await fetch(`${BASE_URL}/summary`, { headers: authHeaders() });
-    if (!res.ok) throw new Error("Erro ao buscar resumo");
-    return res.json();
+export async function getSummary(filters: ExpenseFilters = {}): Promise<{ category: string; total: number }[]> {
+  const params = new URLSearchParams();
+  if (filters.month) params.append("month", String(filters.month));
+  if (filters.year) params.append("year", String(filters.year));
+  if (filters.category) params.append("category", filters.category);
+  if (filters.week) params.append("week", String(filters.week));
+
+  const url = `${BASE_URL}/summary?${params.toString()}`;
+  const res = await fetch(url, { headers: authHeaders() });
+  if (!res.ok) throw new Error("Erro ao buscar resumo");
+  return res.json();
 }
 
 export async function updateExpense(id: number, expense: Expense): Promise<void> {

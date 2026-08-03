@@ -39,8 +39,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
-  const { summary } = useSummary(expenses.length);
-
+  const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
 
