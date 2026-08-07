@@ -9,6 +9,7 @@ interface ParsedRow {
   date: string;
   category: string;
   paidBy: string;
+  paid?: boolean;
   possibleDuplicate?: boolean;
   include?: boolean;
 }
@@ -24,6 +25,9 @@ const AMOUNT_ALIASES = ["amount", "valor"];
 const DATE_ALIASES = ["date", "data"];
 const CATEGORY_ALIASES = ["category", "categoria"];
 const PAID_BY_ALIASES = ["paidby", "paid by", "pago por", "quem pago", "responsavel"];
+const PAID_STATUS_ALIASES = ["pago", "paid", "status"];
+const TRUE_STATUS_VALUES = ["sim", "yes", "true", "1", "pago", "paid"];
+const FALSE_STATUS_VALUES = ["nao", "no", "false", "0", "nao pago", "unpaid", "pendente"];
 
 function normalizeHeader(header: string): string {
   return header
@@ -48,6 +52,14 @@ function findField(fields: string[], aliases: string[]): string | undefined {
     const match = normalized.find((f) => headerMatchesAlias(f.normalized, alias));
     if (match) return match.original;
   }
+  return undefined;
+}
+
+function parsePaidStatus(raw: string | undefined): boolean | undefined {
+  if (!raw) return undefined;
+  const normalized = normalizeHeader(raw);
+  if (TRUE_STATUS_VALUES.includes(normalized)) return true;
+  if (FALSE_STATUS_VALUES.includes(normalized)) return false;
   return undefined;
 }
 
@@ -84,6 +96,7 @@ export function BankImport({ onImportSuccess }: Props) {
         const dateField = findField(fields, DATE_ALIASES);
         const categoryField = findField(fields, CATEGORY_ALIASES);
         const paidByField = findField(fields, PAID_BY_ALIASES);
+        const paidStatusField = findField(fields, PAID_STATUS_ALIASES);
 
         if (!descriptionField || !amountField) {
           alert("Não foi possível identificar as colunas de descrição e valor no arquivo.");
@@ -102,6 +115,7 @@ export function BankImport({ onImportSuccess }: Props) {
             date: toDateInputValue(dateField ? r[dateField] : undefined),
             category: categoryField ? String(r[categoryField] ?? "").trim() : "",
             paidBy: paidByField ? String(r[paidByField] ?? "").trim() : "",
+            paid: paidStatusField ? parsePaidStatus(String(r[paidStatusField] ?? "")) : undefined,
           }))
           .filter((r) => r.amount > 0 && !isNaN(r.amount)); // remove créditos e valores inválidos
 
@@ -196,6 +210,10 @@ export function BankImport({ onImportSuccess }: Props) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, paidBy } : r)));
   }
 
+  function updatePaid(index: number, paid: boolean | undefined) {
+    setRows((prev) => prev.map((r, i) => (i === index ? { ...r, paid } : r)));
+  }
+
   function toggleInclude(index: number, include: boolean) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, include } : r)));
   }
@@ -214,6 +232,7 @@ export function BankImport({ onImportSuccess }: Props) {
           category: r.category || "Não categorizado",
           date: new Date(r.date).toISOString(),
           paidBy: r.paidBy || undefined,
+          paid: r.paid,
         })),
       }),
     });
@@ -268,6 +287,7 @@ export function BankImport({ onImportSuccess }: Props) {
                 <th>Data</th>
                 <th>Categoria</th>
                 <th>Pago por</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -310,6 +330,17 @@ export function BankImport({ onImportSuccess }: Props) {
                       onChange={(e) => updatePaidBy(i, e.target.value)}
                       placeholder="Pago por"
                     />
+                  </td>
+                  <td>
+                    <select
+                      className="bank-import__date-input"
+                      value={row.paid === undefined ? "" : String(row.paid)}
+                      onChange={(e) => updatePaid(i, e.target.value === "" ? undefined : e.target.value === "true")}
+                    >
+                      <option value="">-</option>
+                      <option value="true">Pago</option>
+                      <option value="false">Não pago</option>
+                    </select>
                   </td>
                 </tr>
               ))}

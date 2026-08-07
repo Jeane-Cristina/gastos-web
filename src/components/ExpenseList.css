@@ -64,6 +64,25 @@
     white-space: nowrap;
 }
 
+.expense-item__status {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    padding: 0.15em 0.5em;
+    border-radius: 2px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.expense-item__status--paid {
+    background: var(--stamp-soft);
+    color: var(--stamp);
+}
+
+.expense-item__status--unpaid {
+    background: var(--rust-soft);
+    color: var(--rust);
+}
+
 .expense-item__actions {
     display: flex;
     gap: var(--space-xs);
@@ -110,6 +129,7 @@
 
   .expense-item__category,
   .expense-item__paid-by,
+  .expense-item__status,
   .expense-item__amount {
     flex: 0 0 auto;
   }
@@ -141,7 +161,8 @@
   align-items: center;
 }
 
-.expense-item__edit-row input {
+.expense-item__edit-row input,
+.expense-item__edit-row select {
   flex: 1;
   min-width: 100px;
   padding: 0.35em 0.5em;
