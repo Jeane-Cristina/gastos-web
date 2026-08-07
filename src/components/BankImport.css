@@ -161,6 +161,20 @@
   outline-offset: 1px;
 }
 
+.bank-import__date-input {
+  padding: 0.35em 0.5em;
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.bank-import__date-input:focus {
+  outline: 2px solid var(--stamp);
+  outline-offset: 1px;
+}
+
 .bank-import__duplicate-tag {
   display: inline-block;
   margin-left: var(--space-xs);

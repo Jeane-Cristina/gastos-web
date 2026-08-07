@@ -16,13 +16,45 @@ interface Props {
   onImportSuccess: () => void;
 }
 
+// Cada campo aceita nomes de coluna de diferentes formatos de planilha.
+// Colunas do arquivo que não estiverem em nenhuma dessas listas são ignoradas.
+const DESCRIPTION_ALIASES = ["title", "despesa", "descricao", "description"];
+const AMOUNT_ALIASES = ["amount", "valor"];
+const DATE_ALIASES = ["date", "data"];
+const CATEGORY_ALIASES = ["category", "categoria"];
+
+function normalizeHeader(header: string): string {
+  return header
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
+function findField(fields: string[], aliases: string[]): string | undefined {
+  const normalized = fields.map((f) => ({ original: f, normalized: normalizeHeader(f) }));
+  for (const alias of aliases) {
+    const match = normalized.find((f) => f.normalized === alias);
+    if (match) return match.original;
+  }
+  return undefined;
+}
+
+function toDateInputValue(raw: string | undefined): string {
+  if (raw) {
+    const parsed = new Date(raw);
+    if (!isNaN(parsed.getTime())) return parsed.toISOString().slice(0, 10);
+  }
+  return new Date().toISOString().slice(0, 10);
+}
+
 export function BankImport({ onImportSuccess }: Props) {
   const [rows, setRows] = useState<ParsedRow[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   function parseAmount(raw: string): number {
-    const cleaned = raw.trim().replace(/\s+/g, "");
+    const cleaned = raw.trim().replace(/[^0-9,.-]/g, "");
     const isNegative = cleaned.startsWith("-");
     const numeric = cleaned.replace("-", "").replace(/\./g, "").replace(",", ".");
     const value = parseFloat(numeric);
@@ -35,14 +67,28 @@ export function BankImport({ onImportSuccess }: Props) {
     Papa.parse(file, {
       header: true,
       complete: async (results) => {
-        const allRows = (results.data as any[]).filter((r) => r.title && r.amount);
+        const fields = results.meta.fields ?? [];
+        const descriptionField = findField(fields, DESCRIPTION_ALIASES);
+        const amountField = findField(fields, AMOUNT_ALIASES);
+        const dateField = findField(fields, DATE_ALIASES);
+        const categoryField = findField(fields, CATEGORY_ALIASES);
+
+        if (!descriptionField || !amountField) {
+          alert("Não foi possível identificar as colunas de descrição e valor no arquivo.");
+          setFileName(null);
+          return;
+        }
+
+        const allRows = (results.data as any[]).filter(
+          (r) => r[descriptionField] && r[amountField]
+        );
 
         const parsed: ParsedRow[] = allRows
           .map((r) => ({
-            description: r.title,
-            amount: parseAmount(String(r.amount)),
-            date: r.date,
-            category: "",
+            description: r[descriptionField],
+            amount: parseAmount(String(r[amountField])),
+            date: toDateInputValue(dateField ? r[dateField] : undefined),
+            category: categoryField ? String(r[categoryField] ?? "").trim() : "",
           }))
           .filter((r) => r.amount > 0 && !isNaN(r.amount)); // remove créditos e valores inválidos
 
@@ -53,12 +99,17 @@ export function BankImport({ onImportSuccess }: Props) {
 
         const token = localStorage.getItem("token");
 
-        const suggestRes = await fetch(`${import.meta.env.VITE_API_URL}/expenses/suggest-categories`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ descriptions: parsed.map((p) => p.description) }),
-        });
-        const suggestions: { description: string; suggestedCategory: string | null }[] = await suggestRes.json();
+        // Só pede sugestão de categoria para linhas que não vieram com categoria no arquivo.
+        const descriptionsNeedingSuggestion = parsed.filter((p) => !p.category).map((p) => p.description);
+        let suggestions: { description: string; suggestedCategory: string | null }[] = [];
+        if (descriptionsNeedingSuggestion.length > 0) {
+          const suggestRes = await fetch(`${import.meta.env.VITE_API_URL}/expenses/suggest-categories`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ descriptions: descriptionsNeedingSuggestion }),
+          });
+          suggestions = await suggestRes.json();
+        }
 
         // Checagem de duplicatas
         const dates = parsed.map((p) => new Date(p.date).getTime());
@@ -80,7 +131,7 @@ export function BankImport({ onImportSuccess }: Props) {
           );
           return {
             ...p,
-            category: suggestions.find((s) => s.description === p.description)?.suggestedCategory ?? "",
+            category: p.category || suggestions.find((s) => s.description === p.description)?.suggestedCategory || "",
             possibleDuplicate: isDuplicate,
             include: !isDuplicate,
           };
@@ -122,6 +173,10 @@ export function BankImport({ onImportSuccess }: Props) {
 
   function updateCategory(index: number, category: string) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, category } : r)));
+  }
+
+  function updateDate(index: number, date: string) {
+    setRows((prev) => prev.map((r, i) => (i === index ? { ...r, date } : r)));
   }
 
   function toggleInclude(index: number, include: boolean) {
@@ -213,7 +268,14 @@ export function BankImport({ onImportSuccess }: Props) {
                     )}
                   </td>
                   <td className="bank-import__amount">R$ {row.amount.toFixed(2)}</td>
-                  <td>{row.date}</td>
+                  <td>
+                    <input
+                      type="date"
+                      className="bank-import__date-input"
+                      value={row.date}
+                      onChange={(e) => updateDate(i, e.target.value)}
+                    />
+                  </td>
                   <td>
                     <input
                       className="bank-import__category-input"
