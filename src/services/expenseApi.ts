@@ -6,12 +6,7 @@ export interface Expense {
     amount: number;
     category: string;
     date: string;
-}
-
-export interface ExpenseFilters {
-    month?: number;
-    year?: number;
-    category?: string;
+    paidBy?: string;
 }
 
 export interface ExpenseFilters {
@@ -19,6 +14,7 @@ export interface ExpenseFilters {
   year?: number;
   category?: string;
   week?: number;
+  paidBy?: string;
 }
 
 function authHeaders(): HeadersInit {
@@ -68,6 +64,7 @@ export async function getExpenses(filters: ExpenseFilters = {}, page: number = 1
   if (filters.year) params.append("year", String(filters.year));
   if (filters.category) params.append("category", filters.category);
   if (filters.week) params.append("week", String(filters.week));
+  if (filters.paidBy) params.append("paidBy", filters.paidBy);
   params.append("page", String(page));
   params.append("pageSize", String(pageSize));
 
@@ -94,6 +91,7 @@ export async function getSummary(filters: ExpenseFilters = {}): Promise<{ catego
   if (filters.year) params.append("year", String(filters.year));
   if (filters.category) params.append("category", filters.category);
   if (filters.week) params.append("week", String(filters.week));
+  if (filters.paidBy) params.append("paidBy", filters.paidBy);
 
   const url = `${BASE_URL}/summary?${params.toString()}`;
   const res = await fetch(url, { headers: authHeaders() });

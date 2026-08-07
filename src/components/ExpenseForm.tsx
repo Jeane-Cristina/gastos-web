@@ -13,6 +13,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+    const [paidBy, setPaidBy] = useState("");
 
     useEffect(() => {
         if (editingExpense) {
@@ -20,6 +21,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
             setAmount(String(editingExpense.amount));
             setCategory(editingExpense.category);
             setDate(editingExpense.date.split("T")[0]);
+            setPaidBy(editingExpense.paidBy ?? "");
         }
     }, [editingExpense]);
 
@@ -30,10 +32,12 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
         amount: parseFloat(amount),
         category,
         date: new Date(date).toISOString(),
+        paidBy: paidBy.trim() || undefined,
         });
         setDescription("");
         setAmount("");
         setCategory("");
+        setPaidBy("");
     }
 
     return (
@@ -45,6 +49,9 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
             <div className="expense-form__row">
                 <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor" type="number" step="0.01" required />
                 <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Categoria" required />
+            </div>
+            <div className="expense-form__row">
+                <input value={paidBy} onChange={(e) => setPaidBy(e.target.value)} placeholder="Pago por (opcional)" />
             </div>
             <div className="expense-form__actions">
                 <button className="expense-form__submit" type="submit">

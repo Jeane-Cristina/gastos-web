@@ -58,6 +58,12 @@
     white-space: nowrap;
 }
 
+.expense-item__paid-by {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+}
+
 .expense-item__actions {
     display: flex;
     gap: var(--space-xs);
@@ -103,6 +109,7 @@
   }
 
   .expense-item__category,
+  .expense-item__paid-by,
   .expense-item__amount {
     flex: 0 0 auto;
   }
