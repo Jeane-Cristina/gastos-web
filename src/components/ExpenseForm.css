@@ -13,7 +13,8 @@
     gap: var(--space-sm);
 }
 
-.expense-form input {
+.expense-form input,
+.expense-form select {
     flex: 1;
     padding: var(--space-xs) var(--space-sm);
     border: 1px solid rgba(43, 38, 32, 0.15);
@@ -23,7 +24,8 @@
     font-size: 0.95rem;
 }
 
-.expense-form input:focus {
+.expense-form input:focus,
+.expense-form select:focus {
     outline: 2px solid var(--stamp);
     outline-offset: 1px;
 }
@@ -56,7 +58,8 @@
     font-size: 0.9rem;
 }
 
-.expense-form input {
+.expense-form input,
+.expense-form select {
   min-width: 0;
 }
 

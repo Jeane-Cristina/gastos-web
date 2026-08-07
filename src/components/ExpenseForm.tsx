@@ -14,6 +14,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
     const [category, setCategory] = useState("");
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
     const [paidBy, setPaidBy] = useState("");
+    const [paid, setPaid] = useState("");
 
     useEffect(() => {
         if (editingExpense) {
@@ -22,6 +23,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
             setCategory(editingExpense.category);
             setDate(editingExpense.date.split("T")[0]);
             setPaidBy(editingExpense.paidBy ?? "");
+            setPaid(editingExpense.paid === undefined ? "" : String(editingExpense.paid));
         }
     }, [editingExpense]);
 
@@ -33,11 +35,13 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
         category,
         date: new Date(date).toISOString(),
         paidBy: paidBy.trim() || undefined,
+        paid: paid === "" ? undefined : paid === "true",
         });
         setDescription("");
         setAmount("");
         setCategory("");
         setPaidBy("");
+        setPaid("");
     }
 
     return (
@@ -52,6 +56,11 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
             </div>
             <div className="expense-form__row">
                 <input value={paidBy} onChange={(e) => setPaidBy(e.target.value)} placeholder="Pago por (opcional)" />
+                <select value={paid} onChange={(e) => setPaid(e.target.value)}>
+                    <option value="">Status (opcional)</option>
+                    <option value="true">Pago</option>
+                    <option value="false">Não pago</option>
+                </select>
             </div>
             <div className="expense-form__actions">
                 <button className="expense-form__submit" type="submit">

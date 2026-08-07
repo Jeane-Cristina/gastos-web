@@ -57,7 +57,16 @@ export function ExpenseFiltersBar({ filters, onChange, availableCategories, avai
                 ))}
             </select>
 
-            {(filters.month || filters.category || filters.paidBy) && (
+            <select
+                value={filters.paid === undefined ? "" : String(filters.paid)}
+                onChange={(e) => onChange({ ...filters, paid: e.target.value === "" ? undefined : e.target.value === "true" })}
+            >
+                <option value="">Pago ou não pago</option>
+                <option value="true">Pago</option>
+                <option value="false">Não pago</option>
+            </select>
+
+            {(filters.month || filters.category || filters.paidBy || filters.paid !== undefined) && (
                 <button type="button" onClick={() => onChange({})}>Limpar filtros</button>
             )}
         </div>

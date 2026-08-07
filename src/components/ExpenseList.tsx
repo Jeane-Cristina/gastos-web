@@ -60,6 +60,16 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
                 onChange={(ev) => setDraft({ ...draft, paidBy: ev.target.value || undefined })}
                 placeholder="Pago por (opcional)"
               />
+              <select
+                value={draft.paid === undefined ? "" : String(draft.paid)}
+                onChange={(ev) =>
+                  setDraft({ ...draft, paid: ev.target.value === "" ? undefined : ev.target.value === "true" })
+                }
+              >
+                <option value="">Status (opcional)</option>
+                <option value="true">Pago</option>
+                <option value="false">Não pago</option>
+              </select>
               <div className="expense-item__edit-actions">
                 <button className="expense-item__save" onClick={saveEdit}>salvar</button>
                 <button className="expense-item__cancel" onClick={cancelEdit}>cancelar</button>
@@ -71,6 +81,11 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
               <span className="expense-item__leader"></span>
               <span className="expense-item__category">{e.category}</span>
               {e.paidBy && <span className="expense-item__paid-by">{e.paidBy}</span>}
+              {e.paid !== undefined && (
+                <span className={`expense-item__status ${e.paid ? "expense-item__status--paid" : "expense-item__status--unpaid"}`}>
+                  {e.paid ? "Pago" : "Não pago"}
+                </span>
+              )}
               <span className="expense-item__amount">R$ {e.amount.toFixed(2)}</span>
               <span className="expense-item__actions">
                 <button className="expense-item__edit" onClick={() => startEdit(e)}>editar</button>

@@ -43,11 +43,11 @@ export function useExpenses(filters: ExpenseFilters, isAuthenticated: boolean) {
     if (isAuthenticated) {
       load();
     }
-  }, [filters.month, filters.year, filters.category, filters.week, filters.paidBy, page, isAuthenticated]);
+  }, [filters.month, filters.year, filters.category, filters.week, filters.paidBy, filters.paid, page, isAuthenticated]);
 
   useEffect(() => {
     setPage(1);
-  }, [filters.month, filters.year, filters.category, filters.week, filters.paidBy]);
+  }, [filters.month, filters.year, filters.category, filters.week, filters.paidBy, filters.paid]);
 
   return { expenses, loading, error, add, edit, remove, reload: load, totalCount, page, setPage, pageSize };
 }
