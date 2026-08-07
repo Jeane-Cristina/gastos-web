@@ -5,6 +5,7 @@ interface Props {
     filters: ExpenseFilters;
     onChange: (filters: ExpenseFilters) => void;
     availableCategories: string[];
+    availablePayers: string[];
 }
 
 const MONTHS = [
@@ -12,7 +13,7 @@ const MONTHS = [
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
-export function ExpenseFiltersBar({ filters, onChange, availableCategories }: Props) {
+export function ExpenseFiltersBar({ filters, onChange, availableCategories, availablePayers }: Props) {
     return (
         <div className="filters">
             <select
@@ -46,7 +47,17 @@ export function ExpenseFiltersBar({ filters, onChange, availableCategories }: Pr
                 <option value="4">Semana 4 (dias 22+)</option>
             </select>
 
-            {(filters.month || filters.category) && (
+            <select
+                value={filters.paidBy ?? ""}
+                onChange={(e) => onChange({ ...filters, paidBy: e.target.value || undefined })}
+            >
+                <option value="">Todas as pessoas</option>
+                {availablePayers.map((payer) => (
+                    <option key={payer} value={payer}>{payer}</option>
+                ))}
+            </select>
+
+            {(filters.month || filters.category || filters.paidBy) && (
                 <button type="button" onClick={() => onChange({})}>Limpar filtros</button>
             )}
         </div>

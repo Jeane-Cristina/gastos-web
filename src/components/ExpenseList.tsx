@@ -55,6 +55,11 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
                 value={draft.date.split("T")[0]}
                 onChange={(ev) => setDraft({ ...draft, date: ev.target.value })}
               />
+              <input
+                value={draft.paidBy ?? ""}
+                onChange={(ev) => setDraft({ ...draft, paidBy: ev.target.value || undefined })}
+                placeholder="Pago por (opcional)"
+              />
               <div className="expense-item__edit-actions">
                 <button className="expense-item__save" onClick={saveEdit}>salvar</button>
                 <button className="expense-item__cancel" onClick={cancelEdit}>cancelar</button>
@@ -65,6 +70,7 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
               <span className="expense-item__desc">{e.description}</span>
               <span className="expense-item__leader"></span>
               <span className="expense-item__category">{e.category}</span>
+              {e.paidBy && <span className="expense-item__paid-by">{e.paidBy}</span>}
               <span className="expense-item__amount">R$ {e.amount.toFixed(2)}</span>
               <span className="expense-item__actions">
                 <button className="expense-item__edit" onClick={() => startEdit(e)}>editar</button>

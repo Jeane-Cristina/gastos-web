@@ -8,6 +8,7 @@ interface ParsedRow {
   amount: number;
   date: string;
   category: string;
+  paidBy: string;
   possibleDuplicate?: boolean;
   include?: boolean;
 }
@@ -22,6 +23,7 @@ const DESCRIPTION_ALIASES = ["title", "despesa", "descricao", "description"];
 const AMOUNT_ALIASES = ["amount", "valor"];
 const DATE_ALIASES = ["date", "data"];
 const CATEGORY_ALIASES = ["category", "categoria"];
+const PAID_BY_ALIASES = ["paidby", "paid by", "pago por", "quem pago", "responsavel"];
 
 function normalizeHeader(header: string): string {
   return header
@@ -31,10 +33,19 @@ function normalizeHeader(header: string): string {
     .toLowerCase();
 }
 
+function headerMatchesAlias(normalizedHeader: string, alias: string): boolean {
+  // Aceita variação simples de plural (despesa/despesas, valor/valores, etc).
+  return (
+    normalizedHeader === alias ||
+    normalizedHeader === `${alias}s` ||
+    alias === `${normalizedHeader}s`
+  );
+}
+
 function findField(fields: string[], aliases: string[]): string | undefined {
   const normalized = fields.map((f) => ({ original: f, normalized: normalizeHeader(f) }));
   for (const alias of aliases) {
-    const match = normalized.find((f) => f.normalized === alias);
+    const match = normalized.find((f) => headerMatchesAlias(f.normalized, alias));
     if (match) return match.original;
   }
   return undefined;
@@ -72,6 +83,7 @@ export function BankImport({ onImportSuccess }: Props) {
         const amountField = findField(fields, AMOUNT_ALIASES);
         const dateField = findField(fields, DATE_ALIASES);
         const categoryField = findField(fields, CATEGORY_ALIASES);
+        const paidByField = findField(fields, PAID_BY_ALIASES);
 
         if (!descriptionField || !amountField) {
           alert("Não foi possível identificar as colunas de descrição e valor no arquivo.");
@@ -89,6 +101,7 @@ export function BankImport({ onImportSuccess }: Props) {
             amount: parseAmount(String(r[amountField])),
             date: toDateInputValue(dateField ? r[dateField] : undefined),
             category: categoryField ? String(r[categoryField] ?? "").trim() : "",
+            paidBy: paidByField ? String(r[paidByField] ?? "").trim() : "",
           }))
           .filter((r) => r.amount > 0 && !isNaN(r.amount)); // remove créditos e valores inválidos
 
@@ -179,6 +192,10 @@ export function BankImport({ onImportSuccess }: Props) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, date } : r)));
   }
 
+  function updatePaidBy(index: number, paidBy: string) {
+    setRows((prev) => prev.map((r, i) => (i === index ? { ...r, paidBy } : r)));
+  }
+
   function toggleInclude(index: number, include: boolean) {
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, include } : r)));
   }
@@ -196,6 +213,7 @@ export function BankImport({ onImportSuccess }: Props) {
           amount: r.amount,
           category: r.category || "Não categorizado",
           date: new Date(r.date).toISOString(),
+          paidBy: r.paidBy || undefined,
         })),
       }),
     });
@@ -249,6 +267,7 @@ export function BankImport({ onImportSuccess }: Props) {
                 <th>Valor</th>
                 <th>Data</th>
                 <th>Categoria</th>
+                <th>Pago por</th>
               </tr>
             </thead>
             <tbody>
@@ -282,6 +301,14 @@ export function BankImport({ onImportSuccess }: Props) {
                       value={row.category}
                       onChange={(e) => updateCategory(i, e.target.value)}
                       placeholder="Categoria"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="bank-import__category-input"
+                      value={row.paidBy}
+                      onChange={(e) => updatePaidBy(i, e.target.value)}
+                      placeholder="Pago por"
                     />
                   </td>
                 </tr>

@@ -15,6 +15,7 @@ import { FinancialProfileForm } from "./components/FinancialProfileForm";
 import { WeeklyInsight } from "./components/WeeklyInsight";
 import "./App.css";
 import { useAllCategories } from "./hooks/useAllCategories";
+import { useAllPayers } from "./hooks/useAllPayers";
 import { Sidebar, type View } from "./components/Sidebar";
 import { GoalReport } from "./components/GoalReport";
 import { BankImport } from "./components/BankImport";
@@ -49,6 +50,7 @@ function App() {
   const [goalsSubView, setGoalsSubView] = useState<GoalsSubView>("perfil");
   const [menuOpen, setMenuOpen] = useState(false);
   const availableCategories = useAllCategories();
+  const availablePayers = useAllPayers();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
@@ -137,7 +139,7 @@ function App() {
                 onAdd={handleSubmit}
               />
               <RecurringExpenses />
-              <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} />
+              <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} availablePayers={availablePayers} />
               {loading && <p className="app__state">Carregando...</p>}
               {error && <p className="app__state app__state--error">{error}</p>}
               {!loading && !error && (
