@@ -104,3 +104,13 @@
   font-weight: 600;
   text-align: center;
 }
+
+.insight__period-select {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(43, 38, 32, 0.15);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.85rem;
+  align-self: flex-start;
+}
