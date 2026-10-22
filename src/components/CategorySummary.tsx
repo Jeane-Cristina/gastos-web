@@ -1,5 +1,6 @@
 import "./CategorySummary.css";
 import { calculateTotal } from "../utils/calculateTotal";
+import { formatBRL } from "../utils/formatBRL";
 
 
 interface CategoryTotal {
@@ -24,12 +25,12 @@ export function CategorySummary({ data }: Props) {
             {data.map((item) => (
                 <div className="summary__row" key={item.category}>
                     <span>{item.category}</span>
-                    <span>R$ {item.total.toFixed(2)}</span>
+                    <span>{formatBRL(item.total)}</span>
                 </div>
             ))}
             <div className="summary__total">
                 <span>Total</span>
-                <span>R$ {totalGeral.toFixed(2)}</span>
+                <span>{formatBRL(totalGeral)}</span>
             </div>
         </div>
     );

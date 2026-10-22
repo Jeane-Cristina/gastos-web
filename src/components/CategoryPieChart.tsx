@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import "./CategoryPieChart.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface CategoryTotal {
   category: string;
@@ -40,7 +41,7 @@ export function CategoryPieChart({ data }: Props) {
           <Tooltip
             formatter={(value) => {
               const num = typeof value === "number" ? value : 0;
-              return [`R$ ${num.toFixed(2)} (${((num / total) * 100).toFixed(1)}%)`, ""];
+              return [`${formatBRL(num)} (${((num / total) * 100).toFixed(1)}%)`, ""];
             }}
           />
             <Legend

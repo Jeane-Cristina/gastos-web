@@ -9,6 +9,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recha
 import { JointScoreComparison } from "./JointScoreComparison";
 import "./JointAccounts.css";
 import { JointInsight } from "./JointInsight";
+import { formatBRL } from "../utils/formatBRL";
 
 const COLORS = ["#3B4B6B", "#5B7F5E", "#A6402F", "#C99A3E"];
 
@@ -166,7 +167,7 @@ export function JointAccounts() {
               {contributions.map((c) => (
                 <div key={c.userId} className="joint-accounts__contribution-bar">
                   <div className="joint-accounts__contribution-header">
-                    <span>{c.username}: R$ {c.totalPaid.toFixed(2)} ({c.percent.toFixed(0)}%)</span>
+                    <span>{c.username}: {formatBRL(c.totalPaid)} ({c.percent.toFixed(0)}%)</span>
                     <button className="joint-accounts__remove-member" onClick={() => handleRemoveMember(c.userId)}>
                       remover
                     </button>
@@ -198,7 +199,7 @@ export function JointAccounts() {
             <ul className="joint-accounts__expense-list">
               {expenses.map((e) => (
                 <li key={e.id}>
-                  {e.description} — R$ {e.amount.toFixed(2)} ({e.category})
+                  {e.description} — {formatBRL(e.amount)} ({e.category})
                 </li>
               ))}
             </ul>

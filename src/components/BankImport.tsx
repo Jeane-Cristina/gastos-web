@@ -2,6 +2,7 @@ import { useState } from "react";
 import Papa from "papaparse";
 import { Upload, FileText, X } from "lucide-react";
 import "./BankImport.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface ParsedRow {
   description: string;
@@ -306,7 +307,7 @@ export function BankImport({ onImportSuccess }: Props) {
                       <span className="bank-import__duplicate-tag">⚠️ possível duplicata</span>
                     )}
                   </td>
-                  <td className="bank-import__amount">R$ {row.amount.toFixed(2)}</td>
+                  <td className="bank-import__amount">{formatBRL(row.amount)}</td>
                   <td>
                     <input
                       type="date"
