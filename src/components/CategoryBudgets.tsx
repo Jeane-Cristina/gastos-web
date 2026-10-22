@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./CategoryBudgets.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface BudgetStatus {
   category: string;
@@ -58,7 +59,7 @@ export function CategoryBudgets() {
           <div key={s.category} className="category-budgets__item">
             <div className="category-budgets__item-header">
               <span>{s.category}</span>
-              <span>R$ {s.spent.toFixed(2)} / R$ {s.monthlyLimit.toFixed(2)}</span>
+              <span>{formatBRL(s.spent)} / {formatBRL(s.monthlyLimit)}</span>
             </div>
             <div className="category-budgets__bar-track">
               <div

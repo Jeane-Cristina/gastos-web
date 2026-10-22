@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./ExpenseList.css";
 import type { Expense } from "../services/expenseApi";
+import { formatBRL } from "../utils/formatBRL";
 
 interface Props {
   expenses: Expense[];
@@ -86,7 +87,7 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
                   {e.paid ? "Pago" : "Não pago"}
                 </span>
               )}
-              <span className="expense-item__amount">R$ {e.amount.toFixed(2)}</span>
+              <span className="expense-item__amount">{formatBRL(e.amount)}</span>
               <span className="expense-item__actions">
                 <button className="expense-item__edit" onClick={() => startEdit(e)}>editar</button>
                 <button className="expense-item__delete" onClick={() => e.id && onDelete(e.id)}>excluir</button>

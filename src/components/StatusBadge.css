@@ -36,3 +36,8 @@
   background: var(--rust-soft);
   border-color: rgba(166, 64, 47, 0.3);
 }
+
+.status-badge--unset {
+  background: var(--paper-card);
+  border-color: rgba(43, 38, 32, 0.15);
+}

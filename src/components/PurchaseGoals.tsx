@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./PurchaseGoals.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface PurchaseGoal {
   id?: number;
@@ -69,7 +70,7 @@ export function PurchaseGoals() {
       <ul className="purchase-goals__list">
         {goals.map((g) => (
           <li key={g.id}>
-            <span>{g.isEssential ? "🔧" : "✨"} {g.description} — R$ {g.estimatedCost.toFixed(2)} ({g.priority})</span>
+            <span>{g.isEssential ? "🔧" : "✨"} {g.description} — {formatBRL(g.estimatedCost)} ({g.priority})</span>
             <button onClick={() => handleDelete(g.id)}>excluir</button>
           </li>
         ))}

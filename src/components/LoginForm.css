@@ -76,3 +76,8 @@
     text-decoration: underline;
     margin-top: -0.5rem;
 }
+
+.login-card__forgot {
+    align-self: flex-end;
+    margin-top: -0.25rem;
+}
