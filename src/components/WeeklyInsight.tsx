@@ -2,23 +2,35 @@ import { useState, useEffect } from "react";
 import { generateInsight, getLatestInsight } from "../services/profileApi";
 import "./WeeklyInsight.css";
 import ReactMarkdown from "react-markdown";
+import { cleanInsight, INSIGHT_SECTIONS } from "../utils/cleanInsight";
+
+const CACHE_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("pt-BR");
+}
 
 export function WeeklyInsight() {
   const [insight, setInsight] = useState<string | null>(null);
   const [nextAvailable, setNextAvailable] = useState<string | null>(null);
+  const [fromCache, setFromCache] = useState(false);
   const [loading, setLoading] = useState(false);
   const [note, setNote] = useState("");
-  const canGenerateNew = nextAvailable ? new Date(nextAvailable) <= new Date() : true;
   const [period, setPeriod] = useState("monthly");
 
-  // ajuste handleGenerate:
+  const canGenerateNew = nextAvailable ? new Date(nextAvailable) <= new Date() : true;
+  const nextIsFuture = nextAvailable !== null && !canGenerateNew;
+  const generatedAt = nextAvailable ? new Date(new Date(nextAvailable).getTime() - CACHE_DAYS * DAY_MS).toISOString() : null;
+
   async function handleGenerate() {
     setLoading(true);
     try {
       const result = await generateInsight(note, period);
       setInsight(result.insight);
       setNextAvailable(result.nextAvailableAt);
-    } catch (err) {
+      setFromCache(result.cached);
+    } catch {
       setInsight("Não foi possível gerar o insight agora. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
@@ -35,7 +47,8 @@ export function WeeklyInsight() {
   }, []);
 
   function renderInsight(text: string) {
-    const sections = text.split(/(?=DETALHAMENTO SEMANAL|ONDE ECONOMIZAR|ESTRATÉGIA PARA SUAS COMPRAS|SUGESTÃO PRÁTICA)/);
+    const clean = cleanInsight(text);
+    const sections = clean.split(new RegExp(`(?=${INSIGHT_SECTIONS.join("|")})`));
 
     return sections.map((section, i) => {
       const match = section.match(/^([A-ZÀ-Ú ]+):?\s*([\s\S]*)/);
@@ -54,18 +67,18 @@ export function WeeklyInsight() {
 
   return (
     <div className="insight">
-      <h2 className="insight__title">Insight da semana</h2>
+      <h2 className="insight__title">Insight de IA</h2>
 
       {canGenerateNew && insight && (
         <div className="insight__banner">
-          ✨ Um novo insight já está disponível para esta semana!
+          ✨ Já é possível gerar um novo insight. O texto abaixo é de {generatedAt ? formatDate(generatedAt) : "uma data anterior"}.
         </div>
       )}
 
       <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        placeholder="Alguma observação pro insight desta semana? (ex: 'tive um gasto extra com viagem')"
+        placeholder="Alguma observação pro insight? (ex: 'tive um gasto extra com viagem')"
       />
       <select value={period} onChange={(e) => setPeriod(e.target.value)} className="insight__period-select">
         <option value="weekly">Esta semana</option>
@@ -75,10 +88,19 @@ export function WeeklyInsight() {
       <button className="insight__generate" onClick={handleGenerate} disabled={loading}>
         {loading ? "Gerando..." : "Ver meu insight"}
       </button>
-      {insight && <div>{renderInsight(insight)}</div>}
-      {nextAvailable && (
+
+      {insight && generatedAt && (
         <p className="insight__next-available">
-          Próximo insight novo disponível em: {new Date(nextAvailable).toLocaleDateString("pt-BR")}
+          Gerado em {formatDate(generatedAt)}.
+          {fromCache && " Você já gerou um insight nos últimos 7 dias, então este é o mesmo texto, independentemente do período escolhido."}
+        </p>
+      )}
+
+      {insight && <div>{renderInsight(insight)}</div>}
+
+      {nextIsFuture && nextAvailable && (
+        <p className="insight__next-available">
+          Próximo insight novo disponível em: {formatDate(nextAvailable)}
         </p>
       )}
     </div>

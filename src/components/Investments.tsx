@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./Investments.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface Investment {
   id?: number;
@@ -83,10 +84,10 @@ export function Investments() {
 
       {investments.length > 0 && (
         <div className="investments__summary">
-          <span>Total investido: R$ {totalInvested.toFixed(2)}</span>
-          <span>Valor atual: R$ {totalCurrent.toFixed(2)}</span>
+          <span>Total investido: {formatBRL(totalInvested)}</span>
+          <span>Valor atual: {formatBRL(totalCurrent)}</span>
           <span className={totalCurrent >= totalInvested ? "investments__gain" : "investments__loss"}>
-            {totalCurrent >= totalInvested ? "▲" : "▼"} R$ {Math.abs(totalCurrent - totalInvested).toFixed(2)}
+            {totalCurrent >= totalInvested ? "▲" : "▼"} {formatBRL(Math.abs(totalCurrent - totalInvested))}
           </span>
         </div>
       )}
@@ -114,7 +115,7 @@ export function Investments() {
       <ul className="investments__list">
         {investments.map((inv) => (
           <li key={inv.id}>
-            <span>{inv.name} ({inv.type}) — R$ {inv.currentValue.toFixed(2)}</span>
+            <span>{inv.name} ({inv.type}) — {formatBRL(inv.currentValue)}</span>
             <button onClick={() => handleDelete(inv.id)}>excluir</button>
           </li>
         ))}

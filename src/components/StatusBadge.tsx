@@ -1,18 +1,22 @@
 import "./StatusBadge.css";
+import { getGoalLevel, type GoalLevel } from "../utils/goalStatus";
 
 interface Props {
   label: string;
   percent: number;
+  /** Valor da meta. Se for 0, o selo mostra "Defina sua meta" em vez de um status. */
+  goal?: number;
 }
 
-function getStatus(percent: number): { emoji: string; text: string; className: string } {
-  if (percent >= 80) return { emoji: "🟢", text: "Indo bem", className: "status-badge--good" };
-  if (percent >= 40) return { emoji: "🟡", text: "Mais ou menos", className: "status-badge--warn" };
-  return { emoji: "🔴", text: "Precisa de atenção", className: "status-badge--bad" };
-}
+const STATUS: Record<GoalLevel, { emoji: string; text: string; className: string }> = {
+  good: { emoji: "🟢", text: "Indo bem", className: "status-badge--good" },
+  warn: { emoji: "🟡", text: "Mais ou menos", className: "status-badge--warn" },
+  bad: { emoji: "🔴", text: "Precisa de atenção", className: "status-badge--bad" },
+  unset: { emoji: "⚪", text: "Defina sua meta", className: "status-badge--unset" },
+};
 
-export function StatusBadge({ label, percent }: Props) {
-  const status = getStatus(percent);
+export function StatusBadge({ label, percent, goal }: Props) {
+  const status = STATUS[getGoalLevel(percent, goal)];
 
   return (
     <div className={`status-badge ${status.className}`}>

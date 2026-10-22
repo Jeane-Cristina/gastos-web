@@ -100,17 +100,11 @@ function App() {
       return <ForgotPasswordForm onBackToLogin={() => setShowForgotPassword(false)} />;
     }
     return (
-      <>
-        <LoginForm
-          onLoginSuccess={() => setIsAuthenticated(true)}
-          onSwitchToRegister={() => setShowRegister(true)}
-        />
-        <p style={{ textAlign: "center" }}>
-          <button onClick={() => setShowForgotPassword(true)} className="login-card__link">
-            Esqueci minha senha
-          </button>
-        </p>
-      </>
+      <LoginForm
+        onLoginSuccess={() => setIsAuthenticated(true)}
+        onSwitchToRegister={() => setShowRegister(true)}
+        onForgotPassword={() => setShowForgotPassword(true)}
+      />
     );
   }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./RecurringExpenses.css";
+import { formatBRL } from "../utils/formatBRL";
 
 interface RecurringExpense {
   id?: number;
@@ -68,7 +69,7 @@ export function RecurringExpenses() {
       <ul className="recurring-expenses__list">
         {items.map((item) => (
           <li key={item.id}>
-            <span>{item.description} — R$ {item.amount.toFixed(2)} ({item.category}) — todo dia {item.dayOfMonth}</span>
+            <span>{item.description} — {formatBRL(item.amount)} ({item.category}) — todo dia {item.dayOfMonth}</span>
             <button onClick={() => handleDelete(item.id)}>excluir</button>
           </li>
         ))}
