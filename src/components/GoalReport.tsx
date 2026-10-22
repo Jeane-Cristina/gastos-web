@@ -3,6 +3,8 @@ import { StatusBadge } from "./StatusBadge";
 import { formatBRL } from "../utils/formatBRL";
 import { useGoalReport } from "../hooks/useGoalReport";
 import { isGoalSet } from "../utils/goalStatus";
+import { useMonthEntryCount } from "../hooks/useMonthEntryCount";
+import { MIN_ENTRIES_FOR_SAVINGS } from "./MonthOverview";
 
 interface LineProps {
   period: string;
@@ -29,6 +31,7 @@ function GoalLine({ period, met, achieved, goal }: LineProps) {
 
 export function GoalReport() {
   const report = useGoalReport();
+  const entries = useMonthEntryCount();
 
   if (!report) return null;
 
@@ -41,6 +44,13 @@ export function GoalReport() {
         achieved={report.monthlySavingsAchieved}
         goal={report.monthlySavingsGoal}
       />
+      {entries !== null && isGoalSet(report.monthlySavingsGoal) && report.monthlySavingsGoal > 0 && (
+        <p className="goal-report__basis">
+          Baseado em {entries} {entries === 1 ? "lançamento" : "lançamentos"} neste mês.
+          {entries < MIN_ENTRIES_FOR_SAVINGS &&
+            " ⚠️ Poucos lançamentos: o valor economizado pode estar acima do real. Lance todos os gastos para um resultado confiável."}
+        </p>
+      )}
       <GoalLine
         period="Anual"
         met={report.annualGoalMet}

@@ -1,9 +1,9 @@
 import "./Sidebar.css";
 import { useState, useEffect } from "react";
-import { Receipt, Upload, TrendingUp, Target, LogOut } from "lucide-react";
+import { Receipt, Upload, TrendingUp, Target, LogOut, Repeat } from "lucide-react";
 import { Users } from "lucide-react";
 
-export type View = "lancamentos" | "importar" | "metas" | "investimentos" | "conjunta";
+export type View = "lancamentos" | "recorrentes" | "importar" | "metas" | "investimentos" | "conjunta";
 interface Props {
   active: View;
   onChange: (view: View) => void;
@@ -50,6 +50,14 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
         >
           <Receipt size={18} />
           <span>Lançamentos</span>
+        </button>
+
+        <button
+          className={`sidebar__item ${active === "recorrentes" ? "sidebar__item--active" : ""}`}
+          onClick={() => handleSelect("recorrentes")}
+        >
+          <Repeat size={18} />
+          <span>Recorrentes</span>
         </button>
 
         <button

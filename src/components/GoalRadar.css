@@ -56,3 +56,16 @@
   font-size: 0.8rem;
   color: var(--ink-soft);
 }
+
+
+.goal-history__note {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: var(--space-xs) 0;
+}
+
+.goal-report__basis {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 0 0 var(--space-sm);
+}
