@@ -25,11 +25,6 @@ export function GoalHistory() {
 
   useEffect(load, []);
 
-  async function saveSnapshot() {
-    await fetch(`${import.meta.env.VITE_API_URL}/goal/snapshot`, { method: "POST", headers: authHeaders() });
-    load();
-  }
-
   const chartData = history.map((h) => ({
     label: `${h.month}/${h.year}`,
     "Economizado": h.savingsAchieved,
@@ -39,7 +34,10 @@ export function GoalHistory() {
   return (
     <div>
       <h2>Histórico de metas</h2>
-      <button className="button-layout" onClick={saveSnapshot}>Salvar snapshot deste mês</button>
+      <p className="goal-history__note">
+        O histórico é registrado automaticamente nos dias em que você usa o app. Meses sem acesso ficam sem ponto no gráfico.
+      </p>
+      {chartData.length === 0 && <p className="goal-history__note">Ainda não há histórico. Ele começa a aparecer após o primeiro dia de uso com o perfil financeiro preenchido.</p>}
 
       {chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={250}>

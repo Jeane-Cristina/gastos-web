@@ -62,3 +62,27 @@
   height: 100%;
   transition: width 0.3s ease;
 }
+
+.category-budgets__item--near {
+  border-left: 3px solid #C99A3E;
+  padding-left: var(--space-sm);
+}
+
+.category-budgets__item--over {
+  border-left: 3px solid var(--rust);
+  padding-left: var(--space-sm);
+}
+
+.category-budgets__alert {
+  margin: var(--space-xs) 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.category-budgets__alert--near {
+  color: #8A6414;
+}
+
+.category-budgets__alert--over {
+  color: var(--rust);
+}

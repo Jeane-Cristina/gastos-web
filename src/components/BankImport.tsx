@@ -2,6 +2,8 @@ import { useState } from "react";
 import Papa from "papaparse";
 import { Upload, FileText, X } from "lucide-react";
 import "./BankImport.css";
+import { CategoryInput } from "./CategoryInput";
+import { useAllCategories } from "../hooks/useAllCategories";
 import { formatBRL } from "../utils/formatBRL";
 
 interface ParsedRow {
@@ -73,6 +75,7 @@ function toDateInputValue(raw: string | undefined): string {
 }
 
 export function BankImport({ onImportSuccess }: Props) {
+  const knownCategories = useAllCategories();
   const [rows, setRows] = useState<ParsedRow[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -317,11 +320,11 @@ export function BankImport({ onImportSuccess }: Props) {
                     />
                   </td>
                   <td>
-                    <input
+                    <CategoryInput
                       className="bank-import__category-input"
                       value={row.category}
-                      onChange={(e) => updateCategory(i, e.target.value)}
-                      placeholder="Categoria"
+                      onChange={(category) => updateCategory(i, category)}
+                      categories={knownCategories}
                     />
                   </td>
                   <td>

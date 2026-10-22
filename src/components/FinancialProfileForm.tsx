@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { getProfile, saveProfile, type FinancialProfile } from "../services/profileApi";
+import { MoneyInput } from "./MoneyInput";
 import "./FinancialProfileForm.css";
 
 export function FinancialProfileForm() {
@@ -12,6 +13,9 @@ export function FinancialProfileForm() {
     currentSavings: 0,
   });
   const [saved, setSaved] = useState(false);
+  const shortId = useId();
+  const mediumId = useId();
+  const longId = useId();
 
   useEffect(() => {
     getProfile().then((data) => {
@@ -29,41 +33,54 @@ export function FinancialProfileForm() {
   return (
     <form onSubmit={handleSubmit} className="profile-form">
       <h2>Meu perfil financeiro</h2>
-      <input
-        type="number"
-        placeholder="Renda mensal"
-        value={profile.monthlyIncome || ""}
-        onChange={(e) => setProfile({ ...profile, monthlyIncome: parseFloat(e.target.value) || 0 })}
+
+      <MoneyInput
+        label="Renda mensal"
+        value={profile.monthlyIncome}
+        onChange={(monthlyIncome) => setProfile({ ...profile, monthlyIncome })}
       />
-      <input
-        type="number"
-        placeholder="Quanto quero guardar por mês"
-        value={profile.savingsGoal || ""}
-        onChange={(e) => setProfile({ ...profile, savingsGoal: parseFloat(e.target.value) || 0 })}
+      <MoneyInput
+        label="Quanto quero guardar por mês"
+        hint="Base da sua meta mensal de economia"
+        value={profile.savingsGoal}
+        onChange={(savingsGoal) => setProfile({ ...profile, savingsGoal })}
       />
-      <input
-        placeholder="Objetivo de curto prazo (ex: viagem em 3 meses)"
-        value={profile.shortTermGoal}
-        onChange={(e) => setProfile({ ...profile, shortTermGoal: e.target.value })}
+      <MoneyInput
+        label="Quanto já tenho guardado"
+        value={profile.currentSavings}
+        onChange={(currentSavings) => setProfile({ ...profile, currentSavings })}
       />
-      <input
-        placeholder="Objetivo de médio prazo (ex: trocar de carro em 2 anos)"
-        value={profile.mediumTermGoal}
-        onChange={(e) => setProfile({ ...profile, mediumTermGoal: e.target.value })}
-      />
-      <input
-        placeholder="Objetivo de longo prazo (ex: entrada de um imóvel)"
-        value={profile.longTermGoal}
-        onChange={(e) => setProfile({ ...profile, longTermGoal: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Quanto já tenho guardado"
-        value={profile.currentSavings || ""}
-        onChange={(e) => setProfile({ ...profile, currentSavings: parseFloat(e.target.value) || 0 })}
-      />
+
+      <div className="field">
+        <label htmlFor={shortId}>Objetivo de curto prazo</label>
+        <input
+          id={shortId}
+          placeholder="ex: viagem em 3 meses"
+          value={profile.shortTermGoal}
+          onChange={(e) => setProfile({ ...profile, shortTermGoal: e.target.value })}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor={mediumId}>Objetivo de médio prazo</label>
+        <input
+          id={mediumId}
+          placeholder="ex: trocar de carro em 2 anos"
+          value={profile.mediumTermGoal}
+          onChange={(e) => setProfile({ ...profile, mediumTermGoal: e.target.value })}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor={longId}>Objetivo de longo prazo</label>
+        <input
+          id={longId}
+          placeholder="ex: entrada de um imóvel"
+          value={profile.longTermGoal}
+          onChange={(e) => setProfile({ ...profile, longTermGoal: e.target.value })}
+        />
+      </div>
+
       <button type="submit">Salvar</button>
-      {saved && <p>Perfil salvo!</p>}
+      {saved && <p role="status">Perfil salvo!</p>}
     </form>
   );
 }

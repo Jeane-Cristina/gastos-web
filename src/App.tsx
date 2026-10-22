@@ -4,7 +4,7 @@ import { useSummary } from "./hooks/useSummary";
 import { ExpenseForm } from "./components/ExpenseForm";
 import { ExpenseList } from "./components/ExpenseList";
 import { ExpenseFiltersBar } from "./components/ExpenseFilters";
-import { CategorySummary } from "./components/CategorySummary";
+import { MonthOverview } from "./components/MonthOverview";
 import { LoginForm } from "./components/LoginForm";
 import { RegisterForm } from "./components/RegisterForm";
 import { ForgotPasswordForm } from "./components/ForgotPasswordForm";
@@ -33,6 +33,7 @@ import { GoalsSubNav, type GoalsSubView } from "./components/GoalsSubNav";
 import { OnboardingBanner } from "./components/OnboardingBanner";
 import { ColdStartBanner } from "./components/ColdStartBanner";
 import { isBackendWarmed, markBackendWarmed } from "./utils/session";
+import { ensureDailySnapshot } from "./utils/autoSnapshot";
 import { QuickAddButton } from "./components/QuickAddButton";
 
 
@@ -49,12 +50,16 @@ function App() {
   const [activeView, setActiveView] = useState<View>("lancamentos");
   const [goalsSubView, setGoalsSubView] = useState<GoalsSubView>("perfil");
   const [menuOpen, setMenuOpen] = useState(false);
-  const availableCategories = useAllCategories();
   const availablePayers = useAllPayers();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
+  const availableCategories = useAllCategories(totalCount);
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
+
+  useEffect(() => {
+    if (isAuthenticated) ensureDailySnapshot();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!loading && expenses.length >= 0 && !isBackendWarmed()) {
@@ -129,20 +134,25 @@ function App() {
               {!loading && expenses.length === 0 && totalCount === 0 && (
                 <OnboardingBanner onNavigate={(view) => setActiveView(view)} />
               )}
-              <ExpenseForm
-                onAdd={handleSubmit}
-              />
-              <RecurringExpenses />
+              <MonthOverview summary={summary} refreshKey={totalCount} />
+              <details className="app__add-details">
+                <summary>Novo lançamento completo (pago por, status)</summary>
+                <ExpenseForm onAdd={handleSubmit} categories={availableCategories} />
+              </details>
               <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} availablePayers={availablePayers} />
               {loading && <p className="app__state">Carregando...</p>}
               {error && <p className="app__state app__state--error">{error}</p>}
               {!loading && !error && (
                 <>
-                  <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
+                  <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} categories={availableCategories} />
                   <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={setPage} />
-                  <CategorySummary data={summary} />
                 </>
               )}
+            </div>
+          )}
+          {activeView === "recorrentes" && (
+            <div className="app__sections">
+              <RecurringExpenses />
             </div>
           )}
             {activeView === "importar" && (
@@ -195,7 +205,7 @@ function App() {
           </div>
         </div>
       </div>
-      <QuickAddButton onAdd={add} />
+      <QuickAddButton onAdd={add} categories={availableCategories} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ export interface GoalReportData {
   annualProgressPercent: number;
 }
 
-export function useGoalReport() {
+export function useGoalReport(refreshKey: number = 0) {
   const [report, setReport] = useState<GoalReportData | null>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export function useGoalReport() {
       .then((res) => res.json())
       .then(setReport)
       .catch(() => setReport(null));
-  }, []);
+  }, [refreshKey]);
 
   return report;
 }
