@@ -11,23 +11,24 @@ const mockExpenses: Expense[] = [
 
 describe('ExpenseList', () => {
     it('renderiza todas as despesas recebidas', () => {
-        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onEdit={vi.fn()} />);
+        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onSave={vi.fn()} />);
 
         expect(screen.getByText('Mercado')).toBeInTheDocument();
         expect(screen.getByText('Uber')).toBeInTheDocument();
     });
 
-    it('exibe o valor formatado com duas casas decimais', () => {
-        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onEdit={vi.fn()} />);
+    it('exibe o valor no formato de moeda brasileiro', () => {
+        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onSave={vi.fn()} />);
 
-        expect(screen.getByText('R$ 150.50')).toBeInTheDocument();
-        expect(screen.getByText('R$ 25.00')).toBeInTheDocument();
+        // Intl usa espaço não separável entre "R$" e o número
+        expect(screen.getByText('R$ 150,50', { normalizer: (t) => t.replace(/\u00a0/g, ' ') })).toBeInTheDocument();
+        expect(screen.getByText('R$ 25,00', { normalizer: (t) => t.replace(/\u00a0/g, ' ') })).toBeInTheDocument();
     });
 
     it('chama onDelete com o id correto ao clicar em excluir', async () => {
         const user = userEvent.setup();
         const onDelete = vi.fn();
-        render(<ExpenseList expenses={mockExpenses} onDelete={onDelete} onEdit={vi.fn()} />);
+        render(<ExpenseList expenses={mockExpenses} onDelete={onDelete} onSave={vi.fn()} />);
 
         const deleteButtons = screen.getAllByText('excluir');
         await user.click(deleteButtons[0]);
@@ -35,14 +36,15 @@ describe('ExpenseList', () => {
         expect(onDelete).toHaveBeenCalledWith(1);
     });
 
-    it('chama onEdit com a despesa correta ao clicar em editar', async () => {
+    it('chama onSave com o id e a despesa ao editar e salvar', async () => {
         const user = userEvent.setup();
-        const onEdit = vi.fn();
-        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onEdit={onEdit} />);
+        const onSave = vi.fn().mockResolvedValue(undefined);
+        render(<ExpenseList expenses={mockExpenses} onDelete={vi.fn()} onSave={onSave} />);
 
         const editButtons = screen.getAllByText('editar');
         await user.click(editButtons[1]);
+        await user.click(screen.getByText('salvar'));
 
-        expect(onEdit).toHaveBeenCalledWith(mockExpenses[1]);
+        expect(onSave).toHaveBeenCalledWith(2, mockExpenses[1]);
     });
 });

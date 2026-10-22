@@ -5,9 +5,10 @@ import "./LoginForm.css";
 interface Props {
   onLoginSuccess: () => void;
   onSwitchToRegister: () => void;
+  onForgotPassword: () => void;
 }
 
-export function LoginForm({ onLoginSuccess, onSwitchToRegister }: Props) {
+export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +37,9 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister }: Props) {
         <p className="login-card__subtitle">entre para acessar seus lançamentos</p>
         <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" required autoFocus />
         <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" type="password" required />
+        <button type="button" onClick={onForgotPassword} className="login-card__link login-card__forgot">
+          Esqueci minha senha
+        </button>
         <button className="login-card__submit" type="submit" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </button>

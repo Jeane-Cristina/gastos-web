@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { getScore } from "../services/profileApi";
 import { StatusBadge } from "./StatusBadge";
+import { useGoalReport } from "../hooks/useGoalReport";
+import { combinedScore } from "../utils/goalStatus";
 
+/** Pontuação geral: média do progresso das metas definidas, com a mesma regra do Relatório de metas. */
 export function GoalScore() {
-  const [score, setScore] = useState<number | null>(null);
+  const report = useGoalReport();
 
-  useEffect(() => {
-    getScore().then((data) => setScore(data.score));
-  }, []);
+  if (!report) return null;
 
-  if (score === null) return null;
+  const score = combinedScore(report);
 
-  return <StatusBadge label="Pontuação de metas" percent={score} />;
+  return <StatusBadge label="Pontuação de metas" percent={score ?? 0} goal={score === null ? 0 : undefined} />;
 }
