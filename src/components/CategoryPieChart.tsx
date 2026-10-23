@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import "./CategoryPieChart.css";
 import { formatBRL } from "../utils/formatBRL";
 
@@ -22,41 +22,48 @@ export function CategoryPieChart({ data }: Props) {
   return (
     <div className="category-chart">
       <h3 className="category-chart__title">Distribuição de gastos por categoria</h3>
-      <ResponsiveContainer width="100%" height={480}>
-        <PieChart>
-          <Pie
-            data={chartData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="38%"
-            innerRadius={55}
-            outerRadius={90}
-            paddingAngle={2}
-          >
-            {chartData.map((_, index) => (
-              <Cell key={index} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip
-            formatter={(value) => {
-              const num = typeof value === "number" ? value : 0;
-              return [`${formatBRL(num)} (${((num / total) * 100).toFixed(1)}%)`, ""];
-            }}
-          />
-            <Legend
-            layout="horizontal"
-            verticalAlign="bottom"
-            align="center"
-            wrapperStyle={{ fontSize: "0.75rem", paddingTop: "1rem" }}
-            formatter={(value, entry) => {
-                const payload = entry?.payload as unknown as { value: number };
-                const percent = total > 0 ? ((payload.value / total) * 100).toFixed(0) : "0";
-                return `${percent}% ${value}`;
-            }}
+
+      <div className="category-chart__donut">
+        <ResponsiveContainer width="100%" height={220}>
+          <PieChart>
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              innerRadius={65}
+              outerRadius={100}
+              paddingAngle={2}
+            >
+              {chartData.map((_, index) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value) => {
+                const num = typeof value === "number" ? value : 0;
+                return [`${formatBRL(num)} (${((num / total) * 100).toFixed(1)}%)`, ""];
+              }}
             />
-        </PieChart>
-      </ResponsiveContainer>
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="category-chart__center">
+          <span>Total</span>
+          <strong>{formatBRL(total)}</strong>
+        </div>
+      </div>
+
+      <ul className="category-chart__legend">
+        {chartData.map((item, index) => (
+          <li key={item.name}>
+            <span className="category-chart__swatch" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+            <span className="category-chart__name">{item.name}</span>
+            <span className="category-chart__percent">{total > 0 ? ((item.value / total) * 100).toFixed(0) : "0"}%</span>
+            <span className="category-chart__value">{formatBRL(item.value)}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

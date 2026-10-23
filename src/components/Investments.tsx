@@ -28,6 +28,7 @@ export function Investments() {
   const [riskProfile, setRiskProfile] = useState("Moderado");
   const [suggestions, setSuggestions] = useState<string | null>(null);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const url = `${import.meta.env.VITE_API_URL}/investment`;
 
@@ -37,10 +38,30 @@ export function Investments() {
 
   useEffect(load, []);
 
-  async function handleAdd(e: React.FormEvent) {
+  function resetForm() {
+    setEditingId(null);
+    setName("");
+    setType("Renda Fixa");
+    setAmountInvested("");
+    setCurrentValue("");
+    setReturnRate("");
+    setRiskProfile("Moderado");
+  }
+
+  function startEdit(inv: Investment) {
+    setEditingId(inv.id ?? null);
+    setName(inv.name);
+    setType(inv.type);
+    setAmountInvested(String(inv.amountInvested));
+    setCurrentValue(String(inv.currentValue));
+    setReturnRate(inv.annualReturnRate ? String(inv.annualReturnRate) : "");
+    setRiskProfile(inv.riskProfile);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await fetch(url, {
-      method: "POST",
+    const res = await fetch(editingId !== null ? `${url}/${editingId}` : url, {
+      method: editingId !== null ? "PUT" : "POST",
       headers: authHeaders(),
       body: JSON.stringify({
         name,
@@ -51,10 +72,11 @@ export function Investments() {
         riskProfile,
       }),
     });
-    setName("");
-    setAmountInvested("");
-    setCurrentValue("");
-    setReturnRate("");
+    if (!res.ok) {
+      alert("Não foi possível salvar o investimento. Tente novamente.");
+      return;
+    }
+    resetForm();
     load();
   }
 
@@ -92,7 +114,7 @@ export function Investments() {
         </div>
       )}
 
-      <form className="investments__form" onSubmit={handleAdd}>
+      <form className="investments__form" onSubmit={handleSubmit}>
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome (ex: Tesouro Selic)" required />
         <select value={type} onChange={(e) => setType(e.target.value)}>
           <option>Renda Fixa</option>
@@ -109,13 +131,17 @@ export function Investments() {
           <option>Moderado</option>
           <option>Arrojado</option>
         </select>
-        <button type="submit">Adicionar</button>
+        <button type="submit">{editingId !== null ? "Salvar alterações" : "Adicionar"}</button>
+        {editingId !== null && (
+          <button type="button" onClick={resetForm}>Cancelar</button>
+        )}
       </form>
 
       <ul className="investments__list">
         {investments.map((inv) => (
           <li key={inv.id}>
             <span>{inv.name} ({inv.type}) — {formatBRL(inv.currentValue)}</span>
+            <button onClick={() => startEdit(inv)}>editar</button>
             <button onClick={() => handleDelete(inv.id)}>excluir</button>
           </li>
         ))}

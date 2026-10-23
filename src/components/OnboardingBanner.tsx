@@ -18,7 +18,7 @@ export function OnboardingBanner({ onNavigate }: Props) {
       <h3>Bem-vindo(a)! Primeiros passos</h3>
       <ol className="onboarding-banner__steps">
         <li>
-          Cadastre sua primeira despesa usando o formulário acima, ou{" "}
+          Cadastre sua primeira despesa usando o botão + no canto da tela, ou{" "}
           <button className="onboarding-banner__link" onClick={() => onNavigate("importar")}>
             importe um extrato bancário
           </button>

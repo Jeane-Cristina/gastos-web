@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Papa from "papaparse";
-import { Upload, FileText, X } from "lucide-react";
+import { Upload, FileText, X, Download } from "lucide-react";
 import "./BankImport.css";
+import { CategoryInput } from "./CategoryInput";
+import { useAllCategories } from "../hooks/useAllCategories";
 import { formatBRL } from "../utils/formatBRL";
+import { parseMoney } from "../utils/parseMoney";
+import { cleanImportDescription, parseImportDate, buildSampleCsv } from "../utils/importHelpers";
 
 interface ParsedRow {
   description: string;
@@ -64,25 +68,20 @@ function parsePaidStatus(raw: string | undefined): boolean | undefined {
   return undefined;
 }
 
-function toDateInputValue(raw: string | undefined): string {
-  if (raw) {
-    const parsed = new Date(raw);
-    if (!isNaN(parsed.getTime())) return parsed.toISOString().slice(0, 10);
-  }
-  return new Date().toISOString().slice(0, 10);
-}
-
 export function BankImport({ onImportSuccess }: Props) {
+  const knownCategories = useAllCategories();
   const [rows, setRows] = useState<ParsedRow[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  function parseAmount(raw: string): number {
-    const cleaned = raw.trim().replace(/[^0-9,.-]/g, "");
-    const isNegative = cleaned.startsWith("-");
-    const numeric = cleaned.replace("-", "").replace(/\./g, "").replace(",", ".");
-    const value = parseFloat(numeric);
-    return isNegative ? -value : value;
+  function downloadSample() {
+    const blob = new Blob([buildSampleCsv()], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "extrato-exemplo.csv";
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   function processFile(file: File) {
@@ -111,9 +110,9 @@ export function BankImport({ onImportSuccess }: Props) {
 
         const parsed: ParsedRow[] = allRows
           .map((r) => ({
-            description: r[descriptionField],
-            amount: parseAmount(String(r[amountField])),
-            date: toDateInputValue(dateField ? r[dateField] : undefined),
+            description: cleanImportDescription(String(r[descriptionField])),
+            amount: parseMoney(String(r[amountField])),
+            date: parseImportDate(dateField ? String(r[dateField] ?? "") : undefined),
             category: categoryField ? String(r[categoryField] ?? "").trim() : "",
             paidBy: paidByField ? String(r[paidByField] ?? "").trim() : "",
             paid: paidStatusField ? parsePaidStatus(String(r[paidStatusField] ?? "")) : undefined,
@@ -153,7 +152,7 @@ export function BankImport({ onImportSuccess }: Props) {
         const withSuggestions = parsed.map((p) => {
           const isDuplicate = existing.some(
             (e) =>
-              e.description.toLowerCase() === p.description.toLowerCase() &&
+              cleanImportDescription(e.description).toLowerCase() === p.description.toLowerCase() &&
               Math.abs(e.amount - p.amount) < 0.01 &&
               new Date(e.date).toDateString() === new Date(p.date).toDateString()
           );
@@ -197,6 +196,10 @@ export function BankImport({ onImportSuccess }: Props) {
   function clearFile() {
     setFileName(null);
     setRows([]);
+  }
+
+  function updateDescription(index: number, description: string) {
+    setRows((prev) => prev.map((r, i) => (i === index ? { ...r, description } : r)));
   }
 
   function updateCategory(index: number, category: string) {
@@ -253,6 +256,37 @@ export function BankImport({ onImportSuccess }: Props) {
     <div className="bank-import">
       <h2>Importar extrato bancário</h2>
 
+      <details className="bank-import__help" open>
+        <summary>Quais arquivos funcionam?</summary>
+        <ul>
+          <li>
+            <strong>Formato:</strong> arquivo <code>.csv</code> (exportado do site ou app do banco), separado por vírgula ou ponto e vírgula.
+            Não há conexão direta com bancos.
+          </li>
+          <li>
+            <strong>Colunas obrigatórias:</strong> descrição (<code>Descrição</code>, <code>Título</code>, <code>Despesa</code> ou <code>title</code>) e valor (<code>Valor</code> ou <code>amount</code>).
+          </li>
+          <li>
+            <strong>Opcionais:</strong> <code>Data</code>, <code>Categoria</code>, <code>Pago por</code> e <code>Status</code>.
+            Sem data, usamos hoje; sem categoria, sugerimos uma pelo seu histórico.
+          </li>
+          <li>
+            <strong>Valores e datas:</strong> <code>152,40</code> ou <code>152.40</code>; datas <code>dd/mm/aaaa</code> ou <code>aaaa-mm-dd</code>.
+            Valores positivos são gastos; negativos (estornos e créditos) são ignorados.
+          </li>
+          <li>
+            Exportações que já usam as colunas <code>date, category, title, amount</code> (como a fatura de cartão do Nubank) costumam funcionar direto.
+            Se o seu banco usa outros nomes, renomeie o cabeçalho no arquivo.
+          </li>
+          <li>
+            Prefixos de maquininha como <code>Mp *</code>, <code>Pag*</code> e <code>Ipag*</code> são removidos da descrição, que você pode editar antes de confirmar.
+          </li>
+        </ul>
+        <button type="button" className="bank-import__sample" onClick={downloadSample}>
+          <Download size={16} /> Baixar CSV de exemplo
+        </button>
+      </details>
+
       <div
         className={`bank-import__upload ${isDragging ? "bank-import__upload--dragging" : ""} ${fileName ? "bank-import__upload--filled" : ""}`}
         onDrop={handleDrop}
@@ -302,7 +336,12 @@ export function BankImport({ onImportSuccess }: Props) {
                     />
                   </td>
                   <td>
-                    {row.description}
+                    <input
+                      className="bank-import__category-input"
+                      value={row.description}
+                      onChange={(e) => updateDescription(i, e.target.value)}
+                      aria-label="Descrição"
+                    />
                     {row.possibleDuplicate && (
                       <span className="bank-import__duplicate-tag">⚠️ possível duplicata</span>
                     )}
@@ -317,11 +356,11 @@ export function BankImport({ onImportSuccess }: Props) {
                     />
                   </td>
                   <td>
-                    <input
+                    <CategoryInput
                       className="bank-import__category-input"
                       value={row.category}
-                      onChange={(e) => updateCategory(i, e.target.value)}
-                      placeholder="Categoria"
+                      onChange={(category) => updateCategory(i, category)}
+                      categories={knownCategories}
                     />
                   </td>
                   <td>
