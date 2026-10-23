@@ -1,3 +1,5 @@
+import { readServerMessage } from "../utils/apiError";
+
 const BASE_URL = `${import.meta.env.VITE_API_URL}/expenses`;
 
 export interface Expense {
@@ -26,14 +28,50 @@ function authHeaders(): HeadersInit {
 
 const AUTH_URL = `${import.meta.env.VITE_API_URL}/auth`;
 
+export class AuthError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "AuthError";
+    this.status = status;
+  }
+}
+
 export async function login(username: string, password: string): Promise<{ token: string; refreshToken: string }> {
   const res = await fetch(`${AUTH_URL}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
-  if (!res.ok) throw new Error("Usuário ou senha inválidos");
+  if (!res.ok) throw new AuthError("Usuário ou senha inválidos", res.status);
   return res.json();
+}
+
+const DEMO_KEY = "demoMode";
+
+export function isDemoMode(): boolean {
+  try {
+    return localStorage.getItem(DEMO_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function clearDemoMode(): void {
+  localStorage.removeItem(DEMO_KEY);
+}
+
+/** Cria uma conta de demonstração temporária no servidor e já deixa o usuário logado nela. */
+export async function startDemo(): Promise<void> {
+  const res = await fetch(`${AUTH_URL}/demo`, { method: "POST" });
+  if (!res.ok) {
+    throw new AuthError(await readServerMessage(res, "Não foi possível abrir a demonstração agora."), res.status);
+  }
+  const data = await res.json();
+  localStorage.removeItem("refreshToken");
+  localStorage.setItem("token", data.token);
+  localStorage.setItem(DEMO_KEY, "1");
 }
 
 export async function refreshAccessToken(): Promise<string | null> {

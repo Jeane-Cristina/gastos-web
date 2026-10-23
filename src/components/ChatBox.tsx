@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ChatBox.css";
+import { readServerMessage } from "../utils/apiError";
 
 interface Message {
   question: string;
@@ -21,8 +22,10 @@ export function ChatBox() {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ question }),
       });
-      const data = await res.json();
-      setMessages((prev) => [...prev, { question, answer: data.answer }]);
+      const answer = res.ok
+        ? (await res.json()).answer
+        : await readServerMessage(res, "Não foi possível responder agora. Tente novamente em instantes.");
+      setMessages((prev) => [...prev, { question, answer }]);
       setQuestion("");
     } finally {
       setLoading(false);

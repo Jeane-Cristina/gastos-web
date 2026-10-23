@@ -81,3 +81,18 @@
     align-self: flex-end;
     margin-top: -0.25rem;
 }
+
+.login-card__demo {
+    background: transparent;
+    border: 1px dashed var(--stamp);
+    color: var(--stamp);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.login-card__demo:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
