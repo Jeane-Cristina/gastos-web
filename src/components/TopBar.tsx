@@ -11,7 +11,7 @@ export function TopBar({ onMenuClick }: Props) {
 
   return (
     <header className="topbar">
-      <span className="topbar__brand">Gastos</span>
+      <span className="topbar__brand">Controle de Gastos</span>
       <StreakBadge />
       <div className="topbar__actions">
         <button className="topbar__theme" onClick={toggle} aria-label="Alternar tema" style={{border:"none"}}>

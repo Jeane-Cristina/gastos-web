@@ -57,3 +57,17 @@
 .app__add-details[open] > summary {
   margin-bottom: var(--space-sm);
 }
+
+/* Telas largas: menu lateral fixo à esquerda e conteúdo mais largo */
+@media (min-width: 1024px) {
+  .app {
+    max-width: none;
+    margin: 0 0 0 240px;
+    padding: 0;
+  }
+
+  .app__content {
+    max-width: 1000px;
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
