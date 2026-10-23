@@ -219,3 +219,51 @@
     min-width: 90px;
   }
 }
+
+.bank-import__help {
+  background: var(--paper-card);
+  border: 1px solid rgba(43, 38, 32, 0.1);
+  border-radius: 4px;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.bank-import__help > summary {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--stamp);
+}
+
+.bank-import__help ul {
+  margin: var(--space-sm) 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.bank-import__help code {
+  background: var(--paper);
+  padding: 0 0.3em;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.bank-import__sample {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: transparent;
+  border: 1px solid var(--stamp);
+  color: var(--stamp);
+  border-radius: 3px;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.bank-import__sample:hover {
+  background: var(--stamp-soft);
+}

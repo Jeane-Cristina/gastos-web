@@ -32,3 +32,20 @@
   padding: var(--space-xs) var(--space-md);
   font-weight: 600;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.field label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.field__hint {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}

@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { useAllCategories } from "../hooks/useAllCategories";
+import { CategoryInput } from "./CategoryInput";
 import "./QuickAddButton.css";
 
 interface Props {
+  categories?: string[];
   onAdd: (expense: { description: string; amount: number; category: string; date: string }) => Promise<void>;
 }
 
-export function QuickAddButton({ onAdd }: Props) {
+export function QuickAddButton({ onAdd, categories = [] }: Props) {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
-  const categories = useAllCategories();
 
   const recentCategories = categories.slice(0, 5);
 
@@ -75,12 +75,7 @@ export function QuickAddButton({ onAdd }: Props) {
               </div>
             )}
 
-            <input
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Categoria"
-              required
-            />
+            <CategoryInput value={category} onChange={setCategory} categories={categories} required />
 
             <input
               value={description}

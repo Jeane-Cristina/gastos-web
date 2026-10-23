@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./RecurringExpenses.css";
+import { CategoryInput } from "./CategoryInput";
+import { useAllCategories } from "../hooks/useAllCategories";
 import { formatBRL } from "../utils/formatBRL";
 
 interface RecurringExpense {
@@ -16,6 +18,7 @@ function authHeaders(): HeadersInit {
 }
 
 export function RecurringExpenses() {
+  const categories = useAllCategories();
   const [items, setItems] = useState<RecurringExpense[]>([]);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -59,10 +62,10 @@ export function RecurringExpenses() {
     <div className="recurring-expenses">
       <h2>Despesas recorrentes</h2>
       <form className="recurring-expenses__form" onSubmit={handleAdd}>
-        <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição (ex: Netflix)" required />
-        <input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor" required />
-        <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Categoria" required />
-        <input type="number" min="1" max="31" value={dayOfMonth} onChange={(e) => setDayOfMonth(e.target.value)} placeholder="Dia do mês" required />
+        <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição (ex: Netflix)" aria-label="Descrição" required />
+        <input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor" aria-label="Valor" required />
+        <CategoryInput value={category} onChange={setCategory} categories={categories} required />
+        <input type="number" min="1" max="31" value={dayOfMonth} onChange={(e) => setDayOfMonth(e.target.value)} placeholder="Dia do mês" aria-label="Dia do mês" required />
         <button type="submit">Adicionar</button>
       </form>
 

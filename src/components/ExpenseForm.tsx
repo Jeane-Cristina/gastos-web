@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import type { Expense } from "../services/expenseApi";
 import "./ExpenseForm.css";
+import { CategoryInput } from "./CategoryInput";
 
 interface Props {
     onAdd: (expense: Expense) => void;
     editingExpense?: Expense | null;
     onCancelEdit?: () => void;
+    categories?: string[];
 }
 
-export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
+export function ExpenseForm({ onAdd, editingExpense, onCancelEdit, categories = [] }: Props) {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -52,7 +54,7 @@ export function ExpenseForm({ onAdd, editingExpense, onCancelEdit }: Props) {
             </div>
             <div className="expense-form__row">
                 <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Valor" type="number" step="0.01" required />
-                <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Categoria" required />
+                <CategoryInput value={category} onChange={setCategory} categories={categories} required />
             </div>
             <div className="expense-form__row">
                 <input value={paidBy} onChange={(e) => setPaidBy(e.target.value)} placeholder="Pago por (opcional)" />

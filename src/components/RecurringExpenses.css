@@ -30,6 +30,22 @@
   font-size: 0.9rem;
 }
 
+.recurring-expenses__form input[type="text"],
+.recurring-expenses__form input:not([type]) {
+  flex: 1 1 11rem;
+  min-width: 0;
+}
+
+.recurring-expenses__form input[type="number"] {
+  flex: 0 0 auto;
+  width: 7rem;
+}
+
+/* "Dia do mês" precisa de mais largura para o placeholder não ser cortado */
+.recurring-expenses__form input[max="31"] {
+  width: 9rem;
+}
+
 .recurring-expenses__form button {
   background: var(--stamp);
   color: var(--paper-card);

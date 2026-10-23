@@ -41,3 +41,9 @@
   color: var(--stamp);
   border-color: var(--stamp);
 }
+
+@media (min-width: 1024px) {
+  .topbar__menu {
+    display: none;
+  }
+}

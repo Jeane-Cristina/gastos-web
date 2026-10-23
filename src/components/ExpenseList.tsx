@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./ExpenseList.css";
 import type { Expense } from "../services/expenseApi";
+import { CategoryInput } from "./CategoryInput";
 import { formatBRL } from "../utils/formatBRL";
 
 interface Props {
   expenses: Expense[];
   onDelete: (id: number) => void;
   onSave: (id: number, expense: Expense) => Promise<void>;
+  categories?: string[];
 }
 
-export function ExpenseList({ expenses, onDelete, onSave }: Props) {
+export function ExpenseList({ expenses, onDelete, onSave, categories = [] }: Props) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [draft, setDraft] = useState<Expense | null>(null);
 
@@ -47,9 +49,10 @@ export function ExpenseList({ expenses, onDelete, onSave }: Props) {
                 value={draft.amount}
                 onChange={(ev) => setDraft({ ...draft, amount: parseFloat(ev.target.value) || 0 })}
               />
-              <input
+              <CategoryInput
                 value={draft.category}
-                onChange={(ev) => setDraft({ ...draft, category: ev.target.value })}
+                onChange={(category) => setDraft({ ...draft, category })}
+                categories={categories}
               />
               <input
                 type="date"

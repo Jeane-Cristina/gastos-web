@@ -4,7 +4,7 @@ import { useSummary } from "./hooks/useSummary";
 import { ExpenseForm } from "./components/ExpenseForm";
 import { ExpenseList } from "./components/ExpenseList";
 import { ExpenseFiltersBar } from "./components/ExpenseFilters";
-import { CategorySummary } from "./components/CategorySummary";
+import { MonthOverview } from "./components/MonthOverview";
 import { LoginForm } from "./components/LoginForm";
 import { RegisterForm } from "./components/RegisterForm";
 import { ForgotPasswordForm } from "./components/ForgotPasswordForm";
@@ -33,8 +33,18 @@ import { GoalsSubNav, type GoalsSubView } from "./components/GoalsSubNav";
 import { OnboardingBanner } from "./components/OnboardingBanner";
 import { ColdStartBanner } from "./components/ColdStartBanner";
 import { isBackendWarmed, markBackendWarmed } from "./utils/session";
+import { ensureDailySnapshot } from "./utils/autoSnapshot";
 import { QuickAddButton } from "./components/QuickAddButton";
 
+
+const VIEW_HEADINGS: Record<View, { title: string; subtitle: string }> = {
+  lancamentos: { title: "Lançamentos", subtitle: "registre, edite e acompanhe seus gastos por categoria" },
+  recorrentes: { title: "Recorrentes", subtitle: "despesas que se repetem todo mês, lançadas automaticamente" },
+  importar: { title: "Importar extrato", subtitle: "traga os gastos de um arquivo CSV do seu banco" },
+  metas: { title: "Metas & Insights", subtitle: "defina metas, acompanhe o mês e receba análises" },
+  investimentos: { title: "Investimentos", subtitle: "sua carteira e sugestões educacionais" },
+  conjunta: { title: "Conta Conjunta", subtitle: "gastos compartilhados com outras pessoas" },
+};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -49,12 +59,22 @@ function App() {
   const [activeView, setActiveView] = useState<View>("lancamentos");
   const [goalsSubView, setGoalsSubView] = useState<GoalsSubView>("perfil");
   const [menuOpen, setMenuOpen] = useState(false);
-  const availableCategories = useAllCategories();
   const availablePayers = useAllPayers();
   const { expenses, loading, error, add, edit, remove, reload, totalCount, page, setPage, pageSize } = useExpenses(filters, isAuthenticated);
+  const availableCategories = useAllCategories(totalCount);
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
+
+  useEffect(() => {
+    document.title = isAuthenticated
+      ? `${VIEW_HEADINGS[activeView].title} · Controle de Gastos`
+      : "Controle de Gastos";
+  }, [activeView, isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) ensureDailySnapshot();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!loading && expenses.length >= 0 && !isBackendWarmed()) {
@@ -113,8 +133,8 @@ function App() {
       <TopBar onMenuClick={() => setMenuOpen(true)} />
         {!isBackendWarmed() && <ColdStartBanner loading={loading} />}
       <div className="app__content">
-        <h1 className="app__title">Controle de Gastos</h1>
-        <p className="app__subtitle">registre, edite e acompanhe seus gastos por categoria</p>
+        <h1 className="app__title">{VIEW_HEADINGS[activeView].title}</h1>
+        <p className="app__subtitle">{VIEW_HEADINGS[activeView].subtitle}</p>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           <Sidebar
             active={activeView}
@@ -129,20 +149,25 @@ function App() {
               {!loading && expenses.length === 0 && totalCount === 0 && (
                 <OnboardingBanner onNavigate={(view) => setActiveView(view)} />
               )}
-              <ExpenseForm
-                onAdd={handleSubmit}
-              />
-              <RecurringExpenses />
+              <MonthOverview summary={summary} refreshKey={totalCount} />
+              <details className="app__add-details">
+                <summary>Novo lançamento completo (pago por, status)</summary>
+                <ExpenseForm onAdd={handleSubmit} categories={availableCategories} />
+              </details>
               <ExpenseFiltersBar filters={filters} onChange={setFilters} availableCategories={availableCategories} availablePayers={availablePayers} />
               {loading && <p className="app__state">Carregando...</p>}
               {error && <p className="app__state app__state--error">{error}</p>}
               {!loading && !error && (
                 <>
-                  <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} />
+                  <ExpenseList expenses={expenses} onDelete={remove} onSave={edit} categories={availableCategories} />
                   <Pagination page={page} totalCount={totalCount} pageSize={pageSize} onPageChange={setPage} />
-                  <CategorySummary data={summary} />
                 </>
               )}
+            </div>
+          )}
+          {activeView === "recorrentes" && (
+            <div className="app__sections">
+              <RecurringExpenses />
             </div>
           )}
             {activeView === "importar" && (
@@ -195,7 +220,7 @@ function App() {
           </div>
         </div>
       </div>
-      <QuickAddButton onAdd={add} />
+      <QuickAddButton onAdd={add} categories={availableCategories} />
     </div>
   );
 }
