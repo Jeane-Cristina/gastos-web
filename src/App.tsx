@@ -35,6 +35,8 @@ import { ColdStartBanner } from "./components/ColdStartBanner";
 import { isBackendWarmed, markBackendWarmed } from "./utils/session";
 import { ensureDailySnapshot } from "./utils/autoSnapshot";
 import { ensureCategoriesNormalized } from "./utils/normalizeCategories";
+import { DemoBanner } from "./components/DemoBanner";
+import { clearDemoMode, isDemoMode } from "./services/expenseApi";
 import { QuickAddButton } from "./components/QuickAddButton";
 
 
@@ -79,7 +81,7 @@ function App() {
 
   // Uma vez por navegador: unifica categorias antigas ("IA"/"Ia", "Alimentação(Lazer)")
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || isDemoMode()) return;
     ensureCategoriesNormalized().then((changed) => {
       if (changed > 0) window.location.reload();
     });
@@ -102,6 +104,7 @@ function App() {
 
   function handleLogout() {
     localStorage.removeItem("token");
+    clearDemoMode();
     setIsAuthenticated(false);
   }
 
@@ -140,6 +143,7 @@ function App() {
   return (
     <div className="app">
       <TopBar onMenuClick={() => setMenuOpen(true)} />
+      {isDemoMode() && <DemoBanner onExit={handleLogout} />}
         {!isBackendWarmed() && <ColdStartBanner loading={loading} />}
       <div className="app__content">
         <h1 className="app__title">{VIEW_HEADINGS[activeView].title}</h1>

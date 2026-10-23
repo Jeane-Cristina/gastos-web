@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./Investments.css";
 import { formatBRL } from "../utils/formatBRL";
+import { readServerMessage } from "../utils/apiError";
 
 interface Investment {
   id?: number;
@@ -90,8 +91,12 @@ export function Investments() {
     setLoadingSuggestions(true);
     try {
       const res = await fetch(`${url}/suggestions`, { headers: authHeaders() });
-      const data = await res.json();
-      setSuggestions(data.suggestions);
+      if (res.ok) {
+        const data = await res.json();
+        setSuggestions(data.suggestions);
+      } else {
+        setSuggestions(await readServerMessage(res, "Não foi possível gerar sugestões agora."));
+      }
     } finally {
       setLoadingSuggestions(false);
     }

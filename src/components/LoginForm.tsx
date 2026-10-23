@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "../services/expenseApi";
+import { AuthError, clearDemoMode, login, startDemo } from "../services/expenseApi";
 import "./LoginForm.css";
 
 interface Props {
@@ -13,6 +13,29 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
+
+  function messageFor(err: unknown): string {
+    if (err instanceof AuthError) {
+      if (err.status === 429) return "Muitas tentativas. Aguarde 1 minuto e tente de novo.";
+      if (err.status === 401) return "Usuário ou senha inválidos.";
+      return err.message;
+    }
+    return "Não foi possível conectar ao servidor. Ele pode estar acordando; tente de novo em instantes.";
+  }
+
+  async function handleDemo() {
+    setError(null);
+    setDemoLoading(true);
+    try {
+      await startDemo();
+      onLoginSuccess();
+    } catch (err) {
+      setError(messageFor(err));
+    } finally {
+      setDemoLoading(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -22,9 +45,10 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
       const { token, refreshToken } = await login(username, password);
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
+      clearDemoMode();
       onLoginSuccess();
     } catch (err) {
-      setError("Usuário ou senha inválidos.");
+      setError(messageFor(err));
     } finally {
       setLoading(false);
     }
@@ -46,6 +70,9 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
         {error && <p className="login-card__error">{error}</p>}
         <button type="button" onClick={onSwitchToRegister} className="login-card__link">
           Criar conta
+        </button>
+        <button type="button" onClick={handleDemo} disabled={demoLoading || loading} className="login-card__demo">
+          {demoLoading ? "Preparando a demonstração..." : "Ver demonstração (sem cadastro)"}
         </button>
       </form>
     </div>

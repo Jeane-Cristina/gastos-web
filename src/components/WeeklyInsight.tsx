@@ -38,8 +38,9 @@ export function WeeklyInsight() {
       setNextAvailable(result.nextAvailableAt);
       setFromCache(result.cached);
       setShownPeriod(result.period ?? period);
-    } catch {
-      setInsight("Não foi possível gerar o insight agora. Tente novamente mais tarde.");
+    } catch (err) {
+      const serverMessage = err instanceof Error && err.message !== "Erro ao gerar insight" ? err.message : null;
+      setInsight(serverMessage ?? "Não foi possível gerar o insight agora. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }

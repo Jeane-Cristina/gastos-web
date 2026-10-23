@@ -1,0 +1,20 @@
+.demo-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--paper-dark, #f3ead3);
+  border-bottom: 1px dashed var(--stamp, #8a3b2a);
+  font-size: 0.85rem;
+}
+
+.demo-banner button {
+  background: transparent;
+  border: 1px solid var(--stamp, #8a3b2a);
+  color: var(--stamp, #8a3b2a);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}

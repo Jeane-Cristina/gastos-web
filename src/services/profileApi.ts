@@ -1,3 +1,5 @@
+import { readServerMessage } from "../utils/apiError";
+
 const PROFILE_URL = `${import.meta.env.VITE_API_URL}/financialprofile`;
 const INSIGHT_URL = `${import.meta.env.VITE_API_URL}/insight`;
 
@@ -43,7 +45,7 @@ export async function generateInsight(note?: string, period: string = "monthly")
     headers: authHeaders(),
     body: JSON.stringify({ note: note ?? "", period }),
   });
-  if (!res.ok) throw new Error("Erro ao gerar insight");
+  if (!res.ok) throw new Error(await readServerMessage(res, "Erro ao gerar insight"));
   return res.json();
 }
 
