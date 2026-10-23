@@ -5,6 +5,12 @@ import ReactMarkdown from "react-markdown";
 import { cleanInsight, INSIGHT_SECTIONS } from "../utils/cleanInsight";
 
 const CACHE_DAYS = 7;
+
+const PERIOD_LABELS: Record<string, string> = {
+  weekly: "esta semana",
+  monthly: "este mês",
+  quarterly: "os últimos 3 meses",
+};
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function formatDate(iso: string): string {
@@ -18,6 +24,7 @@ export function WeeklyInsight() {
   const [loading, setLoading] = useState(false);
   const [note, setNote] = useState("");
   const [period, setPeriod] = useState("monthly");
+  const [shownPeriod, setShownPeriod] = useState<string | null>(null);
 
   const canGenerateNew = nextAvailable ? new Date(nextAvailable) <= new Date() : true;
   const nextIsFuture = nextAvailable !== null && !canGenerateNew;
@@ -30,6 +37,7 @@ export function WeeklyInsight() {
       setInsight(result.insight);
       setNextAvailable(result.nextAvailableAt);
       setFromCache(result.cached);
+      setShownPeriod(result.period ?? period);
     } catch {
       setInsight("Não foi possível gerar o insight agora. Tente novamente mais tarde.");
     } finally {
@@ -42,6 +50,10 @@ export function WeeklyInsight() {
       if (result.insight) {
         setInsight(result.insight);
         setNextAvailable(result.nextAvailableAt);
+        if (result.period) {
+          setShownPeriod(result.period);
+          setPeriod(result.period);
+        }
       }
     });
   }, []);
@@ -92,7 +104,14 @@ export function WeeklyInsight() {
       {insight && generatedAt && (
         <p className="insight__next-available">
           Gerado em {formatDate(generatedAt)}.
-          {fromCache && " Você já gerou um insight nos últimos 7 dias, então este é o mesmo texto, independentemente do período escolhido."}
+          {shownPeriod && PERIOD_LABELS[shownPeriod] && ` Período analisado: ${PERIOD_LABELS[shownPeriod]}.`}
+          {fromCache && " Você já gerou um insight para este período nos últimos 7 dias, então este é o mesmo texto."}
+        </p>
+      )}
+
+      {insight && shownPeriod && shownPeriod !== period && PERIOD_LABELS[period] && (
+        <p className="insight__next-available">
+          Este texto é de {PERIOD_LABELS[shownPeriod]}. Clique em "Ver meu insight" para gerar o de {PERIOD_LABELS[period]}.
         </p>
       )}
 

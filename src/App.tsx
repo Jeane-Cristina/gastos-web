@@ -34,6 +34,7 @@ import { OnboardingBanner } from "./components/OnboardingBanner";
 import { ColdStartBanner } from "./components/ColdStartBanner";
 import { isBackendWarmed, markBackendWarmed } from "./utils/session";
 import { ensureDailySnapshot } from "./utils/autoSnapshot";
+import { ensureCategoriesNormalized } from "./utils/normalizeCategories";
 import { QuickAddButton } from "./components/QuickAddButton";
 
 
@@ -74,6 +75,14 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated) ensureDailySnapshot();
+  }, [isAuthenticated]);
+
+  // Uma vez por navegador: unifica categorias antigas ("IA"/"Ia", "Alimentação(Lazer)")
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    ensureCategoriesNormalized().then((changed) => {
+      if (changed > 0) window.location.reload();
+    });
   }, [isAuthenticated]);
 
   useEffect(() => {
