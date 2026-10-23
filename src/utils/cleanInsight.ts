@@ -14,6 +14,7 @@ const HEADING_WRAPPED = new RegExp(
 /**
  * Limpa o markdown que o modelo devolve antes de renderizar:
  * - tira marcações (** # _) coladas nos títulos de seção;
+ * - tira espaços dentro do negrito, de um lado só também ("** texto**" -> "**texto**");
  * - garante espaço depois de negrito fechado ("**Item:**texto" -> "**Item:** texto");
  * - remove "**" que ficaram soltos (quantidade ímpar na linha).
  */
@@ -24,7 +25,7 @@ export function cleanInsight(text: string): string {
     .split("\n")
     .map((line) => {
       let l = line
-        .replace(/\*\*\s+([^*]+?)\s+\*\*/g, "**$1**")
+        .replace(/\*\*[ \t]*([^*\n]+?)[ \t]*\*\*/g, "**$1**")
         .replace(/\*\*([^*\n]+?)\*\*(?=[A-Za-zÀ-ú0-9])/g, "**$1** ");
       const marks = (l.match(/\*\*/g) ?? []).length;
       if (marks % 2 === 1) l = l.replace(/\*\*/g, "");

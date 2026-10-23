@@ -1,7 +1,7 @@
 // Prefixos de maquininha/intermediadora que poluem a descrição do extrato
 // ("Mp *Drogaria", "Pag*Padaria", "Ipag*Loja"...). Só removemos quando há "*",
 // para não mexer em descrições reais como "Pagamento de boleto".
-const GATEWAY_PREFIX = /^(?:mp|ipag|pag|pagseguro|mercado\s?pago|sumup|picpay)\s*\*\s*/i;
+const GATEWAY_PREFIX = /^(?:mp|ipag\s+pa|ipag|pag|pagseguro|mercado\s?pago|sumup|picpay)\s*\*\s*/i;
 
 function titleCase(text: string): string {
   return text
