@@ -37,6 +37,15 @@ import { ensureDailySnapshot } from "./utils/autoSnapshot";
 import { QuickAddButton } from "./components/QuickAddButton";
 
 
+const VIEW_HEADINGS: Record<View, { title: string; subtitle: string }> = {
+  lancamentos: { title: "Lançamentos", subtitle: "registre, edite e acompanhe seus gastos por categoria" },
+  recorrentes: { title: "Recorrentes", subtitle: "despesas que se repetem todo mês, lançadas automaticamente" },
+  importar: { title: "Importar extrato", subtitle: "traga os gastos de um arquivo CSV do seu banco" },
+  metas: { title: "Metas & Insights", subtitle: "defina metas, acompanhe o mês e receba análises" },
+  investimentos: { title: "Investimentos", subtitle: "sua carteira e sugestões educacionais" },
+  conjunta: { title: "Conta Conjunta", subtitle: "gastos compartilhados com outras pessoas" },
+};
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
   const [showRegister, setShowRegister] = useState(false);
@@ -56,6 +65,12 @@ function App() {
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
+
+  useEffect(() => {
+    document.title = isAuthenticated
+      ? `${VIEW_HEADINGS[activeView].title} · Controle de Gastos`
+      : "Controle de Gastos";
+  }, [activeView, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) ensureDailySnapshot();
@@ -118,8 +133,8 @@ function App() {
       <TopBar onMenuClick={() => setMenuOpen(true)} />
         {!isBackendWarmed() && <ColdStartBanner loading={loading} />}
       <div className="app__content">
-        <h1 className="app__title">Controle de Gastos</h1>
-        <p className="app__subtitle">registre, edite e acompanhe seus gastos por categoria</p>
+        <h1 className="app__title">{VIEW_HEADINGS[activeView].title}</h1>
+        <p className="app__subtitle">{VIEW_HEADINGS[activeView].subtitle}</p>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           <Sidebar
             active={activeView}
