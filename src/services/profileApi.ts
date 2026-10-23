@@ -32,6 +32,7 @@ export async function saveProfile(profile: FinancialProfile): Promise<void> {
 
 export interface InsightResponse {
   insight: string;
+  period?: string | null;
   cached: boolean;
   nextAvailableAt: string;
 }
@@ -46,7 +47,7 @@ export async function generateInsight(note?: string, period: string = "monthly")
   return res.json();
 }
 
-export async function getLatestInsight(): Promise<{ insight: string | null; nextAvailableAt: string | null }> {
+export async function getLatestInsight(): Promise<{ insight: string | null; period?: string | null; nextAvailableAt: string | null }> {
   const res = await fetch(`${INSIGHT_URL}/latest`, { headers: authHeaders() });
   if (!res.ok) throw new Error("Erro ao buscar insight");
   return res.json();
