@@ -23,6 +23,11 @@ describe("cleanInsight", () => {
     expect(cleanInsight("**Delivery:**gastou R$ 200")).toBe("**Delivery:** gastou R$ 200");
   });
 
+  it("conserta negrito com espaço só depois de abrir", () => {
+    expect(cleanInsight("O pior mês foi ** setembro/2026** (R$ 4.011,09)")).toBe("O pior mês foi **setembro/2026** (R$ 4.011,09)");
+    expect(cleanInsight("compre a ** Mesa nova**.")).toBe("compre a **Mesa nova**.");
+  });
+
   it("normaliza espaços dentro do negrito", () => {
     expect(cleanInsight("Veja ** isto ** agora")).toBe("Veja **isto** agora");
   });

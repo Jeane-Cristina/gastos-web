@@ -8,6 +8,7 @@ describe("cleanImportDescription", () => {
     expect(cleanImportDescription("Mp *Drogariadopov")).toBe("Drogariadopov");
     expect(cleanImportDescription("IPAG*Papelaria")).toBe("Papelaria");
     expect(cleanImportDescription("Pag*Padaria Central")).toBe("Padaria Central");
+    expect(cleanImportDescription("Ipag Pa*Duo Gelatto")).toBe("Duo Gelatto");
   });
 
   it("remove prefixos encadeados", () => {
