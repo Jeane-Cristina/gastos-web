@@ -3,6 +3,8 @@
   gap: var(--space-xs);
   border-bottom: 1px solid var(--line);
     overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
 }
 
 .goals-subnav__tab {

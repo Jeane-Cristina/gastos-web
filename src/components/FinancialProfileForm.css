@@ -77,3 +77,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+.profile-form > button {
+  justify-self: start;
+  min-width: 9rem;
+  padding: 0.6rem var(--space-md);
+}
+
+@media (max-width: 640px) {
+  .profile-form > button {
+    justify-self: stretch;
+  }
+}

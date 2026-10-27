@@ -196,7 +196,7 @@ function App() {
             onClose={() => setMenuOpen(false)}
             onLogout={handleLogout}
           />
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
           {activeView === "lancamentos" && (
             <div className="app__sections">
               {!loading && expenses.length === 0 && totalCount === 0 && (
