@@ -69,6 +69,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Telas largas: a coluna do menu (240px) é pintada no fundo da página inteira,
+   assim ela não "termina" onde acaba a janela quando o conteúdo é mais alto. */
+@media (min-width: 1024px) {
+  body {
+    background: linear-gradient(
+      to right,
+      var(--surface) 0,
+      var(--surface) 239px,
+      var(--line) 239px,
+      var(--line) 240px,
+      var(--canvas) 240px
+    );
+    min-height: 100vh;
+  }
+}
+
 h1, h2, h3 {
   letter-spacing: -0.015em;
 }
