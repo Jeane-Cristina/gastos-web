@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { resetPassword } from "../services/expenseApi";
 import "./LoginForm.css";
-import { GuardaiLogo } from "./Logo";
+import { GastosLogo } from "./Logo";
 
 interface Props {
   onResetSuccess: () => void;
@@ -39,7 +39,7 @@ export function ResetPasswordForm({ onResetSuccess }: Props) {
     return (
       <div className="login-screen">
         <div className="login-card">
-          <h1 className="login-card__brand"><GuardaiLogo size={36} /></h1>
+          <h1 className="login-card__brand"><GastosLogo size={36} /></h1>
           <p className="login-card__error">Link inválido ou incompleto. Solicite um novo link de redefinição.</p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export function ResetPasswordForm({ onResetSuccess }: Props) {
   return (
     <div className="login-screen">
       <form className="login-card" onSubmit={handleSubmit}>
-        <h1 className="login-card__brand"><GuardaiLogo size={36} /></h1>
+        <h1 className="login-card__brand"><GastosLogo size={36} /></h1>
         <p className="login-card__subtitle">defina sua nova senha</p>
 
         {success ? (

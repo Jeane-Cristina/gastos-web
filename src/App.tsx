@@ -96,8 +96,8 @@ function App() {
 
   useEffect(() => {
     document.title = isAuthenticated
-      ? `${VIEW_HEADINGS[activeView].title} · Guardai`
-      : "Guardai";
+      ? `${VIEW_HEADINGS[activeView].title} · Controle de Gastos`
+      : "Controle de Gastos";
   }, [activeView, isAuthenticated]);
 
   useEffect(() => {

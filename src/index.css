@@ -234,19 +234,19 @@ button:disabled {
 }
 
 /* Logo */
-.guardai-logo {
+.app-logo {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
   line-height: 1;
 }
 
-.guardai-logo--inverse {
+.app-logo--inverse {
   color: #fff;
   --coin: #6EE7B0;
 }
 
-.guardai-logo__name {
+.app-logo__name {
   font-weight: 700;
   font-size: 1.15em;
   letter-spacing: -0.03em;

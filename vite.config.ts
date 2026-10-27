@@ -9,8 +9,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Guardai',
-        short_name: 'Guardai',
+        name: 'Controle de Gastos',
+        short_name: 'Controle de Gastos',
         description: 'Registre seus gastos, defina metas de economia e saiba quanto ainda pode gastar no mês',
         theme_color: '#22408F',
         background_color: '#EEF1F6',
