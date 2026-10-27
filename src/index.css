@@ -241,6 +241,11 @@ button:disabled {
   line-height: 1;
 }
 
+.guardai-logo--inverse {
+  color: #fff;
+  --coin: #6EE7B0;
+}
+
 .guardai-logo__name {
   font-weight: 700;
   font-size: 1.15em;
