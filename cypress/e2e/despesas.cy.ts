@@ -8,11 +8,12 @@ describe("Lançamentos: editar, excluir e filtrar", () => {
   });
 
   it("edita o valor de uma despesa", () => {
-    linha("Combustível").within(() => {
-      cy.contains("button", "editar").click();
-      cy.get("input[type=number]").type("{selectall}250");
-      cy.contains("button", "salvar").click();
-    });
+    linha("Combustível").contains("button", "editar").click();
+
+    // Durante a edição a linha troca o texto por campos, então ela é localizada pelo modo de edição.
+    cy.get("[data-testid=expense-list] .expense-item__edit-row").should("be.visible");
+    cy.get("[data-testid=expense-list] .expense-item__edit-row input[type=number]").type("{selectall}250");
+    cy.get("[data-testid=expense-list] .expense-item__edit-row").contains("button", "salvar").click();
 
     cy.wait("@updateExpense").its("request.body").should((body) => {
       expect(body).to.include({ description: "Combustível", amount: 250 });
@@ -31,7 +32,11 @@ describe("Lançamentos: editar, excluir e filtrar", () => {
   it("filtra por categoria e limpa o filtro", () => {
     cy.contains("select", "Todas as categorias").select("Alimentação");
 
-    cy.wait("@listExpenses").its("request.url").should("include", "category=Aliment");
+    // @listExpenses também guarda as chamadas do carregamento inicial, então procura entre todas.
+    cy.get("@listExpenses.all").should((chamadas) => {
+      const urls = (chamadas as unknown as { request: { url: string } }[]).map((c) => c.request.url);
+      expect(urls.some((u) => u.includes("category=Aliment"))).to.eq(true);
+    });
     cy.get("[data-testid=expense-list]")
       .should("contain.text", "Supermercado Bom Preço")
       .and("not.contain.text", "Aluguel");
