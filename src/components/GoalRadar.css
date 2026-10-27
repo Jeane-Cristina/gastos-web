@@ -108,11 +108,16 @@
 
 .goal-report__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: var(--space-md);
 }
 
+.goal-report__grid > * {
+  min-width: 0;
+}
+
 .goal-period {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -200,6 +205,25 @@
 }
 
 @media (max-width: 480px) {
+  .goal-period {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .goal-period .goal-radar {
+    flex-basis: 92px;
+    min-width: 92px;
+    width: 92px;
+  }
+
+  .goal-period .goal-radar svg,
+  .goal-period .goal-radar canvas {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 340px) {
   .goal-period {
     flex-direction: column;
     align-items: flex-start;
