@@ -36,7 +36,8 @@ import { isBackendWarmed, markBackendWarmed } from "./utils/session";
 import { ensureDailySnapshot } from "./utils/autoSnapshot";
 import { ensureCategoriesNormalized } from "./utils/normalizeCategories";
 import { DemoBanner } from "./components/DemoBanner";
-import { clearDemoMode, isDemoMode } from "./services/expenseApi";
+import { isDemoMode } from "./services/expenseApi";
+import { bootstrapSession, logout, SESSION_EXPIRED_EVENT } from "./services/session";
 import { QuickAddButton } from "./components/QuickAddButton";
 
 
@@ -50,7 +51,10 @@ const VIEW_HEADINGS: Record<View, { title: string; subtitle: string }> = {
 };
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+  // Começa deslogado: a sessão só é aceita depois de checada (token válido ou renovado pelo refresh token)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const [showRegister, setShowRegister] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const now = new Date();
@@ -68,6 +72,27 @@ function App() {
   const { summary } = useSummary(filters, expenses.length);
   const urlParams = new URLSearchParams(window.location.search);
   const hasResetToken = urlParams.has("token");
+
+  useEffect(() => {
+    let cancelled = false;
+    bootstrapSession().then((state) => {
+      if (cancelled) return;
+      setIsAuthenticated(state === "authenticated");
+      if (state === "expired") setSessionNotice("Sua sessão expirou. Entre novamente.");
+      if (state === "unreachable") setSessionNotice("Não foi possível verificar sua sessão. Entre novamente.");
+      setAuthReady(true);
+    });
+
+    function handleExpired() {
+      setIsAuthenticated(false);
+      setSessionNotice("Sua sessão expirou. Entre novamente.");
+    }
+    window.addEventListener(SESSION_EXPIRED_EVENT, handleExpired);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(SESSION_EXPIRED_EVENT, handleExpired);
+    };
+  }, []);
 
   useEffect(() => {
     document.title = isAuthenticated
@@ -103,8 +128,8 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("token");
-    clearDemoMode();
+    logout();
+    setSessionNotice(null);
     setIsAuthenticated(false);
   }
 
@@ -119,11 +144,22 @@ function App() {
     );
   }
 
+  if (!authReady) {
+    return (
+      <div className="login-screen">
+        <p className="login-card__subtitle" role="status">Verificando sua sessão...</p>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     if (showRegister) {
       return (
         <RegisterForm
-          onRegisterSuccess={() => setIsAuthenticated(true)}
+          onRegisterSuccess={() => {
+            setSessionNotice(null);
+            setIsAuthenticated(true);
+          }}
           onSwitchToLogin={() => setShowRegister(false)}
         />
       );
@@ -133,9 +169,13 @@ function App() {
     }
     return (
       <LoginForm
-        onLoginSuccess={() => setIsAuthenticated(true)}
+        onLoginSuccess={() => {
+          setSessionNotice(null);
+          setIsAuthenticated(true);
+        }}
         onSwitchToRegister={() => setShowRegister(true)}
         onForgotPassword={() => setShowForgotPassword(true)}
+        notice={sessionNotice}
       />
     );
   }

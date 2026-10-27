@@ -96,3 +96,13 @@
     opacity: 0.6;
     cursor: wait;
 }
+
+.login-card__notice {
+    background: var(--paper-dark, #f3ead3);
+    border-left: 3px solid var(--stamp);
+    color: var(--ink, inherit);
+    font-size: 0.85rem;
+    text-align: left;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+}

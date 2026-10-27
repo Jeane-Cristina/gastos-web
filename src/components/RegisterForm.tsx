@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { register } from "../services/expenseApi";
+import { storeSession } from "../services/session";
 import "./LoginForm.css";
 
 interface Props {
@@ -26,8 +27,8 @@ export function RegisterForm({ onRegisterSuccess, onSwitchToLogin }: Props) {
 
         setLoading(true);
         try {
-            const token = await register(username, password);
-            localStorage.setItem("token", token);
+            const { token, refreshToken } = await register(username, password);
+            storeSession(token, refreshToken);
             onRegisterSuccess();
         } catch (err) {
             setError(err instanceof Error ? err.message : "Erro ao criar conta.");

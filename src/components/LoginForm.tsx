@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { AuthError, clearDemoMode, login, startDemo } from "../services/expenseApi";
+import { AuthError, login, startDemo } from "../services/expenseApi";
+import { clearDemoMode, storeSession } from "../services/session";
 import "./LoginForm.css";
 
 interface Props {
   onLoginSuccess: () => void;
   onSwitchToRegister: () => void;
   onForgotPassword: () => void;
+  /** Aviso mostrado acima do formulário (por exemplo, "sua sessão expirou"). */
+  notice?: string | null;
 }
 
-export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword }: Props) {
+export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword, notice }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -43,8 +46,7 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
     setLoading(true);
     try {
       const { token, refreshToken } = await login(username, password);
-      localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
+      storeSession(token, refreshToken);
       clearDemoMode();
       onLoginSuccess();
     } catch (err) {
@@ -59,6 +61,7 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
       <form className="login-card" onSubmit={handleSubmit}>
         <h1 className="login-card__brand">Gastos</h1>
         <p className="login-card__subtitle">entre para acessar seus lançamentos</p>
+        {notice && <p className="login-card__notice" role="status">{notice}</p>}
         <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" required autoFocus />
         <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" type="password" required />
         <button type="button" onClick={onForgotPassword} className="login-card__link login-card__forgot">

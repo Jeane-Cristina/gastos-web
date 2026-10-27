@@ -1,4 +1,7 @@
 import { readServerMessage } from "../utils/apiError";
+import { setDemoMode, storeSession } from "./session";
+
+export { clearDemoMode, isDemoMode } from "./session";
 
 const BASE_URL = `${import.meta.env.VITE_API_URL}/expenses`;
 
@@ -48,20 +51,6 @@ export async function login(username: string, password: string): Promise<{ token
   return res.json();
 }
 
-const DEMO_KEY = "demoMode";
-
-export function isDemoMode(): boolean {
-  try {
-    return localStorage.getItem(DEMO_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-export function clearDemoMode(): void {
-  localStorage.removeItem(DEMO_KEY);
-}
-
 /** Cria uma conta de demonstração temporária no servidor e já deixa o usuário logado nela. */
 export async function startDemo(): Promise<void> {
   const res = await fetch(`${AUTH_URL}/demo`, { method: "POST" });
@@ -69,26 +58,8 @@ export async function startDemo(): Promise<void> {
     throw new AuthError(await readServerMessage(res, "Não foi possível abrir a demonstração agora."), res.status);
   }
   const data = await res.json();
-  localStorage.removeItem("refreshToken");
-  localStorage.setItem("token", data.token);
-  localStorage.setItem(DEMO_KEY, "1");
-}
-
-export async function refreshAccessToken(): Promise<string | null> {
-  const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) return null;
-
-  const res = await fetch(`${AUTH_URL}/refresh`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(refreshToken),
-  });
-
-  if (!res.ok) return null;
-  const data = await res.json();
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("refreshToken", data.refreshToken);
-  return data.token;
+  storeSession(data.token, data.refreshToken);
+  setDemoMode();
 }
 
 export interface PagedResult<T> {
@@ -158,7 +129,7 @@ export async function deleteExpense(id: number): Promise<void> {
     if (!res.ok) throw new Error("Erro ao excluir despesa");
 }
 
-export async function register(username: string, password: string): Promise<string> {
+export async function register(username: string, password: string): Promise<{ token: string; refreshToken?: string }> {
   const res = await fetch(`${AUTH_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -177,7 +148,7 @@ export async function register(username: string, password: string): Promise<stri
   if (!res.ok) throw new Error("Não foi possível criar a conta.");
 
   const data = await res.json();
-  return data.token;
+  return { token: data.token, refreshToken: data.refreshToken };
 }
 
 export async function forgotPassword(username: string): Promise<void> {

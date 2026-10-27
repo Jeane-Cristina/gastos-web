@@ -20,7 +20,7 @@ describe("LoginForm", () => {
   afterEach(() => vi.unstubAllGlobals());
 
   it("o botão de demonstração cria a conta demo, guarda o token e entra", async () => {
-    const fetchMock = mockFetch(200, { token: "demo-token", demo: true });
+    const fetchMock = mockFetch(200, { token: "demo-token", refreshToken: "demo-refresh", demo: true });
     const onLoginSuccess = renderForm();
 
     await userEvent.click(screen.getByRole("button", { name: /ver demonstração/i }));
@@ -28,6 +28,7 @@ describe("LoginForm", () => {
     await waitFor(() => expect(onLoginSuccess).toHaveBeenCalled());
     expect(String(fetchMock.mock.calls[0][0])).toContain("/auth/demo");
     expect(localStorage.getItem("token")).toBe("demo-token");
+    expect(localStorage.getItem("refreshToken")).toBe("demo-refresh");
     expect(localStorage.getItem("demoMode")).toBe("1");
   });
 
