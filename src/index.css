@@ -1,10 +1,10 @@
 :root {
   /* Base */
-  --canvas: #F4F6F9;
+  --canvas: #EEF1F6;
   --surface: #FFFFFF;
   --ink: #151C2B;
-  --ink-soft: #5B6577;
-  --line: #E1E6EE;
+  --ink-soft: #4E596D;
+  --line: #DDE3EC;
   --line-strong: #CBD3E0;
 
   /* Acento único: ações e seleção */
@@ -33,6 +33,14 @@
   /* Tipografia */
   --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-display: var(--font-body);
+
+  /* Elevação: duas camadas (contato + ambiente) dão profundidade sem peso */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 2px 4px rgba(16, 24, 40, 0.05), 0 8px 20px rgba(16, 24, 40, 0.07);
+  --shadow-lg: 0 4px 8px rgba(16, 24, 40, 0.08), 0 20px 40px rgba(16, 24, 40, 0.16);
+  --accent-hover: #1A3377;
+  --ring: 0 0 0 3px rgba(34, 64, 143, 0.22);
+  --ease: 140ms cubic-bezier(0.2, 0, 0, 1);
 
   /* Forma */
   --radius: 12px;
@@ -83,13 +91,59 @@ textarea {
   color: var(--ink);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  padding: 0.5rem 0.7rem;
+  padding: 0.55rem 0.75rem;
   font-size: 0.9rem;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--ease), box-shadow var(--ease);
 }
 
+select:hover,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover {
+  border-color: var(--ink-soft);
+}
+
+/* Seta própria no select: a do navegador destoa do resto */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.1rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%234E596D' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  cursor: pointer;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+/* Foco: anel suave, não o contorno cru do navegador */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+button {
+  transition: background-color var(--ease), border-color var(--ease), color var(--ease), box-shadow var(--ease), transform var(--ease);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -100,8 +154,8 @@ textarea {
 }
 
 [data-theme="dark"] {
-  --canvas: #0F141B;
-  --surface: #171E28;
+  --canvas: #0C1117;
+  --surface: #161D27;
   --ink: #E8ECF3;
   --ink-soft: #9AA5B8;
   --line: #263040;
@@ -115,4 +169,10 @@ textarea {
   --warn-soft: #33260F;
   --bad: #F0847B;
   --bad-soft: #3A1C1A;
+  --accent-hover: #A9BDF5;
+  --ring: 0 0 0 3px rgba(143, 169, 240, 0.3);
+  /* no escuro a profundidade vem da cor da superfície; sombra só reforça */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(0, 0, 0, 0.55);
 }

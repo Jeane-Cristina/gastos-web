@@ -5,8 +5,9 @@
   font-size: 0.8rem;
   color: var(--ink-soft);
   padding: 0.2em 0.6em;
-  background: var(--paper);
-  border-radius: 12px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: 99px;
   white-space: nowrap;
 }
 

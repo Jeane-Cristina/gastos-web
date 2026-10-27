@@ -20,7 +20,7 @@ export function StatusBadge({ label, percent, goal }: Props) {
 
   return (
     <div className={`status-badge ${status.className}`}>
-      <span className="status-badge__emoji">{status.emoji}</span>
+      <span className="status-badge__dot" aria-hidden="true" />
       <div>
         <div className="status-badge__label">{label}</div>
         <div className="status-badge__text">{status.text}</div>

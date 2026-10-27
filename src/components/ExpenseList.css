@@ -6,6 +6,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .expense-item {
@@ -18,6 +19,10 @@
 
 .expense-item:last-child {
     border-bottom: none;
+}
+
+.expense-item:hover {
+    background: var(--canvas);
 }
 
 .expense-item__desc {
@@ -42,10 +47,11 @@
 
 .expense-item__category {
     font-size: 0.75rem;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 600;
-    padding: 0.15em 0.6em;
+    background: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    font-weight: 500;
+    padding: 0.1em 0.6em;
     border-radius: 99px;
     display: inline-block;
     white-space: nowrap;
@@ -66,14 +72,25 @@
     white-space: nowrap;
 }
 
+/* Pago é o estado normal: fica discreto. Só o pendente chama atenção. */
 .expense-item__status--paid {
-    background: var(--ok-soft);
+    background: transparent;
+    color: var(--ink-soft);
+    font-weight: 500;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.expense-item__status--paid::before {
+    content: "✓ ";
     color: var(--ok);
+    font-weight: 700;
 }
 
 .expense-item__status--unpaid {
     background: var(--bad-soft);
     color: var(--bad);
+    border: 1px solid color-mix(in srgb, var(--bad) 25%, transparent);
 }
 
 .expense-item__actions {
@@ -85,25 +102,28 @@
 .expense-item__delete {
     border: none;
     background: transparent;
-    font-size: 0.75rem;
-    padding: 0.2em 0.5em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35em 0.6em;
     border-radius: var(--radius-sm);
 }
 
 .expense-item__edit {
-    color: var(--stamp);
+    color: var(--ink-soft);
 }
 
 .expense-item__delete {
-    color: var(--rust);
+    color: var(--ink-soft);
 }
 
 .expense-item__edit:hover {
-    background: var(--stamp-soft);
+    background: var(--accent-soft);
+    color: var(--accent);
 }
 
 .expense-item__delete:hover {
-    background: var(--rust-soft);
+    background: var(--bad-soft);
+    color: var(--bad);
 }
 
 @media (max-width: 480px) {
@@ -177,8 +197,8 @@
 }
 
 .expense-item__save {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: 0.3em 0.7em;

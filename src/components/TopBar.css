@@ -9,6 +9,7 @@
   padding: var(--space-sm) var(--space-md);
   background: var(--surface);
   border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line), var(--shadow-sm);
   /* segurança pra notch de celular, caso vire PWA */
   padding-top: calc(var(--space-sm) + env(safe-area-inset-top));
 }

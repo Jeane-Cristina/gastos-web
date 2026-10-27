@@ -6,11 +6,21 @@
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
-.status-badge__emoji {
-  font-size: 1.1rem;
+.status-badge__dot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ink-soft);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink-soft) 18%, transparent);
 }
+
+.status-badge--good .status-badge__dot { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 18%, transparent); }
+.status-badge--warn .status-badge__dot { background: var(--warn); box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 18%, transparent); }
+.status-badge--bad .status-badge__dot { background: var(--bad); box-shadow: 0 0 0 4px color-mix(in srgb, var(--bad) 18%, transparent); }
 
 .status-badge__label {
   font-size: 0.8rem;

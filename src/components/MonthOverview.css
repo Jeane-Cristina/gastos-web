@@ -11,6 +11,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-md) var(--space-md) var(--space-sm);
+  box-shadow: var(--shadow-md);
 }
 .month-hero--warn { --tone: var(--warn); }
 .month-hero--bad { --tone: var(--bad); }
@@ -33,7 +34,7 @@
 
 .month-hero__track {
   position: relative;
-  height: 8px;
+  height: 10px;
   border-radius: 99px;
   background: var(--line);
 }
@@ -55,8 +56,23 @@
   border-radius: 2px;
 }
 
+.month-hero__legend {
+  position: relative;
+  height: 1.1rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.month-hero__legend span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
 .month-hero__note {
-  margin: var(--space-xs) 0 0;
+  margin: 0;
   font-size: 0.8rem;
   color: var(--ink-soft);
 }
@@ -75,10 +91,12 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-sm) var(--space-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .month-overview__label {
   font-size: 0.8rem;
+  font-weight: 500;
   color: var(--ink-soft);
 }
 

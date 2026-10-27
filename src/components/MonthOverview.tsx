@@ -58,6 +58,9 @@ export function MonthOverview({ summary, refreshKey }: Props) {
             <div className="month-hero__fill" style={{ width: `${pace.spentPercent}%` }} />
             <div className="month-hero__marker" style={{ left: `${pace.expectedPercent}%` }} />
           </div>
+          <p className="month-hero__legend" aria-hidden="true">
+            <span style={{ left: `${pace.expectedPercent}%` }}>hoje</span>
+          </p>
           <p className="month-hero__note">
             {formatBRL(report!.monthlySpent)} gastos de {formatBRL(pace.budget)} possíveis
             {pace.daysLeft > 0 ? `, faltam ${pace.daysLeft} ${pace.daysLeft === 1 ? "dia" : "dias"}` : ", último dia do mês"}
