@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Controle de Gastos',
-        short_name: 'Controle de Gastos',
+        short_name: 'Gastos',
         description: 'Registre seus gastos, defina metas de economia e saiba quanto ainda pode gastar no mês',
         theme_color: '#22408F',
         background_color: '#EEF1F6',
