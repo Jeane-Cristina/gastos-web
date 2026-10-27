@@ -1,5 +1,7 @@
 # 💰 Controle de Gastos — Frontend
 
+[![CI](https://github.com/Jeane-Cristina/gastos-web/actions/workflows/ci.yml/badge.svg)](https://github.com/Jeane-Cristina/gastos-web/actions/workflows/ci.yml)
+
 Interface web (PWA) do app de controle e planejamento financeiro pessoal. Construída em React + TypeScript e consumindo a API REST em C#/ASP.NET Core.
 
 **🔗 App em produção:** [gastos-web-ten.vercel.app](https://gastos-web-ten.vercel.app)
