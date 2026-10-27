@@ -251,3 +251,13 @@ button:disabled {
   font-size: 1.15em;
   letter-spacing: -0.03em;
 }
+
+/* iOS Safari amplia a página ao focar um campo com fonte menor que 16px e não volta ao normal.
+   No celular, todo campo de texto usa no mínimo 16px para evitar esse zoom. */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
