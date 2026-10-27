@@ -26,7 +26,7 @@
 
 .bank-import__upload--filled {
   border-style: solid;
-  border-color: rgba(43, 38, 32, 0.1);
+  border-color: var(--line);
 }
 
 .bank-import__dropzone {
@@ -91,7 +91,7 @@
   border: none;
   color: var(--ink-soft);
   padding: 0.3em;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   flex-shrink: 0;
 }
 
@@ -102,8 +102,8 @@
 
 .bank-import__table-wrapper {
   background: var(--paper-card);
-  border: 1px solid rgba(43, 38, 32, 0.1);
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   overflow-x: auto;
 }
 
@@ -121,13 +121,13 @@
   letter-spacing: 0.05em;
   color: var(--ink-soft);
   padding: var(--space-sm);
-  border-bottom: 1px solid rgba(43, 38, 32, 0.15);
+  border-bottom: 1px solid var(--line-strong);
   white-space: nowrap;
 }
 
 .bank-import__table td {
   padding: var(--space-sm);
-  border-bottom: 1px dashed rgba(43, 38, 32, 0.1);
+  border-bottom: 1px dashed var(--line);
   vertical-align: middle;
 }
 
@@ -149,8 +149,8 @@
   width: 100%;
   min-width: 120px;
   padding: 0.35em 0.5em;
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--ink);
   font-size: 0.85rem;
@@ -163,8 +163,8 @@
 
 .bank-import__date-input {
   padding: 0.35em 0.5em;
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--ink);
   font-size: 0.85rem;
@@ -188,14 +188,14 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-sm) var(--space-md);
-  border-top: 1px solid rgba(43, 38, 32, 0.1);
+  border-top: 1px solid var(--line);
 }
 
 .bank-import__confirm {
   background: var(--stamp);
   color: var(--paper-card);
   border: none;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
   font-weight: 600;
   font-size: 0.9rem;
@@ -222,8 +222,8 @@
 
 .bank-import__help {
   background: var(--paper-card);
-  border: 1px solid rgba(43, 38, 32, 0.1);
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.85rem;
   color: var(--ink-soft);
@@ -247,7 +247,7 @@
 .bank-import__help code {
   background: var(--paper);
   padding: 0 0.3em;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   font-size: 0.8rem;
 }
 
@@ -258,7 +258,7 @@
   background: transparent;
   border: 1px solid var(--stamp);
   color: var(--stamp);
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
   font-size: 0.85rem;
   font-weight: 600;

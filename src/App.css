@@ -5,10 +5,9 @@
 }
 
 .app__title {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin: 0 0 var(--space-xs) 0;
 }
 
@@ -41,17 +40,17 @@
 }
 
 .app__add-details {
-  background: var(--paper-card);
-  border: 1px solid rgba(43, 38, 32, 0.1);
-  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: var(--space-sm) var(--space-md);
 }
 
 .app__add-details > summary {
   cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  color: var(--stamp);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 .app__add-details[open] > summary {
@@ -67,7 +66,7 @@
   }
 
   .app__content {
-    max-width: 1000px;
+    max-width: 960px;
     padding: var(--space-xl) var(--space-lg);
   }
 }

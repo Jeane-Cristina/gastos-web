@@ -7,8 +7,8 @@
 
 .filters select {
     padding: var(--space-xs) var(--space-sm);
-    border: 1px solid rgba(43, 38, 32, 0.15);
-    border-radius: 3px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
     background: var(--paper-card);
     color: var(--ink);
     font-family: var(--font-body);
@@ -21,4 +21,15 @@
     color: var(--stamp);
     font-size: 0.85rem;
     text-decoration: underline;
+}
+@media (max-width: 600px) {
+    .filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filters select {
+        width: 100%;
+        min-width: 0;
+    }
 }

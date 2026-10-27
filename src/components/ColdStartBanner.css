@@ -4,7 +4,7 @@
   gap: var(--space-sm);
   background: var(--stamp-soft);
   color: var(--stamp);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.85rem;
   margin-bottom: var(--space-sm);

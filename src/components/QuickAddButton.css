@@ -1,16 +1,16 @@
 .quick-add__fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
   background: var(--stamp);
-  color: var(--paper-card);
+  color: var(--on-accent);
   border: none;
   font-size: 1.8rem;
   line-height: 1;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 18px rgba(15, 20, 27, 0.28);
   z-index: 40;
 }
 
@@ -40,14 +40,13 @@
 }
 
 .quick-add__modal h3 {
-  font-family: var(--font-display);
   margin: 0 0 var(--space-xs) 0;
 }
 
 .quick-add__modal input {
   padding: var(--space-sm);
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--ink);
   font-size: 1rem;
@@ -61,7 +60,7 @@
 
 .quick-add__chip {
   background: var(--paper);
-  border: 1px solid rgba(43, 38, 32, 0.15);
+  border: 1px solid var(--line-strong);
   border-radius: 16px;
   padding: 0.3em 0.8em;
   font-size: 0.8rem;
@@ -86,15 +85,15 @@
   background: var(--stamp);
   color: var(--paper-card);
   border: none;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
   font-weight: 600;
 }
 
 .quick-add__actions button[type="button"] {
   background: transparent;
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
   color: var(--ink-soft);
 }

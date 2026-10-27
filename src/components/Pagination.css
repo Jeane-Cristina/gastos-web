@@ -10,8 +10,8 @@
 
 .pagination button {
   background: var(--paper-card);
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   padding: 0.3em 0.8em;
   font-size: 0.85rem;
   color: var(--ink);

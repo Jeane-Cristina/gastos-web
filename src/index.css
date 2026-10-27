@@ -1,19 +1,42 @@
 :root {
-  /* Cores */
-  --paper: #F5F2E8;
-  --paper-card: #FBF9F2;
-  --ink: #2B2620;
-  --ink-soft: #6B655C;
-  --stamp: #3B4B6B;
-  --stamp-soft: #E4E8F0;
-  --sage: #5B7F5E;
-  --sage-soft: #E5EDE5;
-  --rust: #A6402F;
-  --rust-soft: #F3E3E0;
+  /* Base */
+  --canvas: #F4F6F9;
+  --surface: #FFFFFF;
+  --ink: #151C2B;
+  --ink-soft: #5B6577;
+  --line: #E1E6EE;
+  --line-strong: #CBD3E0;
+
+  /* Acento único: ações e seleção */
+  --accent: #22408F;
+  --accent-soft: #E8EDF9;
+  --on-accent: #FFFFFF;
+
+  /* Status: só para significar situação */
+  --ok: #1F7A4D;
+  --ok-soft: #E4F3EA;
+  --warn: #9A5B06;
+  --warn-soft: #FBF1DC;
+  --bad: #B3261E;
+  --bad-soft: #FBE9E7;
+
+  /* Nomes antigos continuam valendo (aliases) */
+  --paper: var(--canvas);
+  --paper-card: var(--surface);
+  --stamp: var(--accent);
+  --stamp-soft: var(--accent-soft);
+  --sage: var(--ok);
+  --sage-soft: var(--ok-soft);
+  --rust: var(--bad);
+  --rust-soft: var(--bad-soft);
 
   /* Tipografia */
-  --font-display: 'Space Mono', monospace;
-  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-body: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: var(--font-body);
+
+  /* Forma */
+  --radius: 12px;
+  --radius-sm: 8px;
 
   /* Espaçamento */
   --space-xs: 0.5rem;
@@ -29,11 +52,17 @@
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.015em;
 }
 
 button {
@@ -41,19 +70,49 @@ button {
   cursor: pointer;
 }
 
-input {
+input,
+select,
+textarea {
   font-family: var(--font-body);
 }
 
+select,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 [data-theme="dark"] {
-  --paper: #1E1B17;
-  --paper-card: #2A2622;
-  --ink: #EDE8E0;
-  --ink-soft: #A39B8F;
-  --stamp: #7B94C9;
-  --stamp-soft: #2C3654;
-  --sage: #7FA882;
-  --sage-soft: #2A3B2C;
-  --rust: #D97862;
-  --rust-soft: #3D2823;
+  --canvas: #0F141B;
+  --surface: #171E28;
+  --ink: #E8ECF3;
+  --ink-soft: #9AA5B8;
+  --line: #263040;
+  --line-strong: #364257;
+  --accent: #8FA9F0;
+  --accent-soft: #1E2A4A;
+  --on-accent: #0F141B;
+  --ok: #5CC38B;
+  --ok-soft: #15301F;
+  --warn: #E0A84B;
+  --warn-soft: #33260F;
+  --bad: #F0847B;
+  --bad-soft: #3A1C1A;
 }

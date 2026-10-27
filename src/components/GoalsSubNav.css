@@ -1,7 +1,7 @@
 .goals-subnav {
   display: flex;
   gap: var(--space-xs);
-  border-bottom: 1px solid rgba(43, 38, 32, 0.1);
+  border-bottom: 1px solid var(--line);
   padding-bottom: var(--space-sm);
   overflow-x: auto;
 }

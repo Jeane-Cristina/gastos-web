@@ -3,41 +3,25 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  border-radius: 4px;
-  border: 1px solid transparent;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
 }
 
 .status-badge__emoji {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .status-badge__label {
-  font-family: var(--font-display);
   font-size: 0.8rem;
   color: var(--ink-soft);
 }
 
 .status-badge__text {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 650;
+  font-size: 0.95rem;
 }
 
-.status-badge--good {
-  background: var(--sage-soft);
-  border-color: rgba(91, 127, 94, 0.3);
-}
-
-.status-badge--warn {
-  background: #FBF0DD;
-  border-color: rgba(201, 154, 62, 0.3);
-}
-
-.status-badge--bad {
-  background: var(--rust-soft);
-  border-color: rgba(166, 64, 47, 0.3);
-}
-
-.status-badge--unset {
-  background: var(--paper-card);
-  border-color: rgba(43, 38, 32, 0.15);
-}
+.status-badge--good .status-badge__text { color: var(--ok); }
+.status-badge--warn .status-badge__text { color: var(--warn); }
+.status-badge--bad .status-badge__text { color: var(--bad); }

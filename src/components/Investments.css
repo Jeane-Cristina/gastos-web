@@ -1,7 +1,7 @@
 .investments {
   background: var(--paper-card);
-  border: 1px solid rgba(43, 38, 32, 0.1);
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: var(--space-md);
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   font-size: 0.9rem;
   padding: var(--space-sm);
   background: var(--paper);
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
 }
 
 .investments__gain {
@@ -44,8 +44,8 @@
 .investments__form input,
 .investments__form select {
   padding: var(--space-xs) var(--space-sm);
-  border: 1px solid rgba(43, 38, 32, 0.15);
-  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--ink);
   font-size: 0.9rem;
@@ -55,7 +55,7 @@
   background: var(--stamp);
   color: var(--paper-card);
   border: none;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
   font-weight: 600;
   font-size: 0.9rem;
@@ -75,7 +75,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-xs) 0;
-  border-bottom: 1px dashed rgba(43, 38, 32, 0.1);
+  border-bottom: 1px dashed var(--line);
   font-size: 0.9rem;
 }
 
@@ -95,7 +95,7 @@
   background: var(--stamp);
   color: var(--paper-card);
   border: none;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: var(--space-sm) var(--space-md);
   font-weight: 600;
   font-size: 0.9rem;
@@ -108,7 +108,7 @@
 .investments__suggestions {
   background: var(--stamp-soft);
   border: 1px solid rgba(59, 75, 107, 0.2);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: var(--space-md);
 }
 

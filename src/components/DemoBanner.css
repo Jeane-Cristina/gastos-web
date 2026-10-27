@@ -4,17 +4,19 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 1rem;
-  padding: 0.6rem 1rem;
-  background: var(--paper-dark, #f3ead3);
-  border-bottom: 1px dashed var(--stamp, #8a3b2a);
+  padding: 0.55rem 1.25rem;
+  background: var(--accent-soft);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
   font-size: 0.85rem;
 }
 
 .demo-banner button {
-  background: transparent;
-  border: 1px solid var(--stamp, #8a3b2a);
-  color: var(--stamp, #8a3b2a);
-  border-radius: 6px;
-  padding: 0.3rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--accent);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.8rem;
   cursor: pointer;
 }
