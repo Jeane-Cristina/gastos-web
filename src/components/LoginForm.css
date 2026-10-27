@@ -8,101 +8,237 @@
 
 .login-card {
     width: 100%;
-    max-width: 340px;
-    background: var(--paper-card);
+    max-width: 380px;
+    background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: var(--space-lg) var(--space-md);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-lg) 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-sm);
 }
 
 .login-card__brand {
-    font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 1.6rem;
+    letter-spacing: -0.025em;
+    text-align: left;
     margin: 0;
 }
 
 .login-card__subtitle {
-    text-align: center;
     color: var(--ink-soft);
-    font-size: 0.85rem;
-    margin: -0.5rem 0 0 0;
+    font-size: 0.9rem;
+    margin: -0.25rem 0 var(--space-xs) 0;
 }
 
 .login-card input {
-    padding: var(--space-sm);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-sm);
-    background: var(--paper);
-    color: var(--ink);
+    padding: 0.7rem 0.85rem;
     font-size: 1rem;
 }
 
-.login-card input:focus {
-    outline: 2px solid var(--stamp);
-    outline-offset: 1px;
-}
-
 .login-card__submit {
-    background: var(--stamp);
-    color: var(--paper-card);
+    background: var(--accent);
+    color: var(--on-accent);
     border: none;
     border-radius: var(--radius-sm);
-    padding: var(--space-sm);
-    font-weight: 600;
+    padding: 0.75rem;
+    font-weight: 650;
     font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--space-xs);
 }
 
-.login-card__submit:hover {
-    opacity: 0.9;
+.login-card__submit:hover:not(:disabled) {
+    background: var(--accent-hover);
 }
 
 .login-card__error {
-    color: var(--rust);
+    color: var(--bad);
+    background: var(--bad-soft);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.75rem;
     font-size: 0.85rem;
-    text-align: center;
     margin: 0;
 }
 
 .login-card__link {
     background: transparent;
     border: none;
-    color: var(--stamp);
+    color: var(--accent);
     font-size: 0.85rem;
-    text-decoration: underline;
-    margin-top: -0.5rem;
+    font-weight: 600;
+    padding: 0.35rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.login-card__link:hover {
+    background: var(--accent-soft);
 }
 
 .login-card__forgot {
     align-self: flex-end;
-    margin-top: -0.25rem;
+    margin: -0.25rem -0.5rem 0 0;
 }
 
+.login-card__divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+}
+
+.login-card__divider::before,
+.login-card__divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+}
+
+/* Ação principal para quem só quer olhar: fica forte, mas abaixo do Entrar */
 .login-card__demo {
-    background: transparent;
-    border: 1px dashed var(--stamp);
-    color: var(--stamp);
-    border-radius: 6px;
-    padding: 0.6rem 0.75rem;
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--accent);
+    font-weight: 650;
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.75rem;
     font-size: 0.9rem;
-    cursor: pointer;
+}
+
+.login-card__demo:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent) 16%, var(--surface));
 }
 
 .login-card__demo:disabled {
-    opacity: 0.6;
     cursor: wait;
 }
 
+.login-card__hint {
+    margin: -0.25rem 0 0;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+}
+
 .login-card__notice {
-    background: var(--paper-dark, #f3ead3);
-    border-left: 3px solid var(--stamp);
-    color: var(--ink, inherit);
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
     font-size: 0.85rem;
-    text-align: left;
     margin: 0;
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0.8rem;
+}
+
+/* ---- Tela dividida: painel de apresentação + formulário (só no login) ---- */
+.login-hero {
+    display: none;
+}
+
+@media (min-width: 900px) {
+    .login-screen--split {
+        padding: 0;
+        justify-content: stretch;
+        align-items: stretch;
+        background: var(--canvas);
+    }
+
+    .login-screen--split .login-card {
+        align-self: center;
+        margin: 0 auto;
+    }
+
+    .login-hero {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 0 0 46%;
+        padding: 2.5rem 3rem;
+        background: #16275C;
+        color: #F2F5FD;
+    }
+
+    [data-theme="dark"] .login-hero {
+        background: #101A3A;
+    }
+
+    .login-hero__brand {
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        font-size: 1.05rem;
+    }
+
+    .login-hero__body {
+        max-width: 30rem;
+    }
+
+    .login-hero__title {
+        margin: 0 0 var(--space-sm);
+        font-size: clamp(1.9rem, 3vw, 2.5rem);
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+    }
+
+    .login-hero__text {
+        margin: 0 0 var(--space-lg);
+        color: #BFCAE8;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .login-hero__preview {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: var(--space-md);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .login-hero__preview-label {
+        font-size: 0.85rem;
+        color: #BFCAE8;
+    }
+
+    .login-hero__preview-value {
+        font-size: 2.2rem;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        color: #7FE0AB;
+    }
+
+    .login-hero__preview-track {
+        position: relative;
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.16);
+        margin-top: 0.25rem;
+    }
+
+    .login-hero__preview-fill {
+        width: 86%;
+        height: 100%;
+        border-radius: 99px;
+        background: #7FE0AB;
+    }
+
+    .login-hero__preview-marker {
+        position: absolute;
+        left: 87%;
+        top: -4px;
+        bottom: -4px;
+        width: 2px;
+        background: #fff;
+        border-radius: 2px;
+    }
+
+    .login-hero__preview-note {
+        font-size: 0.75rem;
+        color: #9FB0DB;
+    }
 }

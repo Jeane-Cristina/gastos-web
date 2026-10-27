@@ -1,6 +1,6 @@
 .onboarding-banner {
   position: relative;
-  background: var(--sage-soft);
+  background: var(--ok-soft);
   border: 1px solid rgba(91, 127, 94, 0.25);
   border-radius: var(--radius);
   padding: var(--space-md);
@@ -8,9 +8,8 @@
 }
 
 .onboarding-banner h3 {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  color: var(--sage);
+    font-size: 0.95rem;
+  color: var(--ok);
   margin: 0 0 var(--space-sm) 0;
 }
 
@@ -26,7 +25,7 @@
 .onboarding-banner__link {
   background: transparent;
   border: none;
-  color: var(--stamp);
+  color: var(--accent);
   text-decoration: underline;
   font-size: inherit;
   padding: 0;

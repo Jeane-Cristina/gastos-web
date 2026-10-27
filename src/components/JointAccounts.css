@@ -5,15 +5,14 @@
 }
 
 .joint-accounts h2 {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
+    font-size: 1.1rem;
   margin: 0;
 }
 
 /* Convites pendentes */
 .joint-accounts__invites {
-  background: var(--stamp-soft);
-  border: 1px solid rgba(59, 75, 107, 0.2);
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-md);
   display: flex;
@@ -22,11 +21,8 @@
 }
 
 .joint-accounts__invites h3 {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--stamp);
+    font-size: 0.85rem;
+      color: var(--accent);
   margin: 0;
 }
 
@@ -39,7 +35,7 @@
 }
 
 .joint-accounts__invite-item button {
-  background: var(--paper-card);
+  background-color: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   padding: 0.3em 0.8em;
@@ -77,8 +73,8 @@
 }
 
 .joint-accounts__new-form button {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: 0 var(--space-sm);
@@ -107,10 +103,10 @@
 }
 
 .joint-accounts__item--active {
-  background: var(--stamp-soft) !important;
-  color: var(--stamp) !important;
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
   font-weight: 600;
-  border-color: var(--stamp) !important;
+  border-color: var(--accent) !important;
 }
 
 /* Detalhes da conta selecionada */
@@ -124,20 +120,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .joint-accounts__details h3 {
-  font-family: var(--font-display);
-  font-size: 1rem;
+    font-size: 1rem;
   margin: 0;
 }
 
 .joint-accounts__details h4 {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--ink-soft);
+    font-size: 0.85rem;
+      color: var(--ink-soft);
   margin: 0 0 var(--space-xs) 0;
 }
 
@@ -153,14 +146,14 @@
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.85rem;
 }
 
 .joint-accounts__invite-form button {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: 0 var(--space-md);
@@ -170,7 +163,7 @@
 }
 
 .joint-accounts__error {
-  color: var(--rust);
+  color: var(--bad);
   font-size: 0.85rem;
   margin: -0.5rem 0 0 0;
 }
@@ -188,14 +181,14 @@
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.85rem;
 }
 
 .joint-accounts__expense-form button {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
@@ -216,7 +209,7 @@
 
 .joint-accounts__bar-track {
   height: 8px;
-  background: var(--paper);
+  background-color: var(--surface);
   border-radius: var(--radius);
   overflow: hidden;
   margin-top: 0.3em;
@@ -224,7 +217,7 @@
 
 .joint-accounts__bar-fill {
   height: 100%;
-  background: var(--stamp);
+  background: var(--accent);
   transition: width 0.3s ease;
 }
 
@@ -240,7 +233,7 @@
 
 .joint-accounts__expense-list li {
   padding: var(--space-xs) 0;
-  border-bottom: 1px dashed var(--line);
+  border-bottom: 1px solid var(--line);
   font-size: 0.85rem;
 }
 
@@ -267,7 +260,7 @@
 .joint-accounts__remove-member {
   background: transparent;
   border: none;
-  color: var(--rust);
+  color: var(--bad);
   font-size: 0.75rem;
 }
 
@@ -277,10 +270,38 @@
   border: 1px solid rgba(166, 64, 47, 0.3);
   border-radius: var(--radius-sm);
   padding: 0.4em 0.9em;
-  color: var(--rust);
+  color: var(--bad);
   font-size: 0.85rem;
 }
 
 .joint-accounts__leave:hover {
-  background: var(--rust-soft);
+  background: var(--bad-soft);
+}
+/* Cartões: lista de contas e detalhes seguem o mesmo padrão das outras telas */
+.joint-accounts > h2 {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.joint-accounts__sidebar,
+.joint-accounts__details {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-md);
+}
+
+.joint-accounts__sidebar {
+  min-width: 240px;
+}
+
+.joint-accounts__details {
+  flex: 1 1 360px;
+  min-width: 0;
+}
+
+.joint-accounts__sidebar {
+  flex: 0 1 320px;
+  align-self: flex-start;
 }

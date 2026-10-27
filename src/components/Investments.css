@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .investments h2 {
-  font-family: var(--font-display);
-  font-size: 1rem;
+    font-size: 1rem;
   margin: 0 0 var(--space-xs) 0;
 }
 
@@ -20,17 +20,17 @@
   flex-wrap: wrap;
   font-size: 0.9rem;
   padding: var(--space-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   border-radius: var(--radius-sm);
 }
 
 .investments__gain {
-  color: var(--sage);
+  color: var(--ok);
   font-weight: 600;
 }
 
 .investments__loss {
-  color: var(--rust);
+  color: var(--bad);
   font-weight: 600;
 }
 
@@ -46,14 +46,14 @@
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.9rem;
 }
 
 .investments__form button {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
@@ -75,7 +75,7 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-xs) 0;
-  border-bottom: 1px dashed var(--line);
+  border-bottom: 1px solid var(--line);
   font-size: 0.9rem;
 }
 
@@ -86,14 +86,14 @@
 .investments__list button {
   background: transparent;
   border: none;
-  color: var(--rust);
+  color: var(--bad);
   font-size: 0.8rem;
 }
 
 .investments__suggest-btn {
   align-self: flex-start;
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-sm) var(--space-md);
@@ -106,8 +106,8 @@
 }
 
 .investments__suggestions {
-  background: var(--stamp-soft);
-  border: 1px solid rgba(59, 75, 107, 0.2);
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-md);
 }
@@ -117,4 +117,34 @@
   color: var(--ink-soft);
   margin: 0 0 var(--space-sm) 0;
   font-style: italic;
+}
+.investments__summary {
+  background-color: var(--canvas);
+  border: 1px solid var(--line);
+}
+
+/* editar / excluir: ação discreta, vira cor só ao passar o mouse */
+.investments__list button,
+.recurring-expenses__list button,
+.purchase-goals__list button,
+.joint-accounts__expense-list button {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.35em 0.6em;
+  border-radius: var(--radius-sm);
+}
+
+.investments__list button:hover,
+.recurring-expenses__list button:hover,
+.purchase-goals__list button:hover,
+.joint-accounts__expense-list button:hover {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.investments__list li {
+  gap: var(--space-xs);
 }

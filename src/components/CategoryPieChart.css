@@ -3,11 +3,11 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .category-chart__title {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
+    font-size: 0.9rem;
   margin: 0 0 var(--space-sm) 0;
 }
 
@@ -31,8 +31,7 @@
 }
 
 .category-chart__center strong {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 
 .category-chart__legend {
@@ -67,4 +66,21 @@
 .category-chart__value {
   text-align: right;
   min-width: 7ch;
+}
+
+@media (min-width: 760px) {
+  .category-chart {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.8fr) 1.2fr;
+    column-gap: var(--space-lg);
+    align-items: center;
+  }
+
+  .category-chart__title {
+    grid-column: 1 / -1;
+  }
+
+  .category-chart__legend {
+    margin: 0;
+  }
 }

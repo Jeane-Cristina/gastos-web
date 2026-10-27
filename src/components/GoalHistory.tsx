@@ -34,21 +34,21 @@ export function GoalHistory() {
   }));
 
   return (
-    <div>
-      <h2>Histórico de metas</h2>
+    <section className="report-card">
+      <h2 className="report-card__title">Histórico de metas</h2>
       <p className="goal-history__note">
-        O histórico é registrado automaticamente nos dias em que você usa o app. Meses sem acesso ficam sem ponto no gráfico.
+        O histórico é registrado automaticamente nos dias em que você usa o app. Meses sem acesso ficam sem ponto no gráfico. Valores em reais.
       </p>
       {chartData.length === 0 && <p className="goal-history__note">Ainda não há histórico. Ele começa a aparecer após o primeiro dia de uso com o perfil financeiro preenchido.</p>}
 
       {chartData.length > 0 && (
         <ul className="goal-history__legend" aria-label="Legenda do gráfico">
           <li>
-            <svg width="28" height="8" aria-hidden="true"><line x1="0" y1="4" x2="28" y2="4" stroke="#5B7F5E" strokeWidth="2" /></svg>
+            <svg width="28" height="8" aria-hidden="true"><line x1="0" y1="4" x2="28" y2="4" stroke="#1F9D6B" strokeWidth="2.5" /></svg>
             Economizado no mês
           </li>
           <li>
-            <svg width="28" height="8" aria-hidden="true"><line x1="0" y1="4" x2="28" y2="4" stroke="#3B4B6B" strokeWidth="2" strokeDasharray="4 4" /></svg>
+            <svg width="28" height="8" aria-hidden="true"><line x1="0" y1="4" x2="28" y2="4" stroke="#8A94A6" strokeWidth="2" strokeDasharray="4 4" /></svg>
             Meta de economia
           </li>
         </ul>
@@ -56,16 +56,16 @@ export function GoalHistory() {
 
       {chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(43,38,32,0.1)" />
-            <XAxis dataKey="label" />
-            <YAxis width={70} tickFormatter={(v: number) => formatBRL(v)} />
+          <LineChart data={chartData} margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
+            <CartesianGrid vertical={false} strokeDasharray="3 3" />
+            <XAxis dataKey="label" padding={{ left: 24, right: 24 }} tickLine={false} />
+            <YAxis width={56} tickLine={false} axisLine={false} tickFormatter={(v: number) => (v >= 1000 ? `${(v / 1000).toLocaleString("pt-BR")} mil` : `${v}`)} />
             <Tooltip formatter={(value) => formatBRL(typeof value === "number" ? value : 0)} />
-            <Line type="monotone" dataKey="Economizado" stroke="#5B7F5E" strokeWidth={2} />
-            <Line type="monotone" dataKey="Meta" stroke="#3B4B6B" strokeWidth={2} strokeDasharray="4 4" />
+            <Line type="monotone" dataKey="Economizado" stroke="#1F9D6B" strokeWidth={2.5} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="Meta" stroke="#8A94A6" strokeWidth={2} strokeDasharray="4 4" dot={false} />
           </LineChart>
         </ResponsiveContainer>
       )}
-    </div>
+    </section>
   );
 }

@@ -159,7 +159,7 @@ export function Investments() {
       {suggestions && (
         <div className="investments__suggestions">
           <p className="investments__disclaimer">
-            ⚠️ Sugestões educacionais gerais, sem dados de mercado em tempo real. Não substitui consultoria financeira certificada.
+            Sugestões educacionais gerais, sem dados de mercado em tempo real. Não substitui consultoria financeira certificada.
           </p>
           <ReactMarkdown>{suggestions}</ReactMarkdown>
         </div>

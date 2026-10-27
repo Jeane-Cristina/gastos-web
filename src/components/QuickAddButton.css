@@ -5,7 +5,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--stamp);
+  background: var(--accent);
   color: var(--on-accent);
   border: none;
   font-size: 1.8rem;
@@ -50,7 +50,7 @@
   padding: var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 1rem;
 }
@@ -62,7 +62,7 @@
 }
 
 .quick-add__chip {
-  background: var(--paper);
+  background-color: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: 16px;
   padding: 0.3em 0.8em;
@@ -71,9 +71,9 @@
 }
 
 .quick-add__chip--active {
-  background: var(--stamp-soft);
-  color: var(--stamp);
-  border-color: var(--stamp);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
   font-weight: 600;
 }
 

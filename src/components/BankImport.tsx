@@ -343,7 +343,7 @@ export function BankImport({ onImportSuccess }: Props) {
                       aria-label="Descrição"
                     />
                     {row.possibleDuplicate && (
-                      <span className="bank-import__duplicate-tag">⚠️ possível duplicata</span>
+                      <span className="bank-import__duplicate-tag">possível duplicata</span>
                     )}
                   </td>
                   <td className="bank-import__amount">{formatBRL(row.amount)}</td>

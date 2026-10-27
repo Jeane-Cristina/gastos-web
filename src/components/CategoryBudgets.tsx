@@ -26,14 +26,14 @@ function budgetLevel(percent: number): BudgetLevel {
 
 const LEVEL_COLOR: Record<BudgetLevel, string> = {
   ok: "var(--sage)",
-  near: "#C99A3E",
+  near: "var(--warn)",
   over: "var(--rust)",
 };
 
 function alertText(s: { percent: number; spent: number; monthlyLimit: number }): string | null {
   const level = budgetLevel(s.percent);
-  if (level === "over") return `🔴 Limite estourado em ${formatBRL(s.spent - s.monthlyLimit)}`;
-  if (level === "near") return `⚠️ Atenção: ${Math.round(s.percent)}% do limite já usado`;
+  if (level === "over") return `Limite estourado em ${formatBRL(s.spent - s.monthlyLimit)}`;
+  if (level === "near") return `Atenção: ${Math.round(s.percent)}% do limite já usado`;
   return null;
 }
 

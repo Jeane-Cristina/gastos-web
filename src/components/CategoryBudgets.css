@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .category-budgets h2 {
-  font-family: var(--font-display);
-  font-size: 1rem;
+    font-size: 1rem;
   margin: 0;
 }
 
@@ -24,14 +24,14 @@
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.9rem;
 }
 
 .category-budgets__form button {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
@@ -53,7 +53,7 @@
 
 .category-budgets__bar-track {
   height: 8px;
-  background: var(--paper);
+  background-color: var(--surface);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -64,12 +64,12 @@
 }
 
 .category-budgets__item--near {
-  border-left: 3px solid #C99A3E;
+  border-left: 3px solid var(--warn);
   padding-left: var(--space-sm);
 }
 
 .category-budgets__item--over {
-  border-left: 3px solid var(--rust);
+  border-left: 3px solid var(--bad);
   padding-left: var(--space-sm);
 }
 
@@ -80,9 +80,9 @@
 }
 
 .category-budgets__alert--near {
-  color: #8A6414;
+  color: var(--warn);
 }
 
 .category-budgets__alert--over {
-  color: var(--rust);
+  color: var(--bad);
 }

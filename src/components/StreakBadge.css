@@ -12,5 +12,5 @@
 }
 
 .streak-badge strong {
-  color: var(--stamp);
+  color: var(--accent);
 }

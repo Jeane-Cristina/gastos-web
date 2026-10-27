@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .chat-box h2 {
-  font-family: var(--font-display);
-  font-size: 1rem;
+    font-size: 1rem;
   margin: 0;
 }
 
@@ -46,14 +46,14 @@
 
 .chat-box__bubble--question {
   align-self: flex-end;
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border-bottom-right-radius: 2px;
 }
 
 .chat-box__bubble--answer {
   align-self: flex-start;
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   border: 1px solid var(--line);
   border-bottom-left-radius: 2px;
@@ -70,19 +70,19 @@
   padding: var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.9rem;
 }
 
 .chat-box__input-row input:focus {
-  outline: 2px solid var(--stamp);
+  outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
 .chat-box__send {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: 0 var(--space-md);

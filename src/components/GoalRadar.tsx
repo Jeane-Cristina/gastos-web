@@ -10,10 +10,10 @@ interface Props {
 }
 
 const LEVEL_COLOR: Record<GoalLevel, string> = {
-  good: "#5B7F5E", // sálvia — indo bem
-  warn: "#C99A3E", // âmbar — mais ou menos
-  bad: "#A6402F", // ferrugem — atenção
-  unset: "#9A9288", // neutro — sem meta
+  good: "#1F9D6B", // verde: indo bem
+  warn: "#E3A008", // âmbar: mais ou menos
+  bad: "#D9483B", // vermelho: atenção
+  unset: "#8A94A6", // neutro: sem meta
 };
 
 export function GoalRadar({ label, percent, goal }: Props) {
@@ -33,7 +33,7 @@ export function GoalRadar({ label, percent, goal }: Props) {
   return (
     <div className="goal-radar">
       <div className="goal-radar__chart">
-        <ResponsiveContainer width="100%" height={160}>
+        <ResponsiveContainer width="100%" height={132}>
           <RadialBarChart
             innerRadius="70%"
             outerRadius="100%"
@@ -42,7 +42,7 @@ export function GoalRadar({ label, percent, goal }: Props) {
             endAngle={-270}
           >
             <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
-            <RadialBar background dataKey="value" cornerRadius={8} />
+            <RadialBar background={{ fill: "var(--line)" }} dataKey="value" cornerRadius={8} />
           </RadialBarChart>
         </ResponsiveContainer>
         <strong className="goal-radar__percent">{percent.toFixed(0)}%</strong>

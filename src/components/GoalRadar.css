@@ -7,6 +7,7 @@
   position: relative;
   flex: 1 1 140px;
   min-width: 140px;
+  box-shadow: var(--shadow-sm);
 }
 
 .goal-radar__chart {
@@ -19,8 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.4rem;
+    font-size: 1.4rem;
   pointer-events: none;
 }
 
@@ -32,8 +32,8 @@
 }
 
 .button-layout{
-    background: var(--stamp);
-    color: var(--paper-card);
+    background: var(--accent);
+    color: var(--on-accent);
     padding: var(--space-xs) var(--space-md);
     border: none;
     border-radius: var(--radius-sm);
@@ -52,8 +52,7 @@
 }
 
 .goal-radar--unset strong {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
+    font-size: 1.3rem;
   color: var(--ink-soft);
 }
 
@@ -90,4 +89,119 @@
   font-size: 0.8rem;
   color: var(--ink-soft);
   margin: 0 0 var(--space-sm);
+}
+
+/* ---- Relatórios: cartões de seção ---- */
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-md);
+}
+
+.report-card__title {
+  margin: 0 0 var(--space-md);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.goal-report__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+
+.goal-period {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--canvas);
+}
+
+/* o gráfico circular aqui dentro não precisa de cartão próprio */
+.goal-period .goal-radar {
+  flex: 0 0 120px;
+  min-width: 120px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.goal-period .goal-radar__caption {
+  display: none;
+}
+
+.goal-period .goal-radar__percent {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.goal-period__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.goal-period__title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.goal-period__line {
+  margin: 0;
+}
+
+.goal-period__result {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.goal-period__result--met { color: var(--ok); }
+.goal-period__result--below { color: var(--warn); }
+
+.goal-period__amount {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.goal-period__amount strong {
+  color: var(--ink);
+}
+
+.goal-period .status-badge {
+  margin-top: 0.25rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
+  box-shadow: none;
+  background: var(--surface);
+}
+
+.goal-period .status-badge__label {
+  display: none;
+}
+
+.goal-period .status-badge__text {
+  font-size: 0.8rem;
+}
+
+.goal-period .goal-report__basis {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .goal-period {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

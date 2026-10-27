@@ -192,3 +192,43 @@ button:disabled {
   --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4), 0 20px 40px rgba(0, 0, 0, 0.55);
 }
+
+/* Gráficos (recharts): eixos, grade e textos seguem o tema */
+.recharts-cartesian-axis-tick-value,
+.recharts-legend-item-text {
+  fill: var(--ink-soft) !important;
+  color: var(--ink-soft) !important;
+  font-size: 12px;
+}
+
+.recharts-cartesian-grid line,
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--line);
+}
+
+.recharts-default-tooltip {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  color: var(--ink);
+}
+
+/* Celular: campos de formulários em linha ocupam a largura, sem sobras */
+@media (max-width: 600px) {
+  .investments__form > *:not(button),
+  .recurring-expenses__form > *:not(button),
+  .purchase-goals__form > input,
+  .purchase-goals__form > select,
+  .category-budgets__form > * {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 0;
+  }
+
+  .investments__form > input:first-child,
+  .recurring-expenses__form > input:first-child,
+  .purchase-goals__form > input:first-child {
+    flex-basis: 100%;
+  }
+}

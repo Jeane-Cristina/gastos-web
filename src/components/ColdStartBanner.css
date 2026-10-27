@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  background: var(--stamp-soft);
-  color: var(--stamp);
+  background: var(--accent-soft);
+  color: var(--accent);
   border-radius: var(--radius);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.85rem;
@@ -13,7 +13,7 @@
 .cold-start-banner__spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid var(--stamp);
+  border: 2px solid var(--accent);
   border-top-color: transparent;
   border-radius: 50%;
   animation: cold-start-spin 0.7s linear infinite;

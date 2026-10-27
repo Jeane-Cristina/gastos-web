@@ -9,7 +9,7 @@
 }
 
 .pagination button {
-  background: var(--paper-card);
+  background-color: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   padding: 0.3em 0.8em;

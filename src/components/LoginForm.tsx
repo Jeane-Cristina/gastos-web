@@ -57,7 +57,25 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
   }
 
   return (
-    <div className="login-screen">
+    <div className="login-screen login-screen--split">
+      <aside className="login-hero" aria-hidden="true">
+        <span className="login-hero__brand">Controle de Gastos</span>
+        <div className="login-hero__body">
+          <h2 className="login-hero__title">Saiba quanto ainda pode gastar este mês.</h2>
+          <p className="login-hero__text">
+            Lance seus gastos, defina uma meta de economia e acompanhe o ritmo do mês sem planilha.
+          </p>
+          <div className="login-hero__preview">
+            <span className="login-hero__preview-label">Ainda pode gastar neste mês</span>
+            <strong className="login-hero__preview-value">R$ 571,70</strong>
+            <div className="login-hero__preview-track">
+              <div className="login-hero__preview-fill" />
+              <div className="login-hero__preview-marker" />
+            </div>
+            <span className="login-hero__preview-note">Exemplo com dados fictícios</span>
+          </div>
+        </div>
+      </aside>
       <form className="login-card" onSubmit={handleSubmit}>
         <h1 className="login-card__brand">Gastos</h1>
         <p className="login-card__subtitle">entre para acessar seus lançamentos</p>
@@ -74,9 +92,11 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
         <button type="button" onClick={onSwitchToRegister} className="login-card__link">
           Criar conta
         </button>
+        <div className="login-card__divider"><span>ou</span></div>
         <button type="button" onClick={handleDemo} disabled={demoLoading || loading} className="login-card__demo">
           {demoLoading ? "Preparando a demonstração..." : "Ver demonstração (sem cadastro)"}
         </button>
+        <p className="login-card__hint">Dados fictícios, apagados em 24 h.</p>
       </form>
     </div>
   );

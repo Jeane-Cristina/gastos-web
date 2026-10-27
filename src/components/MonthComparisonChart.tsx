@@ -35,13 +35,13 @@ export function MonthComparisonChart() {
       <h3>Comparação com o mês anterior</h3>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(43,38,32,0.1)" />
+          <CartesianGrid vertical={false} strokeDasharray="3 3" />
           <XAxis dataKey="category" tick={{ fontSize: 11 }} />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="Mês anterior" fill="#A39B8F" radius={[3, 3, 0, 0]} />
-          <Bar dataKey="Mês atual" fill="#3B4B6B" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="Mês anterior" fill="#B6BFCC" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="Mês atual" fill="#3D63D6" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

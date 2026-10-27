@@ -1,6 +1,6 @@
 .insight {
-  background: var(--stamp-soft);
-  border: 1px solid rgba(59, 75, 107, 0.2);
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: var(--space-md);
   display: flex;
@@ -9,11 +9,8 @@
 }
 
 .insight__title {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--stamp);
+    font-size: 0.85rem;
+      color: var(--accent);
   margin: 0;
 }
 
@@ -21,7 +18,7 @@
   padding: var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -31,8 +28,8 @@
 
 .insight__generate {
   align-self: flex-start;
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
@@ -46,7 +43,7 @@
 }
 
 .insight-section {
-  border-top: 1px dashed rgba(59, 75, 107, 0.3);
+  border-top: 1px dashed var(--line);
   padding-top: var(--space-sm);
 }
 
@@ -56,11 +53,8 @@
 }
 
 .insight-section h4 {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--stamp);
+    font-size: 0.8rem;
+      color: var(--accent);
   margin: 0 0 0.3em 0;
 }
 
@@ -92,12 +86,12 @@
 }
 
 .insight-section strong {
-  color: var(--stamp);
+  color: var(--accent);
 }
 
 .insight__banner {
-  background: var(--sage-soft);
-  color: var(--sage);
+  background: var(--ok-soft);
+  color: var(--ok);
   border-radius: var(--radius);
   padding: var(--space-sm);
   font-size: 0.85rem;
@@ -109,7 +103,7 @@
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.85rem;
   align-self: flex-start;

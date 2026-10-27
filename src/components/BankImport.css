@@ -5,8 +5,7 @@
 }
 
 .bank-import h2 {
-  font-family: var(--font-display);
-  font-size: 1rem;
+    font-size: 1rem;
   margin: 0;
 }
 
@@ -20,8 +19,8 @@
 }
 
 .bank-import__upload--dragging {
-  border-color: var(--stamp);
-  background: var(--stamp-soft);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .bank-import__upload--filled {
@@ -41,13 +40,12 @@
 }
 
 .bank-import__upload-icon {
-  color: var(--stamp);
+  color: var(--accent);
   margin-bottom: var(--space-xs);
 }
 
 .bank-import__upload-title {
-  font-family: var(--font-display);
-  font-weight: 700;
+    font-weight: 700;
   font-size: 0.95rem;
   color: var(--ink);
 }
@@ -73,7 +71,7 @@
 }
 
 .bank-import__file-icon {
-  color: var(--stamp);
+  color: var(--accent);
   flex-shrink: 0;
 }
 
@@ -96,8 +94,8 @@
 }
 
 .bank-import__file-remove:hover {
-  background: var(--rust-soft);
-  color: var(--rust);
+  background: var(--bad-soft);
+  color: var(--bad);
 }
 
 .bank-import__table-wrapper {
@@ -105,6 +103,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow-x: auto;
+  box-shadow: var(--shadow-sm);
 }
 
 .bank-import__table {
@@ -115,11 +114,8 @@
 
 .bank-import__table th {
   text-align: left;
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink-soft);
+    font-size: 0.7rem;
+      color: var(--ink-soft);
   padding: var(--space-sm);
   border-bottom: 1px solid var(--line-strong);
   white-space: nowrap;
@@ -127,7 +123,7 @@
 
 .bank-import__table td {
   padding: var(--space-sm);
-  border-bottom: 1px dashed var(--line);
+  border-bottom: 1px solid var(--line);
   vertical-align: middle;
 }
 
@@ -140,8 +136,7 @@
 }
 
 .bank-import__amount {
-  font-family: var(--font-display);
-  font-weight: 700;
+    font-weight: 700;
   white-space: nowrap;
 }
 
@@ -151,13 +146,13 @@
   padding: 0.35em 0.5em;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.85rem;
 }
 
 .bank-import__category-input:focus {
-  outline: 2px solid var(--stamp);
+  outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
@@ -165,13 +160,13 @@
   padding: 0.35em 0.5em;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--paper);
+  background-color: var(--surface);
   color: var(--ink);
   font-size: 0.85rem;
 }
 
 .bank-import__date-input:focus {
-  outline: 2px solid var(--stamp);
+  outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
 
@@ -179,7 +174,7 @@
   display: inline-block;
   margin-left: var(--space-xs);
   font-size: 0.7rem;
-  color: var(--rust);
+  color: var(--bad);
   white-space: nowrap;
 }
 
@@ -192,8 +187,8 @@
 }
 
 .bank-import__confirm {
-  background: var(--stamp);
-  color: var(--paper-card);
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-md);
@@ -227,13 +222,13 @@
   padding: var(--space-sm) var(--space-md);
   font-size: 0.85rem;
   color: var(--ink-soft);
+  box-shadow: var(--shadow-sm);
 }
 
 .bank-import__help > summary {
   cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  color: var(--stamp);
+    font-size: 0.85rem;
+  color: var(--accent);
 }
 
 .bank-import__help ul {
@@ -245,7 +240,7 @@
 }
 
 .bank-import__help code {
-  background: var(--paper);
+  background-color: var(--surface);
   padding: 0 0.3em;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
@@ -256,8 +251,8 @@
   align-items: center;
   gap: var(--space-xs);
   background: transparent;
-  border: 1px solid var(--stamp);
-  color: var(--stamp);
+  border: 1px solid var(--accent);
+  color: var(--accent);
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
   font-size: 0.85rem;
@@ -265,5 +260,5 @@
 }
 
 .bank-import__sample:hover {
-  background: var(--stamp-soft);
+  background: var(--accent-soft);
 }

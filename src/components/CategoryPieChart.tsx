@@ -11,7 +11,7 @@ interface Props {
   data: CategoryTotal[];
 }
 
-const COLORS = ["#3B4B6B", "#5B7F5E", "#A6402F", "#C99A3E", "#6B655C", "#8B6BA6", "#4B8B8B", "#B65B7A"];
+const COLORS = ["#3D63D6", "#14A38B", "#E3A008", "#D6456B", "#7C5CD6", "#6B7A90", "#2C9BD6", "#C2692B"];
 
 export function CategoryPieChart({ data }: Props) {
   if (data.length === 0) return null;
@@ -35,6 +35,7 @@ export function CategoryPieChart({ data }: Props) {
               innerRadius={65}
               outerRadius={100}
               paddingAngle={2}
+              stroke="var(--surface)"
             >
               {chartData.map((_, index) => (
                 <Cell key={index} fill={COLORS[index % COLORS.length]} />

@@ -84,7 +84,7 @@ export function WeeklyInsight() {
 
       {canGenerateNew && insight && (
         <div className="insight__banner">
-          ✨ Já é possível gerar um novo insight. O texto abaixo é de {generatedAt ? formatDate(generatedAt) : "uma data anterior"}.
+          Já é possível gerar um novo insight. O texto abaixo é de {generatedAt ? formatDate(generatedAt) : "uma data anterior"}.
         </div>
       )}
 

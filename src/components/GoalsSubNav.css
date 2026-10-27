@@ -2,22 +2,27 @@
   display: flex;
   gap: var(--space-xs);
   border-bottom: 1px solid var(--line);
-  padding-bottom: var(--space-sm);
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .goals-subnav__tab {
   background: transparent;
   border: none;
-  padding: var(--space-xs) var(--space-sm);
-  font-size: 0.85rem;
+  padding: 0.55rem var(--space-sm);
+  margin-bottom: -1px;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--ink-soft);
   white-space: nowrap;
   border-bottom: 2px solid transparent;
 }
 
+.goals-subnav__tab:hover:not(.goals-subnav__tab--active) {
+  color: var(--ink);
+}
+
 .goals-subnav__tab--active {
-  color: var(--stamp);
+  color: var(--accent);
   font-weight: 600;
-  border-bottom-color: var(--stamp);
+  border-bottom-color: var(--accent);
 }
