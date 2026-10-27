@@ -60,8 +60,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           install: false
-          start: npx vite preview --port 4173 --strictPort
-          wait-on: http://localhost:4173
+          start: npx vite preview --host 127.0.0.1 --port 4173 --strictPort
+          wait-on: http://127.0.0.1:4173
           wait-on-timeout: 60
 
       - name: Guardar capturas de tela se o teste falhar
