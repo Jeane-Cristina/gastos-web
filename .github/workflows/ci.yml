@@ -56,13 +56,20 @@ jobs:
         env:
           VITE_API_URL: http://api.test/api
 
+      # Sobe o app, espera responder e roda o Cypress no mesmo passo. O servidor é iniciado
+      # aqui (e não pelo `start` da action) para ver o log dele se algo falhar.
       - name: Rodar o Cypress
-        uses: cypress-io/github-action@v6
-        with:
-          install: false
-          start: npx vite preview --host 127.0.0.1 --port 4173 --strictPort
-          wait-on: http://127.0.0.1:4173
-          wait-on-timeout: 60
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 --strictPort > preview.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:4173 > /dev/null; then break; fi
+            if ! kill -0 $SERVER_PID 2>/dev/null; then echo "O servidor de preview parou:"; cat preview.log; exit 1; fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:4173 > /dev/null || { echo "O app não respondeu em 30 s:"; cat preview.log; exit 1; }
+          npx cypress run
 
       - name: Guardar capturas de tela se o teste falhar
         if: failure()
