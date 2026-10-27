@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { forgotPassword } from "../services/expenseApi";
 import "./LoginForm.css";
+import { GuardaiLogo } from "./Logo";
 
 interface Props {
   onBackToLogin: () => void;
@@ -25,7 +26,7 @@ export function ForgotPasswordForm({ onBackToLogin }: Props) {
   return (
     <div className="login-screen">
       <form className="login-card" onSubmit={handleSubmit}>
-        <h1 className="login-card__brand">Gastos</h1>
+        <h1 className="login-card__brand"><GuardaiLogo size={36} /></h1>
         <p className="login-card__subtitle">recupere o acesso à sua conta</p>
 
         {sent ? (

@@ -232,3 +232,17 @@ button:disabled {
     flex-basis: 100%;
   }
 }
+
+/* Logo */
+.guardai-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  line-height: 1;
+}
+
+.guardai-logo__name {
+  font-weight: 700;
+  font-size: 1.15em;
+  letter-spacing: -0.03em;
+}

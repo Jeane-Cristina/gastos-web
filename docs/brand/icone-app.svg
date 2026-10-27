@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Guardai">
+  <rect width="64" height="64" fill="#22408F"/>
+  <g transform="translate(32 32) scale(0.94) translate(-32 -32)">
+  <path d="M41 21.3A14 14 0 1 0 46 32H33.5" fill="none" stroke="#FFFFFF" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48.6" cy="19.6" r="3.9" fill="#7FE0AB"/></g>
+</svg>

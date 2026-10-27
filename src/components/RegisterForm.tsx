@@ -2,6 +2,7 @@ import { useState } from "react";
 import { register } from "../services/expenseApi";
 import { storeSession } from "../services/session";
 import "./LoginForm.css";
+import { GuardaiLogo } from "./Logo";
 
 interface Props {
     onRegisterSuccess: () => void;
@@ -40,7 +41,7 @@ export function RegisterForm({ onRegisterSuccess, onSwitchToLogin }: Props) {
     return (
         <div className="login-screen">
             <form className="login-card" onSubmit={handleSubmit}>
-                <h1 className="login-card__brand">Gastos</h1>
+                <h1 className="login-card__brand"><GuardaiLogo size={36} /></h1>
                 <p className="login-card__subtitle">crie sua conta</p>
                 <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" required autoFocus />
                 <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" type="password" required minLength={6} />

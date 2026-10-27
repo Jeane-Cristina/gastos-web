@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AuthError, login, startDemo } from "../services/expenseApi";
 import { clearDemoMode, storeSession } from "../services/session";
 import "./LoginForm.css";
+import { GuardaiLogo } from "./Logo";
 
 interface Props {
   onLoginSuccess: () => void;
@@ -59,7 +60,7 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
   return (
     <div className="login-screen login-screen--split">
       <aside className="login-hero" aria-hidden="true">
-        <span className="login-hero__brand">Controle de Gastos</span>
+        <span className="login-hero__brand"><GuardaiLogo size={34} variant="inverse" /></span>
         <div className="login-hero__body">
           <h2 className="login-hero__title">Saiba quanto ainda pode gastar este mês.</h2>
           <p className="login-hero__text">
@@ -77,7 +78,7 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
         </div>
       </aside>
       <form className="login-card" onSubmit={handleSubmit}>
-        <h1 className="login-card__brand">Gastos</h1>
+        <h1 className="login-card__brand"><GuardaiLogo size={36} /></h1>
         <p className="login-card__subtitle">entre para acessar seus lançamentos</p>
         {notice && <p className="login-card__notice" role="status">{notice}</p>}
         <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuário" required autoFocus />

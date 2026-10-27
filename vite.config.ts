@@ -9,30 +9,17 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Controle de Gastos',
-        short_name: 'Gastos',
-        description: 'Registre, edite e acompanhe seus gastos por categoria',
-        theme_color: '#3B4B6B',
-        background_color: '#F5F2E8',
+        name: 'Guardai',
+        short_name: 'Guardai',
+        description: 'Registre seus gastos, defina metas de economia e saiba quanto ainda pode gastar no mês',
+        theme_color: '#22408F',
+        background_color: '#EEF1F6',
         display: 'standalone',
         start_url: '/',
         icons: [
-          {
-            src: 'new-icon.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'new-icon.png',
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: 'new-icon.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable'
-          }
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
       }
     })
