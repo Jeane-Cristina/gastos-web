@@ -34,7 +34,7 @@ export function ExpenseList({ expenses, onDelete, onSave, categories = [] }: Pro
   }
 
   return (
-    <ul className="expense-list">
+    <ul className="expense-list" data-testid="expense-list">
       {expenses.map((e) => (
         <li key={e.id} className="expense-item">
           {editingId === e.id && draft ? (

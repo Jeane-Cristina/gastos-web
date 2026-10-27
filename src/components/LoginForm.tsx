@@ -94,7 +94,7 @@ export function LoginForm({ onLoginSuccess, onSwitchToRegister, onForgotPassword
           Criar conta
         </button>
         <div className="login-card__divider"><span>ou</span></div>
-        <button type="button" onClick={handleDemo} disabled={demoLoading || loading} className="login-card__demo">
+        <button type="button" data-testid="demo-button" onClick={handleDemo} disabled={demoLoading || loading} className="login-card__demo">
           {demoLoading ? "Preparando a demonstração..." : "Ver demonstração (sem cadastro)"}
         </button>
         <p className="login-card__hint">Dados fictícios, apagados em 24 h.</p>

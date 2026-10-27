@@ -49,7 +49,7 @@ export function MonthOverview({ summary, refreshKey }: Props) {
   const paceTone = !pace ? "" : pace.over ? "bad" : pace.spentPercent > pace.expectedPercent + 8 ? "warn" : "ok";
 
   return (
-    <section className="month-overview" aria-label="Panorama do mês">
+    <section className="month-overview" aria-label="Panorama do mês" data-testid="month-overview">
       {pace && (
         <div className={`month-hero month-hero--${paceTone}`}>
           <p className="month-hero__label">{pace.over ? "Acima do limite do mês" : "Ainda pode gastar neste mês"}</p>

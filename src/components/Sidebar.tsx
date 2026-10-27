@@ -95,7 +95,7 @@ export function Sidebar({ active, onChange, open, onClose, onLogout }: Props) {
 
         <div className="sidebar__spacer" />
 
-        <button className="sidebar__logout" onClick={onLogout}>
+        <button className="sidebar__logout" data-testid="logout-button" onClick={onLogout}>
           <LogOut size={18} />
           <span>Sair</span>
         </button>

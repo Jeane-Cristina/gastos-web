@@ -32,3 +32,42 @@ jobs:
 
       - name: Rodar os testes
         run: npx vitest run
+
+  # Testes de ponta a ponta no navegador. A API é simulada (cy.intercept), então o job
+  # não depende do backend nem do tempo de acordar do servidor no Render.
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar o build apontando para uma API simulada
+        run: npx vite build
+        env:
+          VITE_API_URL: http://api.test/api
+
+      - name: Rodar o Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: npx vite preview --port 4173 --strictPort
+          wait-on: http://localhost:4173
+          wait-on-timeout: 60
+
+      - name: Guardar capturas de tela se o teste falhar
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore

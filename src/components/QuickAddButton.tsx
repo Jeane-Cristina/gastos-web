@@ -41,13 +41,13 @@ export function QuickAddButton({ onAdd, categories = [] }: Props) {
 
   return (
     <>
-      <button className="quick-add__fab" onClick={() => setOpen(true)} aria-label="Lançar gasto rápido">
+      <button data-testid="quick-add-fab" className="quick-add__fab" onClick={() => setOpen(true)} aria-label="Lançar gasto rápido">
         +
       </button>
 
       {open && (
         <div className="quick-add__overlay" onClick={() => setOpen(false)}>
-          <form className="quick-add__modal" onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+          <form data-testid="quick-add-form" className="quick-add__modal" onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
             <h3>Lançamento rápido</h3>
 
             <input

@@ -26,3 +26,8 @@ dist-ssr
 # Variáveis de ambiente (nunca versionar)
 .env*
 !.env.example
+
+# Cypress
+cypress/screenshots
+cypress/videos
+cypress/downloads
